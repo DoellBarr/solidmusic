@@ -1,0 +1,8 @@
+venv/*
+__pycache__
+.idea
+**/__pycache__
+.code
+*.session*
+test.py
+local.env
