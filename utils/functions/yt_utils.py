@@ -1,5 +1,7 @@
 from youtubesearchpython import VideosSearch
 from yt_dlp import YoutubeDL
+from typing import Dict, List
+
 
 ydl = YoutubeDL()
 
@@ -22,7 +24,7 @@ def get_yt_detail(title: str):
 
 def get_audio_direct_link(yt_url: str):
     ress = ydl.extract_info(yt_url, download=False)
-    yt_res = []
+    yt_res: List[Dict[str, str]] = []
     for res in ress["formats"]:
         if res["ext"] == "webm" and res["format_note"] == "medium":
             rus = {
@@ -36,7 +38,7 @@ def get_audio_direct_link(yt_url: str):
 
 def get_video_direct_link(yt_url: str, video_quality: str):
     ress = ydl.extract_info(yt_url, download=False)
-    yt_res = []
+    yt_res: List[Dict[str, str]] = []
     for res in ress["formats"]:
         if res["ext"] == "mp4":
             if video_quality.lower() == "low" and res["format_note"] == "360p" and res["acodec"] != "none":
