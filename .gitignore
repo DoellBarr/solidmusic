@@ -6,3 +6,4 @@ __pycache__
 *.session*
 test.py
 local.env
+solid.db

@@ -1,10 +1,10 @@
 import re
 from typing import Union
-from . import bot as pyro_bot
+
+from pyrogram.types import InlineKeyboardMarkup, Message
 
 from dB.lang_utils import get_message as gm
-
-from pyrogram.types import InlineKeyboardMarkup
+from . import bot as pyro_bot
 
 
 class Bot:
@@ -26,47 +26,46 @@ class Bot:
         return bot_username, bot_name, bot_id
 
     async def send_message(
-            self,
-            chat_id: int,
-            key: str,
-            reply_message: int = 0,
-            format_key: str = "",
-            disable_preview: bool = False,
-            markup: InlineKeyboardMarkup = None
+        self,
+        message: Message,
+        key: str,
+        format_key: str = "",
+        reply_message: bool = False,
+        markup: InlineKeyboardMarkup = None,
     ):
         """
-        :param chat_id: fill with chat_id
-        :param key: fill with key from .json file in lang directory
-        :param reply_message: fill this with message_id if you want to bot replying to message
-        :param format_key: fill with a value if necessary
-        :param disable_preview: fill it as boolean if you want to your bot is disable or enabling web page preview
-        :param markup: fill it with InlineKeyboardMarkup only
+
+        :param message:
+        :param key: get it from key in .json file in lang folder
+        :param format_key: use it if the value in .json key has `{}` text
+        :param reply_message: fill it with `boolean`
+        :param markup: fill it with `InlineKeyboardMarkup`
         :return:
         """
-        bot = self._bot
+        chat_id = message.chat.id
         if not reply_message:
-            return await bot.send_message(
+            return await self._bot.send_message(
                 chat_id,
                 gm(chat_id, key).format(format_key),
-                disable_web_page_preview=disable_preview,
-                reply_markup=markup
+                disable_web_page_preview=True,
+                reply_markup=markup,
             )
-        return await bot.send_message(
-            chat_id,
+        return await message.reply(
             gm(chat_id, key).format(format_key),
-            disable_web_page_preview=disable_preview,
+            disable_web_page_preview=True,
             reply_markup=markup,
-            reply_to_message_id=reply_message
         )
 
-    async def get_user_mention(
-            self,
-            chat_id: int,
-            user_id: Union[str, int]
-    ):
+    async def get_user_mention(self, chat_id: int, user_id: Union[str, int]):
         bot = self._bot
         member = await bot.get_chat_member(chat_id, user_id)
         return member.user.mention
+
+    async def start(self):
+        return await self._bot.start()
+
+    async def stop(self):
+        return await self._bot.stop()
 
 
 bot_client = Bot()

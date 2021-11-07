@@ -16,6 +16,6 @@ class ChatDB:
 
     def set_video_quality(self, *args, **kwargs):
         pass
-    
+
     def get_stats(self, *args, **kwargs):
         pass

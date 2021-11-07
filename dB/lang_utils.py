@@ -4,7 +4,7 @@ from os import path, listdir
 
 from pyrogram import emoji
 
-from .chat_db import get_chat, add_chat
+from .database import db
 
 lang_folder = path.join(path.dirname(path.realpath(__file__)), "lang")
 code = ""
@@ -22,14 +22,12 @@ for file in listdir(lang_folder):
     if file.endswith(".json"):
         code = file[:-5]
         kode.append(code)
-        langs[code] = json.load(
-            open(path.join(lang_folder, file), encoding="UTF-8")
-        )
+        langs[code] = json.load(open(path.join(lang_folder, file), encoding="UTF-8"))
 
 
-def get_message(chat_id: int, key: str):
+def get_message(chat_id: int, key: str) -> str:
     try:
-        return langs[get_chat(chat_id)[0]["lang"]][key]
+        return langs[db.get_chat(chat_id)[0]["lang"]][key]
     except KeyError:
         try:
             logging.info("Add your chat to database use /addchat command")

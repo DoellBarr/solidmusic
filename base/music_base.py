@@ -15,18 +15,15 @@ add_chat = db.add_chat
 
 
 class MusicPlayer(CallBase):
-    def __init__(self):
-        super().__init__()
-
     async def _set_play(
-            self,
-            chat_id: int,
-            user_id: int,
-            audio_url: str,
-            title: str,
-            duration: Union[str, int],
-            yt_url: str,
-            yt_id: str
+        self,
+        chat_id: int,
+        user_id: int,
+        audio_url: str,
+        title: str,
+        duration: Union[str, int],
+        yt_url: str,
+        yt_id: str,
     ):
         playlist = self._playlist
         call = self._call
@@ -37,7 +34,7 @@ class MusicPlayer(CallBase):
                 "duration": duration,
                 "yt_url": yt_url,
                 "yt_id": yt_id,
-                "stream_type": "music"
+                "stream_type": "music",
             }
         ]
         await self.check_call(chat_id)
@@ -46,24 +43,25 @@ class MusicPlayer(CallBase):
         )
 
     async def _play(
-            self,
-            cb: types.CallbackQuery,
-            user_id: int,
-            title: str,
-            duration: Union[str, int],
-            yt_url: str,
-            yt_id: str,
+        self,
+        cb: types.CallbackQuery,
+        user_id: int,
+        title: str,
+        duration: Union[str, int],
+        yt_url: str,
+        yt_id: str,
     ):
         playlist = self._playlist
         chat_id = cb.message.chat.id
         bot_username, _, _ = await self._bot.get_my()
         mention = await self._bot.get_user_mention(chat_id, user_id)
-        if playlist:
-            if len(playlist[chat_id]) >= 1:
-                self.extend_playlist(user_id, chat_id, title, duration, yt_url, yt_id, "music")
-                mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
-                await sleep(5)
-                return await mess.delete()
+        if playlist and len(playlist[chat_id]) >= 1:
+            self.extend_playlist(
+                user_id, chat_id, title, duration, yt_url, yt_id, "music"
+            )
+            mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
+            await sleep(5)
+            return await mess.delete()
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         audio_url = get_audio_direct_link(yt_url)
         try:
@@ -78,7 +76,7 @@ class MusicPlayer(CallBase):
 ✨ {gm(chat_id, 'req_by')}: {mention}
 📽 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type')}
 """,
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )
         except FloodWait as e:
             await messy.edit(gm(chat_id, "error_flood").format(e.x))
@@ -92,5 +90,5 @@ class MusicPlayer(CallBase):
 📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
 🕰 {gm(chat_id, 'duration')}: {duration}
 ✨ {gm(chat_id, 'req_by')}: {mention}""",
-                disable_web_page_preview=True
+                disable_web_page_preview=True,
             )

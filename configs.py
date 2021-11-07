@@ -9,7 +9,7 @@ else:
 
 
 class Config:
-    API_ID = int(getenv("API_ID", 0))
+    API_ID = int(getenv("API_ID", "0"))
     API_HASH = getenv("API_HASH", "abc123")
     BOT_TOKEN = getenv("BOT_TOKEN", "1234:abcd")
     SESSION = getenv("SESSION", "session")

@@ -17,14 +17,14 @@ class CallBase:
         self._playlist: Dict[int, List[Dict[str, str]]] = {}
 
     def extend_playlist(
-            self,
-            user_id: int,
-            chat_id: int,
-            title: str,
-            duration: Union[str, int],
-            yt_url: str,
-            yt_id: str,
-            stream_type: str,
+        self,
+        user_id: int,
+        chat_id: int,
+        title: str,
+        duration: Union[str, int],
+        yt_url: str,
+        yt_id: str,
+        stream_type: str,
     ):
         playlist = self._playlist
         playlist[chat_id].extend(
@@ -35,7 +35,7 @@ class CallBase:
                     "duration": duration,
                     "yt_url": yt_url,
                     "yt_id": yt_id,
-                    "stream_type": stream_type
+                    "stream_type": stream_type,
                 }
             ]
         )
