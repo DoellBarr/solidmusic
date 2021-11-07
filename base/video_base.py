@@ -100,7 +100,6 @@ class VideoPlayer(CallBase):
     ):
         playlist = self._playlist
         chat_id = cb.message.chat.id
-        bot_username, _, _ = await self._bot.get_my()
         if playlist and len(playlist[chat_id]) >= 1:
             self.extend_playlist(
                 user_id, chat_id, title, duration, yt_url, yt_id, "video"
