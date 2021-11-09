@@ -31,9 +31,9 @@
   "bot_leave_from_chat": "**bot not in here, assistant will leave from this chat too.**",
   "powered_by": "Powered by Solid Project",
   "chat_greet": "📕 hi {}!\n\ni'm {}, make me as an admin, so i can play musics in this chat",
-  "pm_greet": "hi {}! i can play musics on your group through telegram voice chats\nfind out all my command by clicking \"commands\" button",
-  "add_to_chat": "🛠 Add to your chat",
-  "maintainer": "maintainer",
+  "pm_greet": "hi {}! i can play musics on your group through telegram voice chats\nfind out all my command by clicking \"Help menu\" button",
+  "add_to_chat": "➕ Add to your chat ➕",
+  "maintainer": "'🛠 maintainer",
   "track_info": "Track information",
   "yt_likes": "likes",
   "yt_dislikes": "dislikes",
@@ -44,5 +44,11 @@
   "added_sudo": "`{} success added become sudo in this chat`",
   "already_become_sudo": "`{} already become sudo in this chat.`",
   "deleted_sudo": "`{} success deleted from sudo.`",
-  "already_deleted_sudo": "`{} already deleted from sudo in this chat.`"
+  "already_deleted_sudo": "`{} already deleted from sudo in this chat.`",
+  "source_code" : "📦 Make your own 📦",
+  "channel" : " Channel",
+  "helpbutton": "🖇 Help menu 🖇",
+  "backtomenu": "🏡 Main menu",
+  "group_buttn": "🟡 Click here for more info 🟡 "
+  
 }
