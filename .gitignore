@@ -4,6 +4,6 @@ __pycache__
 **/__pycache__
 .code
 *.session*
-test.py
+test*.py
 local.env
 solid.db
