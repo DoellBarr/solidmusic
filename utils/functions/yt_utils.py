@@ -1,4 +1,3 @@
-from youtubesearchpython import VideosSearch
 from yt_dlp import YoutubeDL
 from typing import Dict, List
 
