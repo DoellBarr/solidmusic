@@ -17,15 +17,19 @@ class Database(Methods):
     # Sudo Things
     def add_sudo(self, chat_id: int, user_id: int):
         if user_id in self.get_sudos(chat_id):
-            return
+            return "already_become_sudo"
         cur.execute(f"INSERT INTO sudo_db VALUES ({chat_id}, {user_id})")
         conn.commit()
+        return "added_sudo"
 
     def del_sudo(self, chat_id: int, user_id: int):
+        if user_id not in self.get_sudos(chat_id):
+            return "already_deleted_sudo"
         cur.execute(
             f"DELETE FROM sudo_db WHERE user_id = {user_id} AND chat_id = {chat_id}"
         )
         conn.commit()
+        return "deleted_sudo"
 
     def get_sudos(self, chat_id: int):
         return [
@@ -106,7 +110,7 @@ class Database(Methods):
                 group += 1
             else:
                 pm += 1
-        return group, pm
+        return {"groups": group, "pm": pm}
 
 
 db = Database()
