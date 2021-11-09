@@ -28,12 +28,12 @@ for file in listdir(lang_folder):
 def get_message(chat_id: int, key: str) -> str:
     try:
         return langs[db.get_chat(chat_id)[0]["lang"]][key]
-    except KeyError:
+    except IndexError:
         try:
-            logging.info("Add your chat to database use /addchat command")
+            print("[ INFO ] Add your chat to database use /addchat command")
             return langs["en"][key]
         except KeyError:
-            logging.error("Check your key, maybe it is coming from there")
+            print("[ ERROR ] Check your key, maybe it is coming from there")
             return f"`Error`:\n**can't get lang with key: {key}**"
 
 
