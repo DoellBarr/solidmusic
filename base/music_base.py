@@ -15,6 +15,12 @@ add_chat = db.add_chat
 
 
 class MusicPlayer(CallBase):
+    def __init__(self):
+        super().__init__()
+        self._playlist = super()._playlist
+        self._call = super()._call
+        self._bot = super()._bot
+
     async def _set_play(
         self,
         chat_id: int,
@@ -42,6 +48,31 @@ class MusicPlayer(CallBase):
             chat_id, AudioPiped(audio_url), stream_type=StreamType().pulse_stream
         )
 
+    async def _set_playing(
+        self,
+        chat_id: int,
+        user_id: int,
+        audio_url: str,
+        title: str,
+        duration: str,
+        yt_url: str,
+        yt_id: str,
+        messy: types.Message,
+    ):
+        bot_username, _, _ = await self._bot.get_my()
+        mention = await self._bot.get_user_mention(chat_id, user_id)
+        await self._set_play(
+            chat_id, user_id, audio_url, title, duration, yt_url, yt_id
+        )
+        return await messy.edit(
+            f"""
+        {gm(chat_id, 'now_streaming')}
+        📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
+        🕰 {gm(chat_id, 'duration')}: {duration}
+        ✨ {gm(chat_id, 'req_by')}: {mention}""",
+            disable_web_page_preview=True,
+        )
+
     async def _play(
         self,
         cb: types.CallbackQuery,
@@ -65,30 +96,12 @@ class MusicPlayer(CallBase):
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         audio_url = get_audio_direct_link(yt_url)
         try:
-            await self._set_play(
-                chat_id, user_id, audio_url, title, duration, yt_url, yt_id
-            )
-            await messy.edit(
-                f"""
-{gm(chat_id, 'now_playing')}
-📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
-🕰 {gm(chat_id, 'duration')}: {duration}
-✨ {gm(chat_id, 'req_by')}: {mention}
-📽 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type')}
-""",
-                disable_web_page_preview=True,
+            await self._set_playing(
+                chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
             )
         except FloodWait as e:
             await messy.edit(gm(chat_id, "error_flood").format(e.x))
             await sleep(e.x)
-            await self._set_play(
-                chat_id, user_id, audio_url, title, duration, yt_url, yt_id
-            )
-            return await messy.edit(
-                f"""
-{gm(chat_id, 'now_playing')}
-📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
-🕰 {gm(chat_id, 'duration')}: {duration}
-✨ {gm(chat_id, 'req_by')}: {mention}""",
-                disable_web_page_preview=True,
+            await self._set_playing(
+                chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
             )

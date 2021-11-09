@@ -23,6 +23,12 @@ add_chat = db.add_chat
 
 
 class VideoPlayer(CallBase):
+    def __init__(self):
+        super().__init__()
+        self._call = super()._call
+        self._playlist = super()._playlist
+        self._bot = super()._bot
+
     async def _set_stream(
         self,
         chat_id: int,
@@ -79,7 +85,7 @@ class VideoPlayer(CallBase):
         )
         return await messy.edit(
             f"""
-{gm(chat_id, 'now_playing')}
+{gm(chat_id, 'now_streaming')}
 📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
 🕰 {gm(chat_id, 'duration')}: {duration}
 ✨ {gm(chat_id, 'req_by')}: {mention}

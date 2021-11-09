@@ -20,8 +20,14 @@ class Bot:
         bot = self._bot
         me = await bot.get_me()
         bot_username = me.username
-        rex = re.findall(r"[Bb][Oo][Tt]", me.first_name)[0]
-        bot_name = f"{me.first_name if me.first_name.endswith(rex) else me.first_name + ' bot'}"
+        try:
+            rex = re.findall(r"[Bb][Oo][Tt]", me.first_name)[0]
+        except IndexError:
+            rex = ""
+        if rex:
+            bot_name = me.first_name
+        else:
+            bot_name = f"{me.first_name} bot"
         bot_id = me.id
         return bot_username, bot_name, bot_id
 
@@ -34,8 +40,7 @@ class Bot:
         markup: InlineKeyboardMarkup = None,
     ):
         """
-
-        :param message:
+        :param message: Message object
         :param key: get it from key in .json file in lang folder
         :param format_key: use it if the value in .json key has `{}` text
         :param reply_message: fill it with `boolean`

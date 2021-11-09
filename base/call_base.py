@@ -4,7 +4,9 @@ from typing import List, Dict, Union
 from pyrogram import types
 from pyrogram.raw.functions.phone import CreateGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
+from pytgcalls.types.input_stream import AudioPiped
 
+from utils.functions.yt_utils import get_audio_direct_link
 from .bot_base import bot_client
 from .client_base import call_py, user
 
@@ -98,3 +100,19 @@ class CallBase:
                 return await call.resume_stream(chat_id)
             return
         return None
+
+    async def stream_change(self, chat_id: int, yt_url: str):
+        call = self._call
+        url = get_audio_direct_link(yt_url)
+        await call.change_stream(chat_id, AudioPiped(url))
+
+    async def change_stream(self, chat_id: int):
+        playlist = self._playlist
+        if len(playlist[chat_id]) > 1:
+            old_playlist = playlist[chat_id].pop(0)
+            old_title = old_playlist["title"]
+            yt_url = playlist[chat_id][0]["yt_url"]
+            title = playlist[chat_id][0]["title"]
+            await self.stream_change(chat_id, yt_url)
+            return "track_skipped"
+        return "no_playlists"
