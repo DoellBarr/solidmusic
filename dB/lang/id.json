@@ -31,8 +31,8 @@
   "bot_leave_from_chat": "bot tidak ada dalam grup, asisten akan keluar dari grup ini.",
   "powered_by": "Didukung oleh Solid Project",
   "chat_greet": "📕 hai {}!\n\nSaya {}, jadikan aku sebagai admin, dan aku bisa memutar musik di grup ini",
-  "pm_greet": "halo {}! aku bisa memutar lagu di grup kamu melalui obrolan suara telegram\ncari tau semua perintah saya dengan meng-klik tombol\"commands\"",
-  "add_to_chat": "🛠 Tambah kedalam grup kamu.",
+  "pm_greet": "halo {}! aku bisa memutar lagu di grup kamu melalui obrolan suara telegram\ncari tau semua perintah saya dengan meng-klik tombol\"Menu bantuan\"",
+  "add_to_chat": "➕ Tambah kedalam grup kamu.➕",
   "maintainer": "perawat bot",
   "track_info": "Informasi Trek",
   "yt_likes": "disukai",
@@ -44,5 +44,11 @@
   "added_sudo": "{} berhasil menjadi sudo dalam grup ini!",
   "already_become_sudo": "{} sebelumnya sudah menjadi sudo di dalam grup ini",
   "deleted_sudo": "{} berhasil dihapus dari sudo di dalam grup ini!",
-  "already_deleted_sudo": "{} sebelumnya sudah terhapus dari sudo dalam grup ini."
+  "already_deleted_sudo": "{} sebelumnya sudah terhapus dari sudo dalam grup ini.",
+  "source_code" : "📦 Buatlah milikmu sendiri 📦",
+  "channel" : " Saluran",
+  "helpbutton": "🖇 Menu bantuan 🖇",
+  "backtomenu": "🏡 Menu utama",
+  "group_buttn": "🟡 Klik di sini untuk info lebih lanjut 🟡 "
+  
 }
