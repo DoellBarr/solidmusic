@@ -43,7 +43,7 @@ class Player(Methods):
 
         if stream_type == "music":
             return await self._play(cb, user_id, title, duration, yt_url, yt_id)
-        if stream_type == "video":
+        if stream_type == "stream":
             quality = result["quality"]
             return await self._stream(
                 cb, user_id, title, duration, yt_url, yt_id, quality

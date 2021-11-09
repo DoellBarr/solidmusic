@@ -49,7 +49,7 @@ class VideoPlayer(CallBase):
                 "duration": duration,
                 "yt_url": yt_url,
                 "yt_id": yt_id,
-                "stream_type": "video",
+                "stream_type": "stream",
             }
         ]
         video_quality = None
@@ -108,7 +108,7 @@ class VideoPlayer(CallBase):
         chat_id = cb.message.chat.id
         if playlist and len(playlist[chat_id]) >= 1:
             self.extend_playlist(
-                user_id, chat_id, title, duration, yt_url, yt_id, "video"
+                user_id, chat_id, title, duration, yt_url, yt_id, "stream"
             )
             mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
             await sleep(5)

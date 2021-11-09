@@ -1,7 +1,6 @@
 import random
 from typing import List, Dict, Union
 
-from pyrogram import types
 from pyrogram.raw.functions.phone import CreateGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types.input_stream import AudioPiped
@@ -10,6 +9,7 @@ from utils.functions.yt_utils import get_audio_direct_link
 from .bot_base import bot_client
 from .client_base import call_py, user
 
+from dB.lang_utils import get_message as gm
 
 class CallBase:
     def __init__(self):
@@ -109,10 +109,9 @@ class CallBase:
     async def change_stream(self, chat_id: int):
         playlist = self._playlist
         if len(playlist[chat_id]) > 1:
-            old_playlist = playlist[chat_id].pop(0)
-            old_title = old_playlist["title"]
             yt_url = playlist[chat_id][0]["yt_url"]
             title = playlist[chat_id][0]["title"]
             await self.stream_change(chat_id, yt_url)
-            return "track_skipped"
+            toks = gm(chat_id, "track_skipped").format(title)
+            return toks
         return "no_playlists"
