@@ -1,5 +1,4 @@
 from pyrogram import filters, Client
-from pyrogram.methods.messages import send_message
 from pyrogram.types import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
@@ -23,16 +22,16 @@ def markup(chid: int, bot_username: str):
             [InlineKeyboardButton(gm(chid, "helpbutton"), callback_data="chelp")],
             [
                 InlineKeyboardButton(
-                    gm(chid, "channel"), url=f"https://t.me/solidprojects"
+                    gm(chid, "channel"), url="https://t.me/solidprojects"
                 ),
                 InlineKeyboardButton(
-                    gm(chid, "maintainer"), url=f"https://t.me/talktoabdul_bot"
+                    gm(chid, "maintainer"), url="https://t.me/talktoabdul_bot"
                 ),
             ],
             [
                 InlineKeyboardButton(
                     gm(chid, "source_code"),
-                    url=f"https://github.com/DoellBarr/solidmusic_rewrite",
+                    url="https://github.com/DoellBarr/solidmusic_rewrite",
                 )
             ],
         ]

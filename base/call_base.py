@@ -11,6 +11,7 @@ from .client_base import call_py, user
 
 from dB.lang_utils import get_message as gm
 
+
 class CallBase:
     def __init__(self):
         self._bot = bot_client

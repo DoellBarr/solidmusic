@@ -12,7 +12,7 @@ from dB.lang_utils import get_message as gm
 
 @Client.on_chat_member_updated(filters.group)
 async def chat_member_update_(_, message: ChatMemberUpdated):
-    bot_username, bot_name, bot_id = await bot.get_my()
+    _, _, bot_id = await bot.get_my()
     member = message.new_chat_member.user
     member_id = member.id
     try:

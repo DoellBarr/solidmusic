@@ -77,7 +77,7 @@ def extract_info(chat_id: int, result: Dict[int, List]):
         duration = res["duration"]
         more_info = f"https://t.me/tesbbot?start=ytinfo_{res['yt_id']}"
         result_str += f"""
-{count}. 
+{count}.
 Title: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}
 Duration: {duration}
 [More Information]({more_info})
