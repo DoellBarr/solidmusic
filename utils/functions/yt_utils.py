@@ -6,22 +6,6 @@ from typing import Dict, List
 ydl = YoutubeDL()
 
 
-def get_yt_detail(title: str):
-    """Return two object, VideosSearch and list[dict]."""
-    rez = VideosSearch(title, limit=10)
-    ress = rez.result()["result"]
-    yt_res = []
-    for res in ress:
-        rus = {
-            "yt_id": res["id"],
-            "yt_url": f"https://youtube.com/watch?v={res['id']}",
-            "title": res["title"],
-            "duration": res["duration"],
-        }
-        yt_res.append(rus.copy())
-    return rez, yt_res
-
-
 def get_audio_direct_link(yt_url: str):
     ress = ydl.extract_info(yt_url, download=False)
     yt_res: List[Dict[str, str]] = []
