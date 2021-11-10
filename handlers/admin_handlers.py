@@ -32,10 +32,11 @@ async def resume_(_, message: types.Message):
 @authorized_only
 async def skip_(_, message: types.Message):
     chat_id = message.chat.id
-    toxt = await player.change_stream(chat_id)
+    toxt, title = await player.change_stream(chat_id)
     return await bot.send_message(
         message,
         toxt,
+        title,
         reply_message=True
     )
 

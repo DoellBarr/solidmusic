@@ -129,6 +129,6 @@ class CallBase:
             yt_url = playlist[chat_id][0]["yt_url"]
             title = playlist[chat_id][0]["title"]
             await self.stream_change(chat_id, yt_url)
-            toks = gm(chat_id, "track_skipped").format(title)
-            return toks
-        return "no_playlists"
+            toks = gm(chat_id, "track_skipped")
+            return toks, title
+        return "no_playlists", ""
