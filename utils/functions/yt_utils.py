@@ -16,7 +16,7 @@ def get_audio_direct_link(yt_url: str):
                 "direct_url": res["url"],
             }
             yt_res.append(rus.copy())
-    return yt_res
+    return yt_res[0]["direct_url"]
 
 
 def get_video_direct_link(yt_url: str, video_quality: str):
@@ -45,4 +45,4 @@ def get_video_direct_link(yt_url: str, video_quality: str):
             ):
                 rus = {"quality": res["format_note"], "direct_url": res["url"]}
                 yt_res.append(rus.copy())
-    return yt_res
+    return yt_res[0]["direct_url"]
