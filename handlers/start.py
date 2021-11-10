@@ -16,7 +16,7 @@ from utils.functions.markup_buttons import start_markup
 async def pm_start(_, message: Message):
     bot_username, bot_name, _ = await bot.get_my()
     chid = message.chat.id
-    mention = await message.from_user.mention
+    mention = message.from_user.mention
     if message.chat.type == "private":
         return await bot.send_message(
             message,
