@@ -18,7 +18,10 @@ class Database(Methods):
     def add_sudo(self, chat_id: int, user_id: int):
         if user_id in self.get_sudos(chat_id):
             return "already_become_sudo"
-        cur.execute(f"INSERT INTO sudo_db VALUES ({chat_id}, {user_id})")
+        cur.execute(
+            "INSERT INTO sudo_db VALUES (?, ?)",
+            (chat_id, user_id)
+        )
         conn.commit()
         return "added_sudo"
 
@@ -26,7 +29,8 @@ class Database(Methods):
         if user_id not in self.get_sudos(chat_id):
             return "already_deleted_sudo"
         cur.execute(
-            f"DELETE FROM sudo_db WHERE user_id = {user_id} AND chat_id = {chat_id}"
+            f"DELETE FROM sudo_db WHERE user_id = ? AND chat_id = ?",
+            (user_id, chat_id)
         )
         conn.commit()
         return "deleted_sudo"
@@ -34,7 +38,10 @@ class Database(Methods):
     def get_sudos(self, chat_id: int):
         return [
             row[1]
-            for row in cur.execute(f"SELECT * FROM sudo_db WHERE chat_id = {chat_id}")
+            for row in cur.execute(
+                "SELECT * FROM sudo_db WHERE chat_id = ?",
+                (chat_id,)
+            )
         ]
 
     def add_chat(
@@ -50,14 +57,15 @@ class Database(Methods):
             already_chat_id = ready["chat_id"]
         if not already_chat_id:
             cur.execute(
-                f"INSERT INTO chat_db VALUES ({owner_id}, {chat_id}, '{lang}', '{video_quality.lower()}')"
+                "INSERT INTO chat_db VALUES (?, ?, ?, ?)",
+                (owner_id, chat_id, f"'{lang}'", f"'{video_quality.lower()}'")
             )
             conn.commit()
             return True
         return True
 
     def get_chat(self, chat_id: int):
-        results = cur.execute(f"SELECT * FROM chat_db WHERE chat_id = {chat_id}")
+        results = cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,))
         final = []
         for result in results:
             res = result
@@ -75,7 +83,7 @@ class Database(Methods):
         return final
 
     def del_chat(self, chat_id: int):
-        cur.execute(f"DELETE FROM chat_db WHERE chat_id = {chat_id}")
+        cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
         conn.commit()
         return True
 
@@ -83,9 +91,10 @@ class Database(Methods):
         cur.execute(
             f"""
                 UPDATE chat_db
-                SET lang = '{lang}'
-                WHERE chat_id = {chat_id}
-                """
+                SET lang = ?
+                WHERE chat_id = ?
+                """,
+            (f"'{lang}'", chat_id,)
         )
         conn.commit()
         return True
@@ -94,9 +103,10 @@ class Database(Methods):
         cur.execute(
             f"""
             UPDATE chat_db
-            SET video_quality = '{quality}'
-            WHERE chat_id = {chat_id}
-        """
+            SET video_quality = ?
+            WHERE chat_id = ?
+            """,
+            (f"'{quality}'", chat_id,)
         )
         conn.commit()
         return True
