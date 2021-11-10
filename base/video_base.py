@@ -56,7 +56,7 @@ class VideoPlayer(CallBase):
         await call.join_group_call(
             chat_id,
             AudioVideoPiped(video_direct_link, HighQualityAudio(), video_quality),
-            stream_type=StreamType().pulse_stream,
+            stream_type=StreamType().local_stream,
         )
 
     async def _set_streaming(

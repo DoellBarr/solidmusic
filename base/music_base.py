@@ -39,7 +39,7 @@ class MusicPlayer(CallBase):
             }
         ]
         return await call.join_group_call(
-            chat_id, AudioPiped(audio_url), stream_type=StreamType().pulse_stream
+            chat_id, AudioPiped(audio_url), stream_type=StreamType().local_stream
         )
 
     async def _set_playing(
