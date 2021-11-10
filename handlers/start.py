@@ -48,7 +48,7 @@ async def goback(_, hee: CallbackQuery):
     await hee.edit_message_text(
         gm(chid, "pm_greet").format(hee.message.from_user.id),
         reply_markup=markup(chid, bot_username),
-    ),
+    )
 
 
 @Client.on_callback_query(filters.regex("cbhelp"))

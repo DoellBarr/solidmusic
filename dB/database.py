@@ -29,7 +29,7 @@ class Database(Methods):
         if user_id not in self.get_sudos(chat_id):
             return "already_deleted_sudo"
         cur.execute(
-            f"DELETE FROM sudo_db WHERE user_id = ? AND chat_id = ?",
+            "DELETE FROM sudo_db WHERE user_id = ? AND chat_id = ?",
             (user_id, chat_id)
         )
         conn.commit()
