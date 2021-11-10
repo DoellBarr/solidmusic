@@ -89,7 +89,7 @@ class Database(Methods):
 
     def set_chat_lang(self, chat_id: int, lang: str):
         cur.execute(
-            f"""
+            """
                 UPDATE chat_db
                 SET lang = ?
                 WHERE chat_id = ?
@@ -101,7 +101,7 @@ class Database(Methods):
 
     def set_video_quality(self, chat_id: int, quality: str):
         cur.execute(
-            f"""
+            """
             UPDATE chat_db
             SET video_quality = ?
             WHERE chat_id = ?
