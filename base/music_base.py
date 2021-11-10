@@ -4,6 +4,7 @@ from typing import Union
 from pyrogram import types
 from pyrogram.errors import FloodWait
 from pytgcalls import StreamType
+from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioPiped
 
 from dB.database import db
@@ -15,12 +16,6 @@ add_chat = db.add_chat
 
 
 class MusicPlayer(CallBase):
-    def __init__(self):
-        super().__init__()
-        self._playlist = super()._playlist
-        self._call = super()._call
-        self._bot = super()._bot
-
     async def _set_play(
         self,
         chat_id: int,
@@ -31,8 +26,8 @@ class MusicPlayer(CallBase):
         yt_url: str,
         yt_id: str,
     ):
-        playlist = self._playlist
-        call = self._call
+        playlist = self.playlist
+        call = self.call
         playlist[chat_id] = [
             {
                 "user_id": user_id,
@@ -43,7 +38,6 @@ class MusicPlayer(CallBase):
                 "stream_type": "music",
             }
         ]
-        await self.check_call(chat_id)
         return await call.join_group_call(
             chat_id, AudioPiped(audio_url), stream_type=StreamType().pulse_stream
         )
@@ -59,21 +53,23 @@ class MusicPlayer(CallBase):
         yt_id: str,
         messy: types.Message,
     ):
-        bot_username, _, _ = await self._bot.get_my()
-        mention = await self._bot.get_user_mention(chat_id, user_id)
+        bot_username, _, _ = await self.bot.get_my()
+        mention = await self.bot.get_user_mention(chat_id, user_id)
         await self._set_play(
             chat_id, user_id, audio_url, title, duration, yt_url, yt_id
         )
         return await messy.edit(
             f"""
-        {gm(chat_id, 'now_streaming')}
-        📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
-        🕰 {gm(chat_id, 'duration')}: {duration}
-        ✨ {gm(chat_id, 'req_by')}: {mention}""",
+{gm(chat_id, 'now_streaming')}
+📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
+🕰 {gm(chat_id, 'duration')}: {duration}
+✨ {gm(chat_id, 'req_by')}: {mention}
+📽 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_music')}
+""",
             disable_web_page_preview=True,
         )
 
-    async def _play(
+    async def play(
         self,
         cb: types.CallbackQuery,
         user_id: int,
@@ -82,7 +78,7 @@ class MusicPlayer(CallBase):
         yt_url: str,
         yt_id: str,
     ):
-        playlist = self._playlist
+        playlist = self.playlist
         chat_id = cb.message.chat.id
         if playlist and len(playlist[chat_id]) >= 1:
             self.extend_playlist(
@@ -100,6 +96,11 @@ class MusicPlayer(CallBase):
         except FloodWait as e:
             await messy.edit(gm(chat_id, "error_flood").format(e.x))
             await sleep(e.x)
+            await self._set_playing(
+                chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
+            )
+        except NoActiveGroupCall:
+            await self.create_call(chat_id)
             await self._set_playing(
                 chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
             )

@@ -23,12 +23,6 @@ add_chat = db.add_chat
 
 
 class VideoPlayer(CallBase):
-    def __init__(self):
-        super().__init__()
-        self._call = super()._call
-        self._playlist = super()._playlist
-        self._bot = super()._bot
-
     async def _set_stream(
         self,
         chat_id: int,
@@ -40,8 +34,8 @@ class VideoPlayer(CallBase):
         yt_url: str,
         yt_id: str,
     ):
-        playlist = self._playlist
-        call = self._call
+        playlist = self.playlist
+        call = self.call
         playlist[chat_id] = [
             {
                 "user_id": user_id,
@@ -59,7 +53,6 @@ class VideoPlayer(CallBase):
             video_quality = MediumQualityVideo()
         elif quality == "720p":
             video_quality = HighQualityVideo()
-        await self.check_call(chat_id)
         await call.join_group_call(
             chat_id,
             AudioVideoPiped(video_direct_link, HighQualityAudio(), video_quality),
@@ -78,8 +71,8 @@ class VideoPlayer(CallBase):
         yt_id: str,
         messy: types.Message,
     ):
-        mention = await self._bot.get_user_mention(chat_id, user_id)
-        bot_username, _, _ = await self._bot.get_my()
+        mention = await self.bot.get_user_mention(chat_id, user_id)
+        bot_username, _, _ = await self.bot.get_my()
         await self._set_stream(
             chat_id, user_id, video_url, quality, title, duration, yt_url, yt_id
         )
@@ -89,12 +82,12 @@ class VideoPlayer(CallBase):
 📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
 🕰 {gm(chat_id, 'duration')}: {duration}
 ✨ {gm(chat_id, 'req_by')}: {mention}
-📽 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type')}
+📽 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_video')}
             """,
             disable_web_page_preview=True,
         )
 
-    async def _stream(
+    async def stream(
         self,
         cb: types.CallbackQuery,
         user_id: int,
@@ -104,7 +97,7 @@ class VideoPlayer(CallBase):
         yt_id: str,
         quality: str,
     ):
-        playlist = self._playlist
+        playlist = self.playlist
         chat_id = cb.message.chat.id
         if playlist and len(playlist[chat_id]) >= 1:
             self.extend_playlist(
