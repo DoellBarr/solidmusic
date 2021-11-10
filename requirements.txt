@@ -1,4 +1,4 @@
-py_tgcalls==0.8.1rc1
+py-tgcalls==0.8.1
 git+https://github.com/pyrogram/pyrogram@master
 python-dotenv==0.19.1
 youtube-dl==2021.6.6
