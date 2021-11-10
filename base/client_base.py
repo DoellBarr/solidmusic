@@ -10,7 +10,7 @@ bot = Client(
     ":memory:",
     config.API_ID,
     config.API_HASH,
-    config.BOT_TOKEN,
+    bot_token=config.BOT_TOKEN,
     plugins={"root": "handlers"},
 )
 
