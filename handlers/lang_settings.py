@@ -34,8 +34,6 @@ async def change_lang_(_, message: Message):
         )
     if len(lang) >= 2:
         if lang in kode:
-            if lang in ["pt", "pt-Br", "portugal", "PT", "PT-BR"]:
-                lang = "pt"
             x = db.set_chat_lang(message.chat.id, lang)
             if x:
                 return await bot.send_message(
