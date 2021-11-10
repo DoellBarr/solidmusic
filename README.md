@@ -12,7 +12,7 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
     <a href="https://github.com/doellbarr/solidmusic"><img src="https://www.codefactor.io/repository/github/doellbarr/solidmusic/badge" alt="CodeFactor" /></a> <br />
     <a href="https://github.com/pyrogram/pyrogram"><img src="https://img.shields.io/badge/Pyrogram-1.2.9-blue?logo=github"></a>
     <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.9.7-blue?logo=python&logoColor=yellow"></a>
-    <a href="https://github.com/pytgcalls/pytgcalls"><img src="https://img.shields.io/badge/PyTgCalls-0.8.1rc1-blue?logo=github"></a> <br> <br>
+    <a href="https://github.com/pytgcalls/pytgcalls"><img src="https://img.shields.io/badge/PyTgCalls-0.8.1-blue?logo=github"></a> <br> <br>
     <a href="https://github.com/DoellBarr/solidmusic"><img src="https://img.shields.io/github/repo-size/doellbarr/solidmusic?logo=github"></a> <br>
     <a href="https://github.com/DoellBarr/solidmusic"><img src="https://img.shields.io/github/forks/DoellBarr/solidmusic?logo=github"></a>
     <a href="https://github.com/DoellBarr/solidmusic"><img src="https://img.shields.io/github/stars/DoellBarr/solidmusic?logo=github"></a>
@@ -24,11 +24,6 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
     <li>No lag</li>
     <li>Multi Language</li>
     <li>Less environment variables</li>
-</ul>
-
-<h3>TODO</h3>
-<ul>
-    <li>Add custom link for group and channel suppor</li>
 </ul>
 
 <h3>Deploy to Heroku </h3>
