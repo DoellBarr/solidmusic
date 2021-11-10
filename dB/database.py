@@ -58,7 +58,7 @@ class Database(Methods):
         if not already_chat_id:
             cur.execute(
                 "INSERT INTO chat_db VALUES (?, ?, ?, ?)",
-                (owner_id, chat_id, f"'{lang}'", f"'{video_quality.lower()}'")
+                (owner_id, chat_id, f"{lang}", f"{video_quality.lower()}")
             )
             conn.commit()
             return True
@@ -94,7 +94,7 @@ class Database(Methods):
                 SET lang = ?
                 WHERE chat_id = ?
                 """,
-            (f"'{lang}'", chat_id,)
+            (f"{lang}", chat_id,)
         )
         conn.commit()
         return True
@@ -106,7 +106,7 @@ class Database(Methods):
             SET video_quality = ?
             WHERE chat_id = ?
             """,
-            (f"'{quality}'", chat_id,)
+            (f"{quality}", chat_id,)
         )
         conn.commit()
         return True
