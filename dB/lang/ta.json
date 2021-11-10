@@ -44,7 +44,7 @@
   "added_sudo": "`{} success added become sudo in this chat`",
   "already_become_sudo": "`{} already become sudo in this chat.`",
   "deleted_sudo": "`{} success deleted from sudo.`",
-  "already_deleted_sudo": "`{} already deleted from sudo in this chat.`"
+  "already_deleted_sudo": "`{} already deleted from sudo in this chat.`",
   "source_code" : "📦 உங்கள் சொந்த போட்டை உருவாக்க 📦",
   "channel" : " சேனல்",
   "helpbutton": "🖇 உதவி பட்டியல்🖇",
