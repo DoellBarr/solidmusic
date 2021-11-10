@@ -8,7 +8,10 @@ from pyrogram.types import (
 
 from base.bot_base import bot_client as bot
 from dB.lang_utils import get_message as gm
-
+from configs import(
+CHANNEL,
+SUPPORT,
+)
 
 def markup(chid: int, bot_username: str):
     return InlineKeyboardMarkup(
@@ -19,13 +22,20 @@ def markup(chid: int, bot_username: str):
                     url=f"https://t.me/{bot_username}?startgroup=true",
                 )
             ],
-            [InlineKeyboardButton(gm(chid, "helpbutton"), callback_data="chelp")],
             [
                 InlineKeyboardButton(
-                    gm(chid, "channel"), url="https://t.me/solidprojects"
+                    gm(chid, "helpbutton"), callback_data="chelp"
                 ),
                 InlineKeyboardButton(
                     gm(chid, "maintainer"), url="https://t.me/talktoabdul_bot"
+                ),
+            ],
+            [
+                InlineKeyboardButton(
+                    gm(chid, "channel"), url=f"https://t.me/{CHANNEL}"
+                ),
+                InlineKeyboardButton(
+                    gm(chid, "group_support"), url=f"https://t.me/{SUPPORT}"
                 ),
             ],
             [

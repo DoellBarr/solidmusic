@@ -14,6 +14,7 @@ class Config:
     BOT_TOKEN = getenv("BOT_TOKEN", "1234:abcd")
     SESSION = getenv("SESSION", "session")
     OWNER_ID = int(getenv("OWNER_ID", "1952053555"))
-
+    SUPPORT = getenv("SUPPORT", "solidprojects_chat")
+    CHANNEL = getenv("CHANNEL", "solidprojects")
 
 config = Config()

@@ -55,5 +55,6 @@
   "success_add_chats": "**Success add all chats to database.**",
   "stream_type_title": "stream type",
   "stream_type_music": "music",
-  "stream_type_video": "video"
+  "stream_type_video": "video",
+  "group_support": "💬 Support"
 }

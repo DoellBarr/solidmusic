@@ -24,6 +24,16 @@
     "SESSION": {
       "description": "Fill it with your assistant session string",
       "required": true
+    },
+    "SUPPORT": {
+      "description": "your support group username without @. if you don't have a group leave this",
+      "required": false,
+      "value": "solidprojects_chat"
+    },
+   "CHANNEL": {
+    "description": "your support channel username without @. if you don't have a channel leave this",
+    "required": false,
+    "value": "solidprojects"
     }
   },
   "buildpacks": [
