@@ -26,7 +26,7 @@
   "yt_title": "judul",
   "req_by": "atas permintaan",
   "playlist": "daftar putar",
-  "not_playing": "Grup ini tidak memutar apapun.",
+  "not_streaming": "Grup ini tidak memutar apapun.",
   "not_for_you": "Ini bukan untukmu.",
   "not_allowed": "**Kamu tidak diperbolehkan untuk menggunakan perintah ini.**",
   "bot_leave_from_chat": "bot tidak ada dalam grup, asisten akan keluar dari grup ini.",
@@ -50,6 +50,10 @@
   "channel" : " Saluran",
   "helpbutton": "🖇 Menu bantuan 🖇",
   "backtomenu": "🏡 Menu utama",
-  "group_buttn": "🟡 Klik di sini untuk info lebih lanjut 🟡 "
-  
+  "group_buttn": "🟡 Klik di sini untuk info lebih lanjut 🟡 ",
+  "success_add_chat": "**Berhasil menambahkan grup ini kedalam database**",
+  "success_add_chats": "**Berhasil menambahkan semua grup kedalam database**",
+  "stream_type_title": "tipe pemutaran",
+  "stream_type_music": "musik",
+  "stream_type_video": "vidio"
 }

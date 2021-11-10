@@ -22,11 +22,11 @@
   "close_btn_name": "Close",
   "duration": "durations",
   "more_info": "More Information",
-  "now_streaming": "🎵 Now Playing",
+  "now_streaming": "🎵 Now Streaming",
   "yt_title": "**title**",
   "req_by": "**requested by**",
   "playlist": "**playlists**",
-  "not_playing": "**This chat are not playing anything.**",
+  "not_streaming": "**This chat are not streaming anything.**",
   "not_for_you": "**This is not for you.**",
   "not_allowed": "**You not allowed to do this command.**",
   "bot_leave_from_chat": "**bot not in here, assistant will leave from this chat too.**",
@@ -50,5 +50,10 @@
   "channel" : " Channel",
   "helpbutton": "🖇 Help menu 🖇",
   "backtomenu": "🏡 Main menu",
-  "group_buttn": "🟡 Click here for more info 🟡 "
+  "group_buttn": "🟡 Click here for more info 🟡 ",
+  "success_add_chat": "**Success add this chat to database.**",
+  "success_add_chats": "**Success add all chats to database.**",
+  "stream_type_title": "stream type",
+  "stream_type_music": "music",
+  "stream_type_video": "video"
 }
