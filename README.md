@@ -6,10 +6,10 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
 </p>
 
 <div align="center">
-    <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a> 
-    <a href="https://deepsource.io/gh/DoellBarr/solidmusic/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a><br>
+    <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a> <br /> 
+    <a href="https://deepsource.io/gh/DoellBarr/solidmusic/?ref=repository-badge"><img src="https://static.deepsource.io/deepsource-badge-light-mini.svg" alt="DeepSource"></a><br> 
     <a href="https://www.codacy.com/gh/DoellBarr/solidmusic/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DoellBarr/solidmusic&amp;utm_campaign=Badge_Grade"><img src="https://app.codacy.com/project/badge/Grade/63ed7098eee74e45956a3c4d0512078b"/></a>
-    <a href="https://github.com/doellbarr/solidmusic"><img src="https://www.codefactor.io/repository/github/doellbarr/solidmusic/badge" alt="CodeFactor" /></a> 
+    <a href="https://github.com/doellbarr/solidmusic"><img src="https://www.codefactor.io/repository/github/doellbarr/solidmusic/badge" alt="CodeFactor" /></a> <br />
     <a href="https://github.com/pyrogram/pyrogram"><img src="https://img.shields.io/badge/Pyrogram-1.2.9-blue?logo=github"></a>
     <a href="https://python.org"><img src="https://img.shields.io/badge/Python-3.9.7-blue?logo=python&logoColor=yellow"></a>
     <a href="https://github.com/pytgcalls/pytgcalls"><img src="https://img.shields.io/badge/PyTgCalls-0.8.1rc1-blue?logo=github"></a> <br> <br>
@@ -36,7 +36,7 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
     <a href="https://heroku.com/deploy"><img src="https://www.herokucdn.com/deploy/button.svg"></a>
 </div>
 
-<h3>Deploy in VPS </h3>
+### Deploy to VPS
 ```
 $ sudo su
 # apt-get update && apt-get upgrade -y
