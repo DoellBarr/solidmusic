@@ -8,10 +8,10 @@ from utils.functions.decorators import authorized_only
 @authorized_only
 async def pause(_, message: types.Message):
     chat_id = message.chat.id
-    await player.change_streaming_status("pause", chat_id)
+    stats = await player.change_streaming_status("pause", chat_id)
     return await bot.send_message(
         message,
-        "track_paused",
+        stats,
         reply_message=True
     )
 
@@ -20,10 +20,10 @@ async def pause(_, message: types.Message):
 @authorized_only
 async def resume_(_, message: types.Message):
     chat_id = message.chat.id
-    await player.change_streaming_status("resume", chat_id)
+    stats = await player.change_streaming_status("resume", chat_id)
     return await bot.send_message(
         message,
-        "track_resumed",
+        stats,
         reply_message=True
     )
 
