@@ -56,5 +56,7 @@
   "stream_type_title": "stream type",
   "stream_type_music": "music",
   "stream_type_video": "video",
-  "group_support": "💬 Support"
+  "group_support": "💬 Support",
+  "quality_invalid": "**quality that you given is not valid**",
+  "success_change_quality": "**success change the video quality to {}"
 }

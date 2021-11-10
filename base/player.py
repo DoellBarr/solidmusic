@@ -7,6 +7,7 @@ from .music_base import MusicPlayer
 from .video_base import VideoPlayer
 from .bot_base import pyro_bot
 from .client_base import call_py
+from dB.database import db
 
 
 class Methods(MusicPlayer, VideoPlayer):
@@ -21,10 +22,11 @@ class Player(Methods):
         yt_url = result["yt_url"]
         yt_id = result["yt_id"]
         stream_type = result["stream_type"]
+        chat_id = cb.message.chat.id
         if stream_type == "music":
             return await self.play(cb, user_id, title, duration, yt_url, yt_id)
         if stream_type == "stream":
-            quality = result["quality"]
+            quality = db.get_chat(chat_id)[0]["video_quality"]
             return await self.stream(
                 cb, user_id, title, duration, yt_url, yt_id, quality
             )

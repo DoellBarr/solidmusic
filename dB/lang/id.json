@@ -56,5 +56,7 @@
   "stream_type_title": "tipe pemutaran",
   "stream_type_music": "musik",
   "stream_type_video": "vidio",
-  "group_support": "💬 Support"
+  "group_support": "💬 Support",
+  "quality_invalid": "**kualitas yang diberikan tidak benar**",
+  "success_change_quality": "**sukses merubah kualitas video menjadi {}"
 }
