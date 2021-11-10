@@ -1,7 +1,6 @@
 from yt_dlp import YoutubeDL
 from typing import Dict, List
 
-
 ydl = YoutubeDL()
 
 
@@ -41,6 +40,12 @@ def get_video_direct_link(yt_url: str, video_quality: str):
             if (
                 video_quality.lower() == "high"
                 and res["format_note"] == "720p"
+                and res["acodec"] != "none"
+            ):
+                rus = {"quality": res["format_note"], "direct_url": res["url"]}
+                yt_res.append(rus.copy())
+            if not yt_res and (
+                res["format_note"] == "720p"
                 and res["acodec"] != "none"
             ):
                 rus = {"quality": res["format_note"], "direct_url": res["url"]}
