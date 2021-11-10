@@ -1,5 +1,5 @@
-py_tgcalls==0.8.1rc1
 git+https://github.com/pyrogram/pyrogram@master
+tgcrypto
+py-tgcalls==0.8.1rc1
 python-dotenv==0.19.1
-youtube-dl==2021.6.6
-yt-dlp==2021.10.22
+git+https://github.com/yt-dlp/yt-dlp@master
