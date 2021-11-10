@@ -1,1 +1,1 @@
-from .client_base import user, call_py
+from .client_base import bot, user, call_py
