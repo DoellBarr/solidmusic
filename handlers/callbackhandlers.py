@@ -10,6 +10,8 @@ from utils.call_functions import (
     stream_result,
 )
 from dB.lang_utils import get_message as gm
+from base.bot_base import bot_client as bot
+from utils.functions.markup_buttons import start_markup
 
 
 @Client.on_callback_query(filters.regex(pattern=r"(back|next)(music|stream)"))
@@ -69,3 +71,30 @@ async def close_button_(_, cb: types.CallbackQuery):
     if cb.from_user.id != user_id:
         return await cb.answer(gm(cb.message.chat.id, "not_for_you"), show_alert=True)
     return await cb.message.delete()
+
+
+@Client.on_callback_query(filters.regex("goback"))
+async def goback(_, hee: types.CallbackQuery):
+    bot_username, _, _ = await bot.get_my()
+    chid = hee.message.chat.id
+    await hee.edit_message_text(
+        gm(chid, "pm_greet").format(hee.message.from_user.mention),
+        reply_markup=start_markup(chid, bot_username),
+    )
+
+
+@Client.on_callback_query(filters.regex("cbhelp"))
+async def cbhelp(_, lol: types.CallbackQuery):
+    await lol.edit_message_text(
+        f""" **Comming soon!** """,
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        gm(lol.message.chat.id, "backtomenu"), callback_data="goback"
+                    )
+                ]
+            ]
+        ),
+    )
+
