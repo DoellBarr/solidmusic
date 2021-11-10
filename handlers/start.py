@@ -8,10 +8,8 @@ from pyrogram.types import (
 
 from base.bot_base import bot_client as bot
 from dB.lang_utils import get_message as gm
-from configs import(
-CHANNEL,
-SUPPORT,
-)
+from configs import config
+
 
 def markup(chid: int, bot_username: str):
     return InlineKeyboardMarkup(
@@ -32,16 +30,16 @@ def markup(chid: int, bot_username: str):
             ],
             [
                 InlineKeyboardButton(
-                    gm(chid, "channel"), url=f"https://t.me/{CHANNEL}"
+                    gm(chid, "channel"), url=config.CHANNEL
                 ),
                 InlineKeyboardButton(
-                    gm(chid, "group_support"), url=f"https://t.me/{SUPPORT}"
+                    gm(chid, "group_support"), url=config.SUPPORT
                 ),
             ],
             [
                 InlineKeyboardButton(
                     gm(chid, "source_code"),
-                    url="https://github.com/DoellBarr/solidmusic_rewrite",
+                    url="https://github.com/DoellBarr/solidmusic",
                 )
             ],
         ]
