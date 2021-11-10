@@ -5,4 +5,6 @@ youtube-dl==2021.6.6
 git+https://github.com/yt-dlp/yt-dlp@master
 aiohttp[speedups]
 TgCrypto
-youtube-search-python
+youtube-search-python==1.5.1
+requests==2.26.0
+pafy==0.5.5
