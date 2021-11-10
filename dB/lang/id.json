@@ -2,6 +2,7 @@
   "play": "`▶ Memutar musik {} di grup ini.`",
   "stream": "`▶ Memutar video {} di grup ini.`",
   "process": "🔁 `Sedang memproses, mohon tunggu...`",
+  "need_privilege": "**kamu tidak memiliki perizinan untuk mengatur voice chat, makanya kamu gabisa pake perintah ini.**",
   "track_queued": "⚠ `Dimasukkan kedalam antrian.`",
   "track_paused": "⏸ **pemutaran dijeda**\n\n**Untuk melanjutkan pemutaran, gunakan perintah /resume.**",
   "track_resumed": "▶ **pemutaran dilanjut**\n\n**Untuk menjeda pemutaran, gunakan perintah /pause.**",

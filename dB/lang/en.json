@@ -2,6 +2,7 @@
   "play": "**Playing {} in this chat.**",
   "stream": "**Streaming {} in this chat**",
   "process": "`processing.. please wait.`",
+  "need_privilege": "**you not have manage voice chat permissions, so you can't use this command.**",
   "track_queued": "Track queued",
   "track_paused": "⏸ **stream paused**\n\n**To resume the stream, use /resume command.**",
   "track_resumed": "▶ **stream resumed**\n\n**To pause the stream, use /pause command**",
@@ -50,5 +51,4 @@
   "helpbutton": "🖇 Help menu 🖇",
   "backtomenu": "🏡 Main menu",
   "group_buttn": "🟡 Click here for more info 🟡 "
-  
 }
