@@ -64,10 +64,12 @@ async def stream_or_play(_, cb: types.CallbackQuery):
     await player.play_or_stream(cb, res)
 
 
-@Client.on_callback_query(filters.regex(pattern=r"(close)\|(\d+)"))
+@Client.on_callback_query(filters.regex(pattern=r"(close)(\|(\d+))?"))
 async def close_button_(_, cb: types.CallbackQuery):
     match = cb.matches[0].group
-    user_id = int(match(1))
+    user_id = int(match(3))
+    if not user_id:
+        return await cb.message.delete()
     if cb.from_user.id != user_id:
         return await cb.answer(gm(cb.message.chat.id, "not_for_you"), show_alert=True)
     return await cb.message.delete()
