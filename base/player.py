@@ -24,7 +24,7 @@ class Player(Methods):
         playlist = super()._playlist
 
         @call.on_stream_end()
-        async def on_stream_end_(_, update: Update):
+        async def _(_, update: Update):
             chat_id = update.chat_id
             if len(playlist[chat_id]) > 1:
                 playlist[chat_id].pop(0)

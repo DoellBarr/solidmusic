@@ -84,8 +84,6 @@ class MusicPlayer(CallBase):
     ):
         playlist = self._playlist
         chat_id = cb.message.chat.id
-        bot_username, _, _ = await self._bot.get_my()
-        mention = await self._bot.get_user_mention(chat_id, user_id)
         if playlist and len(playlist[chat_id]) >= 1:
             self.extend_playlist(
                 user_id, chat_id, title, duration, yt_url, yt_id, "music"

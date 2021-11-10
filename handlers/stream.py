@@ -3,9 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from utils.call_functions import (
     extract_info,
     stream_result,
-    next_search,
     yt_search,
-    prev_search,
     process_button,
 )
 

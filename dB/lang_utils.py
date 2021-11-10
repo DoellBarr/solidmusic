@@ -1,5 +1,4 @@
 import json
-import logging
 from os import path, listdir
 
 from pyrogram import emoji
