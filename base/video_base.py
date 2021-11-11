@@ -103,13 +103,15 @@ class VideoPlayer(CallBase):
     ):
         playlist = self.playlist
         chat_id = cb.message.chat.id
-        if playlist and len(playlist[chat_id]) >= 1:
-            self.extend_playlist(
-                user_id, chat_id, title, duration, yt_url, yt_id, "stream"
-            )
-            mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
-            await sleep(5)
-            return await mess.delete()
+        if playlist:
+            if len(playlist[chat_id]) >= 1:
+                self.extend_playlist(
+                    user_id, chat_id, title, duration, yt_url, yt_id, "stream"
+                )
+                mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
+                await sleep(5)
+                return await mess.delete()
+            pass
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         video_url = get_video_direct_link(yt_url, quality)
         try:
