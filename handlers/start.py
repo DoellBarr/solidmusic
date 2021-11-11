@@ -49,7 +49,7 @@ async def pm_start(_, message: Message):
                             [
                                 InlineKeyboardButton(
                                     f"🎥 {gm(chat_id, 'watch_on_yt')}",
-                                    url=f"{details['link']}"
+                                    url=f"https://www.youtube.com/watch?v={details['link']}"
                                 )
                             ],
                             [
