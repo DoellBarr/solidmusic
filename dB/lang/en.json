@@ -58,5 +58,6 @@
   "stream_type_video": "video",
   "group_support": "💬 Support",
   "quality_invalid": "**quality that you given is not valid**",
-  "success_change_quality": "**success change the video quality to {}"
+  "success_change_quality": "**success change the video quality to {}",
+  "helpmusic": "**Command on the Bot**\n\n**Member**\n/play: To play the song via YT link or via text\n/vplay: to play the video\n/lang: to changebot language\n/addchat: to add group to bot database and so it can be on the **Admin**\n/pause: to pause the song\n/resume: to continue the song\n/skip: to continueto the next song\n/end: to stop the song"
 }
