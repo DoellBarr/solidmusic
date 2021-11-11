@@ -2,11 +2,13 @@ import asyncio
 import sys
 
 from pyrogram import Client, filters, types
+
+from git import Repo
 from base.bot_base import bot_client as bot
 from base.player import player
 from configs import config
 from utils.functions.decorators import authorized_only
-from git import Repo
+from dB.lang_utils import get_message as gm
 from os import execle, system, environ
 
 
@@ -57,7 +59,8 @@ async def end_stream_(_, message: types.Message):
 
 @Client.on_message(filters.command("update") & filters.user(config.OWNER_ID))
 async def update_repo(_, message: types.Message):
-    msg = await message.reply("**processing...**")
+    chat_id = message.chat.id
+    msg = await message.reply(gm(chat_id, "processing_update"))
     repo = Repo().init()
     if "upstream" in repo.remotes:
         origin = repo.remote("upstream")
@@ -73,14 +76,14 @@ async def update_repo(_, message: types.Message):
         for c in repo.iter_commits(f"HEAD..upstream/{active_branch}")
     )
     if change_log:
-        await msg.edit("update started")
+        await msg.edit(gm(chat_id, "start_update"))
         origin.pull(active_branch)
-        await msg.edit("update success, now restarting")
+        await msg.edit(gm(chat_id, "success_update"))
         system("pip3 install --no-cache-dir -r requirements.txt")
         args = [sys.executable, "main.py"]
         execle(sys.executable, *args, environ)
         return
-    await msg.edit("this bot has been in the newest version")
+    await msg.edit(gm(chat_id, "already_newest"))
     await asyncio.sleep(5)
     await msg.delete()
     return repo.__del__()
