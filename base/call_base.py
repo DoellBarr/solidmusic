@@ -127,7 +127,7 @@ class CallBase:
             url = get_audio_direct_link(yt_url)
             await call.change_stream(chat_id, AudioPiped(url))
         elif stream_type == "stream":
-            quality = db.get_chat(chat_id)["video_quality"]
+            quality = db.get_chat(chat_id)[0]["video_quality"]
             url = get_video_direct_link(yt_url, quality)
             video_quality = None
             if quality == "low":
