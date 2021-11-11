@@ -47,6 +47,18 @@
   "helpbutton": "🖇 Menu de ajuda 🖇",
   "backtomenu": "🏡 Menu principal",
   "group_buttn": "🟡 Clique aqui para mais informações 🟡 ",
-  "group_support": "💬 Apoio, suporte"
-  
+  "group_buttn": "🟡 Click here for more info 🟡 ",
+  "success_add_chat": "**Sucesso adicione este chat ao banco de dados.**",
+  "success_add_chats": "**Sucesso adicione todos os chats ao banco de dados.**",
+  "stream_type_title": "tipo de reprodução",
+  "stream_type_music": "música",
+  "stream_type_video": "video",
+  "group_support": "💬 Suporte",
+  "quality_invalid": "**qualidade que você deu não é válido**",
+  "success_change_quality": "**Sucesso mudar a qualidade do vídeo para {}",
+  "helpmusic": "**Comando no Bot**\n\n**Membro**\n/play: Para reproduzir a música através do link YT ou via texto\n/vplay: para reproduzir o vídeo\n/lang: para mudar a linguagem do robô\n/addchat: para adicionar grupo ao banco de dados de bots e para que ele possa estar no\n\n**Admin**\n/pause: para pausar a música\n/resume: para continuar a música\n/skip: para continuar para a próxima música\n/end: para parar a música",
+  "processing_update": "**processando...**",
+  "start_update": "**atualização inicial...**",
+  "success_update": "**atualização coo sucesso, agora reiniciando...**",
+  "already_newest": "**este bot já está na versão mais recente.**"
 }
