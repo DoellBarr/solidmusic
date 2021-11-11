@@ -3,6 +3,9 @@ from typing import List, Dict
 from pyrogram.types import InlineKeyboardButton
 from youtubesearchpython import VideosSearch
 
+from base.player import username
+from dB.lang_utils import get_message as gm
+
 new: Dict[int, List] = {}
 old: Dict[int, List[List[Dict]]] = {}
 global_search: Dict[int, List[VideosSearch]] = {}
@@ -75,12 +78,12 @@ def extract_info(chat_id: int, result: Dict[int, List]):
     for count, res in enumerate(res[0], start=1):
         title = res["title"]
         duration = res["duration"]
-        more_info = f"https://t.me/solidmusic_bot?start=ytinfo_{res['yt_id']}"
+        more_info = f"https://t.me/{username}?start=ytinfo_{res['yt_id']}"
         result_str += f"""
 {count}.
-Title: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}
-Duration: {duration}
-[More Information]({more_info})
+{gm(chat_id, 'yt_title')}: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}
+{gm(chat_id, 'duration')}: {duration}
+[{gm(chat_id, 'more_info')}]({more_info})
 """
     return result_str
 
