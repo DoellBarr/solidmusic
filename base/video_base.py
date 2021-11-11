@@ -47,11 +47,11 @@ class VideoPlayer(CallBase):
             }
         ]
         video_quality = None
-        if quality == "360p":
+        if quality == "low":
             video_quality = LowQualityVideo()
-        elif quality == "480p":
+        elif quality == "medium":
             video_quality = MediumQualityVideo()
-        elif quality == "720p":
+        elif quality == "high":
             video_quality = HighQualityVideo()
         await call.join_group_call(
             chat_id,
