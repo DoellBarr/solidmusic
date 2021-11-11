@@ -67,7 +67,7 @@ class CallBase:
 
     def is_call_active(self, chat_id: int):
         call = self.call
-        for active_call in call.calls:
+        for active_call in call.active_calls:
             if chat_id == getattr(active_call, "chat_id"):
                 return True
             else:
@@ -93,7 +93,9 @@ class CallBase:
         call = self.call
         is_active = self.is_call_active(chat_id)
         if is_active:
-            return await call.leave_group_call(chat_id)
+            await call.leave_group_call(chat_id)
+            del self.playlist[chat_id]
+            return True
         return False
 
     async def create_call(self, chat_id: int):
