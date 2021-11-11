@@ -6,6 +6,7 @@ from pyrogram.errors import FloodWait
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioPiped
+from pytgcalls.types.input_stream.quality import HighQualityAudio
 
 from dB.database import db
 from dB.lang_utils import get_message as gm
@@ -38,8 +39,8 @@ class MusicPlayer(CallBase):
                 "stream_type": "music",
             }
         ]
-        return await call.join_group_call(
-            chat_id, AudioPiped(audio_url), stream_type=StreamType().local_stream
+        await call.join_group_call(
+            chat_id, AudioPiped(audio_url, HighQualityAudio()), stream_type=StreamType().local_stream,
         )
 
     async def _set_playing(
@@ -80,13 +81,15 @@ class MusicPlayer(CallBase):
     ):
         playlist = self.playlist
         chat_id = cb.message.chat.id
-        if playlist and len(playlist[chat_id]) >= 1:
-            self.extend_playlist(
-                user_id, chat_id, title, duration, yt_url, yt_id, "music"
-            )
-            mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
-            await sleep(5)
-            return await mess.delete()
+        if playlist:
+            if len(playlist[chat_id]) >= 1:
+                self.extend_playlist(
+                    user_id, chat_id, title, duration, yt_url, yt_id, "music"
+                )
+                mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
+                await sleep(5)
+                return await mess.delete()
+            pass
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         audio_url = get_audio_direct_link(yt_url)
         try:
