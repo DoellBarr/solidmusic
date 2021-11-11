@@ -41,7 +41,7 @@ async def pm_start(_, message: Message):
 👎 **{gm(chat_id, 'yt_dislikes')}**: {details['dislikes']}
 ⭐ **{gm(chat_id, 'yt_rating')}**: {details['rating']}
 """
-                await message.reply_photo(
+                return await message.reply_photo(
                     thumb_file,
                     caption=result_text,
                     reply_markup=InlineKeyboardMarkup(
@@ -61,20 +61,22 @@ async def pm_start(_, message: Message):
                         ]
                     )
                 )
+            if query.startswith("help"):
+                return await message.reply(
+                    "hello."
+                )
     if message.chat.type in ["group", "supergroup"]:
-        await bot.send_message(
-            message,
-            "chat_greet",
-            (mention, bot_name),
-            reply_message=True,
-            markup=InlineKeyboardMarkup(
+        await message.reply(
+            gm(chat_id, "chat_greet").format(mention, bot_name),
+            reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
                             gm(message.chat.id, "group_buttn"),
-                            url=f"https://t.me/{bot_username}?startgroup=true",
+                            url=f"https://t.me/{bot_username}?start=help",
                         )
                     ]
-                ]
+                ],
             ),
+            disable_web_page_preview=True
         )

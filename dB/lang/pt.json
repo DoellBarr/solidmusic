@@ -29,7 +29,7 @@
   "not_allowed": "**Você não tem permissão para fazer este comando.**",
   "bot_leave_from_chat": "**bot não aqui, assistente vai sair deste bate-papo também.**",
   "powered_by": "Carregado pelo Solid Project",
-  "chat_greet": "📕 Olá {}!\n\nEu sou {}, me faz como um administrador, para que eu possa tocar músicas neste bate-papo",
+  "chat_greet": "📕 Olá {0}!\n\nEu sou {1}, me faz como um administrador, para que eu possa tocar músicas neste bate-papo",
   "pm_greet": "Olá {}! eu posso reproduzir músicas em seu grupo através de bate-papos de voz telegrama\ndescobrir todo o meu comando clicando no botão \"Menu de ajuda\"",
   "add_to_chat": "➕ Adicione ao seu chat ➕",
   "maintainer": "mantedor",

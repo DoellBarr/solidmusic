@@ -31,7 +31,7 @@
   "not_allowed": "**You not allowed to do this command.**",
   "bot_leave_from_chat": "**bot not in here, assistant will leave from this chat too.**",
   "powered_by": "Powered by Solid Project",
-  "chat_greet": "📕 hi {}!\n\ni'm {}, make me as an admin, so i can play musics in this chat",
+  "chat_greet": "📕 hi {0}!\n\ni'm {1}, make me as an admin, so i can play musics in this chat",
   "pm_greet": "hi {}! i can play musics on your group through telegram voice chats\nfind out all my command by clicking \"Help menu\" button",
   "add_to_chat": "➕ Add to your chat ➕",
   "maintainer": "'🛠 maintainer",

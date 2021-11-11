@@ -4,9 +4,11 @@ from typing import List, Dict, Union
 from pyrogram.raw.functions.phone import CreateGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types import Update
-from pytgcalls.types.input_stream import AudioPiped
+from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
+from pytgcalls.types.input_stream.quality import HighQualityAudio, LowQualityVideo, MediumQualityVideo, HighQualityVideo
 
-from utils.functions.yt_utils import get_audio_direct_link
+from dB.database import db
+from utils.functions.yt_utils import get_audio_direct_link, get_video_direct_link
 from .bot_base import bot_client
 from .client_base import call_py, user
 
@@ -28,7 +30,8 @@ class CallBase:
             if len(playlist[chat_id]) > 1:
                 playlist[chat_id].pop(0)
                 yt_url = playlist[chat_id][0]["yt_url"]
-                return await self.stream_change(chat_id, yt_url)
+                stream_type = playlist[chat_id][0]["stream_type"]
+                return await self.stream_change(chat_id, yt_url, stream_type)
             await call.leave_group_call(chat_id)
             del playlist[chat_id]
 
@@ -118,17 +121,33 @@ class CallBase:
         else:
             return "not_streaming"
 
-    async def stream_change(self, chat_id: int, yt_url: str):
+    async def stream_change(self, chat_id: int, yt_url: str, stream_type: str):
         call = self.call
-        url = get_audio_direct_link(yt_url)
-        await call.change_stream(chat_id, AudioPiped(url))
+        if stream_type == "music":
+            url = get_audio_direct_link(yt_url)
+            await call.change_stream(chat_id, AudioPiped(url))
+        elif stream_type == "stream":
+            quality = db.get_chat(chat_id)[0]["video_quality"]
+            url = get_video_direct_link(yt_url, quality)
+            video_quality = None
+            if quality == "low":
+                video_quality = LowQualityVideo()
+            elif quality == "medium":
+                video_quality = MediumQualityVideo()
+            elif quality == "high":
+                video_quality = HighQualityVideo()
+            await call.change_stream(
+                chat_id,
+                AudioVideoPiped(url, HighQualityAudio(), video_quality)
+            )
 
     async def change_stream(self, chat_id: int):
         playlist = self.playlist
         if len(playlist[chat_id]) > 1:
             yt_url = playlist[chat_id][0]["yt_url"]
             title = playlist[chat_id][0]["title"]
-            await self.stream_change(chat_id, yt_url)
+            stream_type = playlist[chat_id][0]["stream_type"]
+            await self.stream_change(chat_id, yt_url, stream_type)
             toks = gm(chat_id, "track_skipped")
             return toks, title
         return "no_playlists", ""

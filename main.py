@@ -12,6 +12,9 @@ def main():
     elif py_ver.startswith("3.10"):
         loop = asyncio.get_running_loop()
         loop.run_until_complete(player.start())
+    else:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(player.start())
 
 
 main()

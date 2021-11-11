@@ -40,7 +40,7 @@ async def on_bot_left_(_, message: Message):
 async def add_chat_(_, message: Message):
     try:
         lang = (await message.chat.get_member(message.from_user.id)).user.language_code
-    except AttributeError:
+    except (AttributeError, ValueError):
         lang = "en"
     cmds = message.command[1:]
     if cmds:
@@ -75,6 +75,6 @@ async def set_vid_quality(_, message: Message):
     return await bot.send_message(
         message,
         "success_change_quality",
-        "quality",
+        quality,
         reply_message=True
     )
