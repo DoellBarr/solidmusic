@@ -18,4 +18,10 @@ def authorized_only(func: Callable) -> Callable:
                     reply_message=True
                 )
             return await func(client, message)
+        if not admins or (message.from_user not in db.get_sudos(message.chat.id)):
+            return await bot.send_message(
+                message,
+                "not_allowed",
+                reply_message=True
+            )
     return wrapper
