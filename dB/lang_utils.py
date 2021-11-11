@@ -30,7 +30,6 @@ def get_message(chat_id: int, key: str) -> str:
         try:
             return langs["en"][key]
         except KeyError:
-            print("[ ERROR ] Check your key, maybe it is coming from there")
             return f"`Error`:\n**can't get lang with key: {key}**"
 
 
