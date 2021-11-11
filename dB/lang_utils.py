@@ -13,7 +13,7 @@ lang_flags = {
     "en": f"{emoji.FLAG_UNITED_STATES} English",
     "id": f"{emoji.FLAG_INDONESIA} Indonesia",
     "pt": f"{emoji.FLAG_PORTUGAL} Portuguese",
-    "ta": f"{emoji.FLAG_SRI_LANKA} Tamil"
+    "ta": f"{emoji.FLAG_INDIA} Tamil"
 }
 
 for file in listdir(lang_folder):
@@ -28,7 +28,6 @@ def get_message(chat_id: int, key: str) -> str:
         return langs[db.get_chat(chat_id)[0]["lang"]][key]
     except (IndexError, KeyError):
         try:
-            print("[ INFO ] Add your chat to database use /addchat command")
             return langs["en"][key]
         except KeyError:
             print("[ ERROR ] Check your key, maybe it is coming from there")
