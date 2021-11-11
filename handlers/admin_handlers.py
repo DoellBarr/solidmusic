@@ -7,7 +7,7 @@ from base.player import player
 from configs import config
 from utils.functions.decorators import authorized_only
 from git import Repo
-from os import execle, system
+from os import execle, system, environ
 
 
 @Client.on_message(filters.command("pause"))
@@ -78,7 +78,7 @@ async def update_repo(_, message: types.Message):
         await msg.edit("update success, now restarting")
         system("pip3 install --no-cache-dir -r requirements.txt")
         args = [sys.executable, "main.py"]
-        execle(sys.executable, *args)
+        execle(sys.executable, *args, environ)
         return
     await msg.edit("this bot has been in the newest version")
     await asyncio.sleep(5)
