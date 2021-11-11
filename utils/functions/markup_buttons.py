@@ -14,7 +14,7 @@ def start_markup(chid: int, bot_username: str):
             ],
             [
                 InlineKeyboardButton(
-                    gm(chid, "helpbutton"), callback_data="chelp"
+                    gm(chid, "helpbutton"), callback_data="cbhelp"
                 ),
                 InlineKeyboardButton(
                     gm(chid, "maintainer"), url="https://t.me/talktoabdul_bot"

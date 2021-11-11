@@ -15,7 +15,7 @@ def extract_all(query: str, chat_id: int, user_id: int, status: str):
     return result, yt_btn
 
 
-@Client.on_message(filters.command("play"))
+@Client.on_message(filters.command("play") & filters.group)
 async def play_(_, message: types.Message):
     query = " ".join(message.command[1:])
     chat_id = message.chat.id
@@ -37,7 +37,7 @@ async def play_(_, message: types.Message):
     )
 
 
-@Client.on_message(filters.command("vplay"))
+@Client.on_message(filters.command("vplay") & filters.group)
 async def vplay_(_, message: types.Message):
     query = " ".join(message.command[1:])
     chat_id = message.chat.id
