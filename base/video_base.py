@@ -104,7 +104,7 @@ class VideoPlayer(CallBase):
         playlist = self.playlist
         chat_id = cb.message.chat.id
         if playlist:
-            if len(playlist[chat_id]) >= 1:
+            if chat_id in playlist and len(playlist[chat_id]) >= 1:
                 self.extend_playlist(
                     user_id, chat_id, title, duration, yt_url, yt_id, "stream"
                 )
