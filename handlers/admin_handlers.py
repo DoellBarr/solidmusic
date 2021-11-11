@@ -46,12 +46,18 @@ async def skip_(_, message: types.Message):
 async def change_vol_(_, message: types.Message):
     chat_id = message.chat.id
     vol = int(message.command[1])
-    await player.change_vol(chat_id, vol)
-    await bot.send_message(
+    check = await player.change_vol(chat_id, vol)
+    if check:
+        return await bot.send_message(
+            message,
+            "vol_changed",
+            str(vol),
+            True
+        )
+    return await bot.send_message(
         message,
-        "vol_changed",
-        str(vol),
-        True
+        "not_streaming",
+        reply_message=True
     )
 
 
@@ -59,9 +65,15 @@ async def change_vol_(_, message: types.Message):
 @authorized_only
 async def end_stream_(_, message: types.Message):
     chat_id = message.chat.id
-    await player.end_stream(chat_id)
-    await bot.send_message(
+    check_call = await player.end_stream(chat_id)
+    if check_call:
+        return await bot.send_message(
+            message,
+            "track_ended",
+            reply_message=True
+        )
+    return await bot.send_message(
         message,
-        "track_ended",
+        "not_streaming",
         reply_message=True
     )
