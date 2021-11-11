@@ -9,7 +9,7 @@ from pytgcalls.types.input_stream.quality import (
     HighQualityAudio,
     HighQualityVideo,
     MediumQualityVideo,
-    LowQualityVideo,
+    LowQualityVideo, LowQualityAudio, MediumQualityAudio,
 )
 
 
@@ -46,16 +46,18 @@ class VideoPlayer(CallBase):
                 "stream_type": "stream",
             }
         ]
-        video_quality = None
         if quality == "low":
             video_quality = LowQualityVideo()
+            audio_quality = LowQualityAudio()
         elif quality == "medium":
             video_quality = MediumQualityVideo()
-        elif quality == "high":
+            audio_quality = MediumQualityAudio()
+        else:
             video_quality = HighQualityVideo()
+            audio_quality = HighQualityAudio()
         await call.join_group_call(
             chat_id,
-            AudioVideoPiped(video_direct_link, HighQualityAudio(), video_quality),
+            AudioVideoPiped(video_direct_link, audio_quality, video_quality),
             stream_type=StreamType().local_stream,
         )
 
