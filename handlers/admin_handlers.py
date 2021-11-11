@@ -58,14 +58,13 @@ async def end_stream_(_, message: types.Message):
 async def update_repo(_, message: types.Message):
     msg = await message.reply("**processing...**")
     repo = Repo().init()
-    if "origin" in repo.remotes:
-        origin = repo.remote("origin")
-    else:
-        origin = repo.create_remote("origin", "https://github.com/DoellBarr/solidmusic")
+    origin = repo.create_remote("upstream", "https://github.com/DoellBarr/solidmusic")
     origin.fetch()
-    origin.pull()
-    system("pip3 install --no-cache-dir -r requirements.txt")
-    await msg.edit("**update finished, now deploying**")
-    args = [sys.executable, "main.py"]
-    execle(sys.executable, *args)
-    sys.exit()
+    repo.create_head("master", origin.refs.master)
+    repo.heads["master"].set_tracking_branch(origin.refs.master)
+    repo.heads["master"].checkout(True)
+    active_branch = repo.active_branch.name
+    print(active_branch, "".join(
+        f" [{c.committed_datetime.strftime('%d/%m/%y')}]: {c.summary} <{c.author}>\n"
+        for c in repo.iter_commits("master")
+    ))
