@@ -3,7 +3,7 @@ import sys
 
 from pyrogram import Client, filters, types
 
-from git import Repo
+from git import Repo, InvalidGitRepositoryError
 from base.bot_base import bot_client as bot
 from base.player import player
 from configs import config
@@ -53,7 +53,7 @@ async def end_stream_(_, message: types.Message):
     chat_id = message.chat.id
     check_call = await player.end_stream(chat_id)
     if check_call:
-        return await bot.send_message(message, "track_ended", reply_message=True)
+        await bot.send_message(message, "track_ended", reply_message=True)
     return await bot.send_message(message, "not_streaming", reply_message=True)
 
 
@@ -61,7 +61,11 @@ async def end_stream_(_, message: types.Message):
 async def update_repo(_, message: types.Message):
     chat_id = message.chat.id
     msg = await message.reply(gm(chat_id, "processing_update"))
-    repo = Repo().init()
+    try:
+        repo = Repo().init()
+    except InvalidGitRepositoryError as error:
+        print(error)
+        repo = Repo().init()
     if "upstream" in repo.remotes:
         origin = repo.remote("upstream")
     else:
@@ -87,3 +91,12 @@ async def update_repo(_, message: types.Message):
     await asyncio.sleep(5)
     await msg.delete()
     return repo.__del__()
+
+
+@Client.on_message(filters.command("restart"))
+async def restart_bot_(_, message: types.Message):
+    msg = await message.reply("restarting")
+    args = [sys.executable, "main.py"]
+    await msg.edit("restarted, now you can use this bot again.")
+    execle(sys.executable, *args, environ)
+    return
