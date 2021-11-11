@@ -1,6 +1,7 @@
 from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
+import configs
 from base.player import player
 from utils.call_functions import (
     prev_search,
@@ -10,6 +11,7 @@ from utils.call_functions import (
     stream_result,
 )
 from dB.lang_utils import get_message as gm
+from dB.database import db
 from base.bot_base import bot_client as bot
 from utils.functions.markup_buttons import start_markup
 
@@ -90,7 +92,7 @@ async def goback(_, hee: types.CallbackQuery):
 
 @Client.on_callback_query(filters.regex("cbhelp"))
 async def cbhelp(_, lol: types.CallbackQuery):
-    await lol.edit_message_text(
+    return await lol.edit_message_text(
         gm(lol.message.chat.id, "helpmusic"),
         reply_markup=InlineKeyboardMarkup(
             [
@@ -101,4 +103,21 @@ async def cbhelp(_, lol: types.CallbackQuery):
                 ]
             ]
         ),
+    )
+
+
+@Client.on_callback_query(filters.regex("set_lang_(.*)"))
+async def cb_change_lang(_, cb: types.CallbackQuery):
+    lang = cb.matches[0].group(1)
+    chat_id = cb.message.chat.id
+    db.set_chat_lang(chat_id, lang)
+    await cb.message.edit(
+        gm(chat_id, "lang_changed"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(gm(chat_id, "channel"), url=configs.config.CHANNEL)
+                ]
+            ]
+        )
     )
