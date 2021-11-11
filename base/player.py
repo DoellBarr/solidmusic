@@ -9,6 +9,8 @@ from .bot_base import pyro_bot
 from .client_base import call_py
 from dB.database import db
 
+username = ""
+
 
 class Methods(MusicPlayer, VideoPlayer):
     pass
@@ -31,16 +33,23 @@ class Player(Methods):
                 cb, user_id, title, duration, yt_url, yt_id, quality
             )
 
-    @staticmethod
-    async def start():
+    async def start(self):
         print("[ INFO ] STARTING BOT CLIENT")
         await pyro_bot.start()
+        print("[ INFO ] GETTING BOT USERNAME")
+        await self.get_username()
         print("[ INFO ] STARTING PyTgCalls CLIENT")
         await call_py.start()
         print("[ INFO ] CLIENT RUNNING")
         await idle()
         print("[ INFO ] STOPPING BOT")
         await pyro_bot.stop()
+
+    @staticmethod
+    async def get_username():
+        global username
+        me = await pyro_bot.get_me()
+        username += me.username
 
 
 player = Player()
