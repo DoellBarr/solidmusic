@@ -36,15 +36,8 @@ async def del_chat_(_, message: Message):
 async def set_vid_quality(_, message: Message):
     quality = "".join(message.command[1]).lower()
     if quality not in ["low", "medium", "high"]:
-        return await bot.send_message(
-            message,
-            "quality_invalid",
-            reply_message=True
-        )
+        return await bot.send_message(message, "quality_invalid", reply_message=True)
     db.set_video_quality(message.chat.id, quality)
     return await bot.send_message(
-        message,
-        "success_change_quality",
-        quality,
-        reply_message=True
+        message, "success_change_quality", quality, reply_message=True
     )

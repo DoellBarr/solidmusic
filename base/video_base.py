@@ -9,7 +9,9 @@ from pytgcalls.types.input_stream.quality import (
     HighQualityAudio,
     HighQualityVideo,
     MediumQualityVideo,
-    LowQualityVideo, LowQualityAudio, MediumQualityAudio,
+    LowQualityVideo,
+    LowQualityAudio,
+    MediumQualityAudio,
 )
 
 

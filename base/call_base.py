@@ -5,14 +5,17 @@ from pyrogram.raw.functions.phone import CreateGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
-from pytgcalls.types.input_stream.quality import HighQualityAudio, LowQualityVideo, MediumQualityVideo, HighQualityVideo
+from pytgcalls.types.input_stream.quality import (
+    HighQualityAudio,
+    LowQualityVideo,
+    MediumQualityVideo,
+    HighQualityVideo,
+)
 
 from dB.database import db
 from utils.functions.yt_utils import get_audio_direct_link, get_video_direct_link
 from .bot_base import bot_client
 from .client_base import call_py, user
-
-from dB.lang_utils import get_message as gm
 
 
 class CallBase:
@@ -33,11 +36,7 @@ class CallBase:
                 title = playlist[chat_id][0]["title"]
                 stream_type = playlist[chat_id][0]["stream_type"]
                 await self.stream_change(chat_id, yt_url, stream_type)
-                await self.bot.send_to_chat(
-                    chat_id,
-                    "track_changed",
-                    title
-                )
+                await self.bot.send_to_chat(chat_id, "track_changed", title)
             await call.leave_group_call(chat_id)
             del playlist[chat_id]
 
@@ -143,8 +142,7 @@ class CallBase:
             else:
                 video_quality = HighQualityVideo()
             await call.change_stream(
-                chat_id,
-                AudioVideoPiped(url, HighQualityAudio(), video_quality)
+                chat_id, AudioVideoPiped(url, HighQualityAudio(), video_quality)
             )
 
     async def change_stream(self, chat_id: int):

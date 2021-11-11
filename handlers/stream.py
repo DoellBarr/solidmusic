@@ -53,7 +53,7 @@ async def vplay_(_, message: types.Message):
                 [
                     InlineKeyboardButton("🗑", f"close|{user_id}"),
                     InlineKeyboardButton("➡", "nextstream"),
-                ]
+                ],
             ]
-        )
+        ),
     )

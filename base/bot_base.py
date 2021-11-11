@@ -71,13 +71,13 @@ class Bot:
         chat_id: int,
         key: str,
         format_key: str = "",
-        markup: InlineKeyboardMarkup = None
+        markup: InlineKeyboardMarkup = None,
     ):
         return await self._bot.send_message(
             chat_id,
             gm(chat_id, key).format(format_key),
             disable_web_page_preview=True,
-            reply_markup=markup
+            reply_markup=markup,
         )
 
     async def start(self):

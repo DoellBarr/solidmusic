@@ -49,22 +49,20 @@ async def pm_start(_, message: Message):
                             [
                                 InlineKeyboardButton(
                                     f"🎥 {gm(chat_id, 'watch_on_yt')}",
-                                    url=f"https://www.youtube.com/watch?v={details['link']}"
+                                    url=f"https://www.youtube.com/watch?v={details['link']}",
                                 )
                             ],
                             [
                                 InlineKeyboardButton(
                                     f"🗑 {gm(chat_id, 'close_btn_name')}",
-                                    callback_data="close"
+                                    callback_data="close",
                                 )
-                            ]
+                            ],
                         ]
-                    )
+                    ),
                 )
             if query.startswith("help"):
-                return await message.reply(
-                    "hello."
-                )
+                return await message.reply("hello.")
     if message.chat.type in ["group", "supergroup"]:
         await message.reply(
             gm(chat_id, "chat_greet").format(mention, bot_name),
@@ -78,5 +76,5 @@ async def pm_start(_, message: Message):
                     ]
                 ],
             ),
-            disable_web_page_preview=True
+            disable_web_page_preview=True,
         )

@@ -10,19 +10,10 @@ async def add_sudo_(_, message: types.Message):
     if reply:
         user_id = reply.from_user.id
         toxt = db.add_sudo(chat_id, user_id)
-        return await bot.send_message(
-            message,
-            toxt,
-            reply_message=True
-        )
+        return await bot.send_message(message, toxt, reply_message=True)
     user_id = int(message.command[1])
     toxt = db.add_sudo(chat_id, user_id)
-    return await bot.send_message(
-        message,
-        toxt,
-        str(user_id),
-        reply_message=True
-    )
+    return await bot.send_message(message, toxt, str(user_id), reply_message=True)
 
 
 @Client.on_message(filters.command("delsudo"))
@@ -32,16 +23,7 @@ async def del_sudo_(_, message: types.Message):
     if reply:
         user_id = reply.from_user.id
         toxt = db.del_sudo(chat_id, user_id)
-        return await bot.send_message(
-            message,
-            toxt,
-            reply_message=True
-        )
+        return await bot.send_message(message, toxt, reply_message=True)
     user_id = int(message.command[1])
     toxt = db.del_sudo(chat_id, user_id)
-    return await bot.send_message(
-        message,
-        toxt,
-        str(user_id),
-        reply_message=True
-    )
+    return await bot.send_message(message, toxt, str(user_id), reply_message=True)
