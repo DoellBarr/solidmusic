@@ -1,3 +1,4 @@
+import asyncio
 import sys
 
 from pyrogram import Client, filters, types
@@ -58,13 +59,28 @@ async def end_stream_(_, message: types.Message):
 async def update_repo(_, message: types.Message):
     msg = await message.reply("**processing...**")
     repo = Repo().init()
-    origin = repo.create_remote("upstream", "https://github.com/DoellBarr/solidmusic")
-    origin.fetch()
+    if "upstream" in repo.remotes:
+        origin = repo.remote("upstream")
+    else:
+        origin = repo.create_remote("upstream", "https://github.com/DoellBarr/solidmusic")
     repo.create_head("master", origin.refs.master)
     repo.heads["master"].set_tracking_branch(origin.refs.master)
     repo.heads["master"].checkout(True)
     active_branch = repo.active_branch.name
-    print(active_branch, "".join(
+    origin.fetch(active_branch)
+    change_log = "".join(
         f" [{c.committed_datetime.strftime('%d/%m/%y')}]: {c.summary} <{c.author}>\n"
-        for c in repo.iter_commits("master")
-    ))
+        for c in repo.iter_commits(f"HEAD..upstream/{active_branch}")
+    )
+    if change_log:
+        await msg.edit("update started")
+        origin.pull(active_branch)
+        await msg.edit("update success, now restarting")
+        system("pip3 install --no-cache-dir -r requirements.txt")
+        args = [sys.executable, "main.py"]
+        execle(sys.executable, *args)
+        return
+    await msg.edit("this bot has been in the newest version")
+    await asyncio.sleep(5)
+    await msg.delete()
+    return repo.__del__()
