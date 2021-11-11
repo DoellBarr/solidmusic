@@ -30,16 +30,20 @@ class CallBase:
             playlist = self.playlist
             call = self.call
             chat_id = update.chat_id
-            if len(playlist[chat_id]) > 1:
-                playlist[chat_id].pop(0)
-                yt_url = playlist[chat_id][0]["yt_url"]
-                title = playlist[chat_id][0]["title"]
-                stream_type = playlist[chat_id][0]["stream_type"]
-                await self.stream_change(chat_id, yt_url, stream_type)
-                await self.bot.send_to_chat(chat_id, "track_changed", title)
-            else:
-                await call.leave_group_call(chat_id)
-                del playlist[chat_id]
+            if playlist:
+                if chat_id in playlist:
+                    if len(playlist[chat_id]) > 1:
+                        playlist[chat_id].pop(0)
+                        yt_url = playlist[chat_id][0]["yt_url"]
+                        title = playlist[chat_id][0]["title"]
+                        stream_type = playlist[chat_id][0]["stream_type"]
+                        await self.stream_change(chat_id, yt_url, stream_type)
+                        await self.bot.send_to_chat(chat_id, "track_changed", title)
+                    elif len(playlist[chat_id]) == 1:
+                        await call.leave_group_call(chat_id)
+                        del playlist[chat_id]
+                else:
+                    await call.leave_group_call(chat_id)
 
     def extend_playlist(
         self,
@@ -150,7 +154,7 @@ class CallBase:
 
     async def change_stream(self, chat_id: int):
         playlist = self.playlist
-        if len(playlist[chat_id]) > 1:
+        if chat_id in playlist and len(playlist[chat_id]) > 1:
             playlist[chat_id].pop(0)
             yt_url = playlist[chat_id][0]["yt_url"]
             title = playlist[chat_id][0]["title"]
