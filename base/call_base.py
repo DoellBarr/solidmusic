@@ -30,8 +30,14 @@ class CallBase:
             if len(playlist[chat_id]) > 1:
                 playlist[chat_id].pop(0)
                 yt_url = playlist[chat_id][0]["yt_url"]
+                title = playlist[chat_id][0]["title"]
                 stream_type = playlist[chat_id][0]["stream_type"]
-                return await self.stream_change(chat_id, yt_url, stream_type)
+                await self.stream_change(chat_id, yt_url, stream_type)
+                await self.bot.send_to_chat(
+                    chat_id,
+                    "track_changed",
+                    title
+                )
             await call.leave_group_call(chat_id)
             del playlist[chat_id]
 
@@ -88,6 +94,7 @@ class CallBase:
         is_active = self.is_call_active(chat_id)
         if is_active:
             return await call.leave_group_call(chat_id)
+        return False
 
     async def create_call(self, chat_id: int):
         return await self.user.send(
@@ -106,7 +113,7 @@ class CallBase:
         is_active = self.is_call_active(chat_id)
         if is_active:
             return await call.change_volume_call(chat_id, vol)
-        return None
+        return False
 
     async def change_streaming_status(self, status: str, chat_id: int):
         call = self.call
@@ -129,12 +136,11 @@ class CallBase:
         elif stream_type == "stream":
             quality = db.get_chat(chat_id)[0]["video_quality"]
             url = get_video_direct_link(yt_url, quality)
-            video_quality = None
             if quality == "low":
                 video_quality = LowQualityVideo()
             elif quality == "medium":
                 video_quality = MediumQualityVideo()
-            elif quality == "high":
+            else:
                 video_quality = HighQualityVideo()
             await call.change_stream(
                 chat_id,
@@ -148,6 +154,6 @@ class CallBase:
             title = playlist[chat_id][0]["title"]
             stream_type = playlist[chat_id][0]["stream_type"]
             await self.stream_change(chat_id, yt_url, stream_type)
-            toks = gm(chat_id, "track_skipped")
+            toks = "track_skipped"
             return toks, title
         return "no_playlists", ""
