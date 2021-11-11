@@ -31,7 +31,7 @@
   "not_allowed": "**Kamu tidak diperbolehkan untuk menggunakan perintah ini.**",
   "bot_leave_from_chat": "bot tidak ada dalam grup, asisten akan keluar dari grup ini.",
   "powered_by": "Didukung oleh Solid Project",
-  "chat_greet": "📕 hai {}!\n\nSaya {}, jadikan aku sebagai admin, dan aku bisa memutar musik di grup ini",
+  "chat_greet": "📕 hai {0}!\n\nSaya {1}, jadikan aku sebagai admin, dan aku bisa memutar musik di grup ini",
   "pm_greet": "halo {}! aku bisa memutar lagu di grup kamu melalui obrolan suara telegram\ncari tau semua perintah saya dengan meng-klik tombol\"Menu bantuan\"",
   "add_to_chat": "➕ Tambah kedalam grup kamu.➕",
   "maintainer": "perawat bot",
