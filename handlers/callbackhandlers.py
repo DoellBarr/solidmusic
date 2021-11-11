@@ -88,7 +88,7 @@ async def goback(_, hee: types.CallbackQuery):
 @Client.on_callback_query(filters.regex("cbhelp"))
 async def cbhelp(_, lol: types.CallbackQuery):
     await lol.edit_message_text(
-        gm(lol.message.chat.id, "helpmusic")
+        gm(lol.message.chat.id, "helpmusic"),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
