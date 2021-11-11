@@ -4,6 +4,7 @@
   "process": "🔁 `Sedang memproses, mohon tunggu...`",
   "need_privilege": "**kamu tidak memiliki perizinan untuk mengatur voice chat, makanya kamu gabisa pake perintah ini.**",
   "track_queued": "⚠ `Dimasukkan kedalam antrian.`",
+  "track_changed": "**trek sebelumnya selesai diputar, sekarang memutar {}**",
   "track_paused": "⏸ **pemutaran dijeda**\n\n**Untuk melanjutkan pemutaran, gunakan perintah /resume.**",
   "track_resumed": "▶ **pemutaran dilanjut**\n\n**Untuk menjeda pemutaran, gunakan perintah /pause.**",
   "track_skipped": "⏩ `Melewati pemutaran, dan sekarang memutar {}`",

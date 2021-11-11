@@ -4,6 +4,7 @@
   "process": "`processing.. please wait.`",
   "need_privilege": "**you not have manage voice chat permissions, so you can't use this command.**",
   "track_queued": "Track queued",
+  "track_changed": "**previous track finished streaming, now streaming {}**",
   "track_paused": "⏸ **stream paused**\n\n**To resume the stream, use /resume command.**",
   "track_resumed": "▶ **stream resumed**\n\n**To pause the stream, use /pause command**",
   "track_skipped": "Skipped track, and playing {}",
