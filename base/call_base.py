@@ -37,8 +37,9 @@ class CallBase:
                 stream_type = playlist[chat_id][0]["stream_type"]
                 await self.stream_change(chat_id, yt_url, stream_type)
                 await self.bot.send_to_chat(chat_id, "track_changed", title)
-            await call.leave_group_call(chat_id)
-            del playlist[chat_id]
+            else:
+                await call.leave_group_call(chat_id)
+                del playlist[chat_id]
 
     def extend_playlist(
         self,
@@ -148,6 +149,7 @@ class CallBase:
     async def change_stream(self, chat_id: int):
         playlist = self.playlist
         if len(playlist[chat_id]) > 1:
+            playlist[chat_id].pop(0)
             yt_url = playlist[chat_id][0]["yt_url"]
             title = playlist[chat_id][0]["title"]
             stream_type = playlist[chat_id][0]["stream_type"]
