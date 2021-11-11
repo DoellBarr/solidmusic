@@ -1,9 +1,31 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 from base.bot_base import bot_client as bot
 
 from dB.database import db
+
+
+@Client.on_message(filters.new_chat_members)
+async def new_member_(client: Client, message: Message):
+    bot_id = (await client.get_me()).id
+    for member in message.new_chat_members:
+        if member.id == bot_id:
+            return await message.reply(
+                "Hi, english is my default language.\n"
+                "make me as admin in here with all permissions except anonymous admin\n"
+                "btw, thanks for inviting me to here, to use me, please use /addchat command first.\n"
+                "and for changing language, tap /lang to see all language that supported for me, "
+                "don't forget to subscribe our channel.",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton("Channel", url="https://t.me/solidprojects"),
+                            InlineKeyboardButton("Developer", url="https://t.me/talktoabdul_bot"),
+                        ]
+                    ]
+                )
+            )
 
 
 @Client.on_message(filters.command("addchat"))
