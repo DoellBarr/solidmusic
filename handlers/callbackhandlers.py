@@ -67,7 +67,10 @@ async def stream_or_play(_, cb: types.CallbackQuery):
 @Client.on_callback_query(filters.regex(pattern=r"(close)(\|(\d+))?"))
 async def close_button_(_, cb: types.CallbackQuery):
     match = cb.matches[0].group
-    user_id = int(match(3))
+    try:
+        user_id = int(match(3))
+    except TypeError:
+        user_id = None
     if not user_id:
         return await cb.message.delete()
     if cb.from_user.id != user_id:
