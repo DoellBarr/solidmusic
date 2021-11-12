@@ -62,8 +62,8 @@ async def update_repo(_, message: types.Message):
     msg = await message.reply(gm(chat_id, "processing_update"))
     update_avail = updater()
     if update_avail:
-        system("git pull -f && pip3 install -r requirements.txt")
         await msg.edit(gm(chat_id, "success_update"))
+        system("git pull -f && pip3 install -r requirements.txt")
         execle(sys.executable, sys.executable, "main.py", environ)
         return
     await msg.edit(gm(chat_id, "already_newest"))
