@@ -1,6 +1,7 @@
 import asyncio
 import sys
 
+import heroku3
 from pyrogram import Client, filters, types
 
 from git import Repo
@@ -58,9 +59,23 @@ async def end_stream_(_, message: types.Message):
     return await bot.send_message(message, "not_streaming", reply_message=True)
 
 
+def get_heroku_git_url(api_key: str, app_name: str):
+    if not api_key or app_name:
+        return None
+    heroku = heroku3.from_key(api_key)
+    heroku_apps = heroku.apps()
+    app = None
+    for heroku_app_name in heroku_apps:
+        if heroku_app_name.name == app_name:
+            app = heroku_app_name
+            break
+    return app.git_url.replace("https://", f"https://api:{api_key}@")
+
+
 @Client.on_message(filters.command("update") & filters.user(config.OWNER_ID))
 async def update_repo(_, message: types.Message):
     chat_id = message.chat.id
+    heroku_git_url = get_heroku_git_url(config.HEROKU_API_KEY, config.HEROKU_APP_NAME)
     msg = await message.reply(gm(chat_id, "processing_update"))
     try:
         repo = Repo()
@@ -69,7 +84,7 @@ async def update_repo(_, message: types.Message):
         if "upstream" in repo.remotes:
             origin = repo.remote("upstream")
         else:
-            origin = repo.create_remote("upstream", config.HEROKU_GIT_URL)
+            origin = repo.create_remote("upstream", heroku_git_url)
         origin.fetch()
         repo.create_head("master", origin.refs.master)
         repo.heads.main.set_tracking_branch(origin.refs.master)
