@@ -3,7 +3,8 @@ import sys
 
 from pyrogram import Client, filters, types
 
-from git import Repo, InvalidGitRepositoryError
+from git import Repo
+from git.exc import InvalidGitRepositoryError
 from base.bot_base import bot_client as bot
 from base.player import player
 from configs import config
@@ -62,28 +63,21 @@ async def update_repo(_, message: types.Message):
     chat_id = message.chat.id
     msg = await message.reply(gm(chat_id, "processing_update"))
     try:
-        repo = Repo().init()
+        repo = Repo()
     except InvalidGitRepositoryError as error:
-        print(error)
-        repo = Repo().init()
-    if "upstream" in repo.remotes:
-        origin = repo.remote("upstream")
-    else:
-        origin = repo.create_remote("upstream", "https://github.com/DoellBarr/solidmusic")
-    repo.create_head("master", origin.refs.master)
-    repo.heads["master"].set_tracking_branch(origin.refs.master)
-    repo.heads["master"].checkout(True)
-    active_branch = repo.active_branch.name
-    origin.fetch(active_branch)
+        repo = Repo.init()
+        origin = repo.create_remote("upstream", config.HEROKU_GIT_URL)
+        origin.fetch()
+        repo.create_head("main", origin.refs.main)
+        repo.heads.main.set_tracking_branch(origin.refs.main)
+        repo.heads.main.checkout(True)
+    active_branch = repo.active_branch
     change_log = "".join(
         f" [{c.committed_datetime.strftime('%d/%m/%y')}]: {c.summary} <{c.author}>\n"
         for c in repo.iter_commits(f"HEAD..upstream/{active_branch}")
     )
     if change_log:
-        await msg.edit(gm(chat_id, "start_update"))
-        origin.pull(active_branch)
-        await msg.edit(gm(chat_id, "success_update"))
-        system("pip3 install --no-cache-dir -r requirements.txt")
+        system("git pull -f pip3 install --no-cache-dir -r requirements.txt")
         args = [sys.executable, "main.py"]
         execle(sys.executable, *args, environ)
         return

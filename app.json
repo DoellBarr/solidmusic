@@ -34,6 +34,14 @@
       "description": "your channel support link, can use private or public channel, example https://t.me/solidprojects",
       "required": false,
       "value": "https://t.me/solidprojects"
+    },
+    "HEROKU_API_KEY": {
+      "description": "your heroku api key",
+      "required": false
+    },
+    "HEROKU_APP_NAME": {
+      "descripition": "your heroku app name",
+      "required": false
     }
   },
   "buildpacks": [
