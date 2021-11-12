@@ -9,63 +9,63 @@ from dB.lang_utils import get_message as gm
 
 from pyrogram import Client, filters, types
 from git import Repo
-from git.exc import InvalidGitRepositoryError
+from git.exc import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
 
 
-def generate_changelogs(repo, remote, active_branch):
-    return "".join(
-        f" [{c.committed_datetime.strftime('%d/%m/%y')}]: {c.summary} <{c.author}>\n"
-        for c in repo.iter_commits(f"HEAD..{remote}/{active_branch}")
-    )
+def gen_chlog(repo, diff):
+    upstream_repo_url = Repo().remotes[0].config_reader.get("url").replace(".git", "")
+    ac_br = repo.active_branch.name
+    ch_log = tldr_log = ""
+    ch = f"<b>updates for <a href={upstream_repo_url}/tree/{ac_br}>[{ac_br}]</a>:</b>"
+    ch_tl = f"updates for {ac_br}:"
+    d_form = "%d/%m/%y || %H:%M"
+    for c in repo.iter_commits(diff):
+        ch_log += f"\n\n💬 <b>{c.count()}</b> 🗓 <b>[{c.committed_datetime.strftime(d_form)}]</b>\n<b><a href={upstream_repo_url.rstrip('/')}/commit/{c}>[{c.summary}]</a></b> 👨‍💻 <code>{c.author}</code>"
+        tldr_log += f"\n\n💬 {c.count()} 🗓 [{c.committed_datetime.strftime(d_form)}]\n[{c.summary}] 👨‍💻 {c.author}"
+    if ch_log:
+        return str(ch + ch_log), str(ch_tl + tldr_log)
+    return ch_log, tldr_log
+
+
+def updater():
+    off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
+    try:
+        repo = Repo()
+    except NoSuchPathError as error:
+        print(f"directory {error} is not found")
+        Repo().__del__()
+        return
+    except GitCommandError as error:
+        print(f"Early failure! {error}")
+        Repo().__del__()
+        return
+    except InvalidGitRepositoryError:
+        repo = Repo.init()
+        origin = repo.create_remote("upstream", off_repo)
+        origin.fetch()
+        repo.create_head("master", origin.refs.master)
+        repo.heads.main.set_tracking_branch(origin.refs.master)
+        repo.heads.main.checkout(True)
+    ac_br = repo.active_branch.name
+    try:
+        repo.create_remote("upstream", off_repo)
+    except Exception as er:
+        print(er)
+    ups_rem = repo.remote("upstream")
+    ups_rem.fetch(ac_br)
+    changelog, tl_chnglog = gen_chlog(repo, f"HEAD..upstream/{ac_br}")
+    return bool(changelog)
 
 
 @Client.on_message(filters.command("update") & filters.user(config.OWNER_ID))
 async def update_repo(_, message: types.Message):
     chat_id = message.chat.id
     msg = await message.reply(gm(chat_id, "processing_update"))
-    try:
-        repo = Repo().init()
-    except InvalidGitRepositoryError:
-        repo = Repo()
-    if config.HEROKU_APP_NAME or config.HEROKU_API_KEY:
-        heroku = heroku3.from_key(config.HEROKU_API_KEY)
-        heroku_app = None
-        heroku_apps = heroku.apps()
-        for app in heroku_apps:
-            if app.name == config.HEROKU_APP_NAME:
-                heroku_app = app
-                break
-        if not heroku_app:
-            await msg.edit("heroku app not found")
-            return repo.__del__()
-        heroku_git_url = heroku_app.git_url.replace(
-            "https://", f"https://api:{config.HEROKU_API_KEY}@"
-        )
-        origin = repo.create_remote("heroku", heroku_git_url)
-        origin.fetch()
-        origin.pull()
-        print("good")
-    else:
-        origin = repo.create_remote(
-            "upstream", "https://github.com/doellbarr/solidmusic"
-        ) if "upstream" not in repo.remotes else repo.remote("upstream")
-    origin.fetch()
-    repo.create_head("master", origin.refs.master)
-    repo.heads.main.set_tracking_branch(origin.refs.master)
-    repo.heads.main.checkout(True)
-    active_branch = repo.active_branch.name
-    ups_rem = repo.remote("upstream")
-    ups_rem.fetch(active_branch)
-    if config.HEROKU_APP_NAME or config.HEROKU_API_KEY:
-        change_log = generate_changelogs(repo, "heroku", active_branch)
-    else:
-        change_log = generate_changelogs(repo, "upstream", active_branch)
-    if change_log:
-        system("git pull -f pip3 install --no-cache-dir -r requirements.txt")
-        args = [sys.executable, "main.py"]
-        execle(sys.executable, *args, environ)
+    update_avail = updater()
+    branch = (Repo.init()).active_branch
+    if update_avail:
+        system("git pull -f && pip3 install -r requirements.txt")
+        await msg.edit(gm(chat_id, "success_update"))
+        execle(sys.executable, sys.executable, "main.py", environ)
         return
     await msg.edit(gm(chat_id, "already_newest"))
-    await asyncio.sleep(5)
-    await msg.delete()
-    return repo.__del__()
