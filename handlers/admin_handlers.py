@@ -64,12 +64,12 @@ async def update_repo(_, message: types.Message):
     msg = await message.reply(gm(chat_id, "processing_update"))
     try:
         repo = Repo()
-    except InvalidGitRepositoryError as error:
+    except InvalidGitRepositoryError:
         repo = Repo.init()
         origin = repo.create_remote("upstream", config.HEROKU_GIT_URL)
         origin.fetch()
-        repo.create_head("main", origin.refs.main)
-        repo.heads.main.set_tracking_branch(origin.refs.main)
+        repo.create_head("master", origin.refs.master)
+        repo.heads.main.set_tracking_branch(origin.refs.master)
         repo.heads.main.checkout(True)
     active_branch = repo.active_branch
     change_log = "".join(

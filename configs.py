@@ -19,8 +19,6 @@ def get_heroku_git_url(api_key: str, app_name: str):
         if heroku_app.name == app_name:
             app = heroku_app
             break
-    if not app:
-        return None
     return app.git_url.replace("https://", f"https://api:{api_key}@")
 
 
