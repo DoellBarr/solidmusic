@@ -35,13 +35,10 @@
       "required": false,
       "value": "https://t.me/solidprojects"
     },
-    "HEROKU_API_KEY": {
-      "description": "your heroku api key",
-      "required": false
-    },
-    "HEROKU_APP_NAME": {
-      "descripition": "your heroku app name",
-      "required": false
+    "UPSTREAM_REPO": {
+      "description": "fill it if you fork from original repo",
+      "required": false,
+      "value": "https://github.com/DoellBarr/solidmusic"
     }
   },
   "buildpacks": [

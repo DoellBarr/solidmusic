@@ -1,5 +1,5 @@
 import sys
-from os import system, execle, environ, path, getcwd, pardir
+from os import system, execle, environ
 
 from configs import config
 from dB.lang_utils import get_message as gm
@@ -38,8 +38,7 @@ def updater():
         return
     except InvalidGitRepositoryError:
         repo = Repo.init()
-        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
-        origin = repo.create_remote("upstream", off_repo)
+        origin = repo.create_remote("upstream", config.UPSTREAM_REPO)
         origin.fetch()
         repo.create_head("master", origin.refs.master)
         repo.heads.main.set_tracking_branch(origin.refs.master)

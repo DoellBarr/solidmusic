@@ -16,8 +16,7 @@ class Config:
     OWNER_ID = int(getenv("OWNER_ID", "1952053555"))
     SUPPORT = getenv("SUPPORT", "https://t.me/solidprojects_chat")
     CHANNEL = getenv("CHANNEL", "https://t.me/solidprojects")
-    HEROKU_APP_NAME = getenv("HEROKU_APP_NAME", None)
-    HEROKU_API_KEY = getenv("HEROKU_API_KEY", None)
+    UPSTREAM_REPO = getenv("UPSTREAM_REPO", "https://github.com/DoellBarr/solidmusic")
 
 
 config = Config()
