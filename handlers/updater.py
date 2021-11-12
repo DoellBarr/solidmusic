@@ -1,8 +1,5 @@
 import sys
-import asyncio
-from os import system, execle, environ
-
-import heroku3
+from os import system, execle, environ, path
 
 from configs import config
 from dB.lang_utils import get_message as gm
@@ -20,7 +17,10 @@ def gen_chlog(repo, diff):
     ch_tl = f"updates for {ac_br}:"
     d_form = "%d/%m/%y || %H:%M"
     for c in repo.iter_commits(diff):
-        ch_log += f"\n\n💬 <b>{c.count()}</b> 🗓 <b>[{c.committed_datetime.strftime(d_form)}]</b>\n<b><a href={upstream_repo_url.rstrip('/')}/commit/{c}>[{c.summary}]</a></b> 👨‍💻 <code>{c.author}</code>"
+        ch_log += (
+            f"\n\n💬 <b>{c.count()}</b> 🗓 <b>[{c.committed_datetime.strftime(d_form)}]</b>\n<b>"
+            f"<a href={upstream_repo_url.rstrip('/')}/commit/{c}>[{c.summary}]</a></b> 👨‍💻 <code>{c.author}</code>"
+        )
         tldr_log += f"\n\n💬 {c.count()} 🗓 [{c.committed_datetime.strftime(d_form)}]\n[{c.summary}] 👨‍💻 {c.author}"
     if ch_log:
         return str(ch + ch_log), str(ch_tl + tldr_log)
@@ -29,8 +29,10 @@ def gen_chlog(repo, diff):
 
 def updater():
     try:
-        repo = Repo()
-        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
+        repo = Repo(path.join(path.dirname(path.realpath(__file__)), ".git"))
+        off_repo = Repo(
+            path.join(path.dirname(path.realpath(__file__)), ".git")
+        ).remotes[0].config_reader.get("url").replace(".git", "")
     except NoSuchPathError as error:
         print(f"directory {error} is not found")
         Repo().__del__()
@@ -40,8 +42,8 @@ def updater():
         Repo().__del__()
         return
     except InvalidGitRepositoryError:
-        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
         repo = Repo.init()
+        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
         origin = repo.create_remote("upstream", off_repo)
         origin.fetch()
         repo.create_head("master", origin.refs.master)
