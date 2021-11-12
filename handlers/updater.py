@@ -28,9 +28,9 @@ def gen_chlog(repo, diff):
 
 
 def updater():
-    off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
     try:
         repo = Repo()
+        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
     except NoSuchPathError as error:
         print(f"directory {error} is not found")
         Repo().__del__()
@@ -40,6 +40,7 @@ def updater():
         Repo().__del__()
         return
     except InvalidGitRepositoryError:
+        off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
         repo = Repo.init()
         origin = repo.create_remote("upstream", off_repo)
         origin.fetch()
@@ -62,7 +63,6 @@ async def update_repo(_, message: types.Message):
     chat_id = message.chat.id
     msg = await message.reply(gm(chat_id, "processing_update"))
     update_avail = updater()
-    branch = (Repo.init()).active_branch
     if update_avail:
         system("git pull -f && pip3 install -r requirements.txt")
         await msg.edit(gm(chat_id, "success_update"))
