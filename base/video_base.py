@@ -4,6 +4,7 @@ from asyncio import sleep
 from pyrogram import types
 from pyrogram.errors import FloodWait
 from pytgcalls import StreamType
+from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (
     HighQualityAudio,
@@ -140,3 +141,17 @@ class VideoPlayer(CallBase):
                 yt_id,
                 messy,
             )
+        except NoActiveGroupCall:
+            await self.create_call(chat_id)
+            await self._set_streaming(
+                chat_id,
+                user_id,
+                video_url,
+                quality,
+                title,
+                duration,
+                yt_url,
+                yt_id,
+                messy
+            )
+
