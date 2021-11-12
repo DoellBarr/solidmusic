@@ -29,12 +29,7 @@ def gen_chlog(repo, diff):
 
 def updater():
     try:
-        current_dir = getcwd()
-        git_dir = path.join(path.dirname(path.abspath(path.join(current_dir, pardir))), ".git")
-        repo = Repo(git_dir)
-        off_repo = Repo(
-            git_dir
-        ).remotes[0].config_reader.get("url").replace(".git", "")
+        repo = Repo()
     except NoSuchPathError as error:
         print(f"directory {error} is not found")
         return
@@ -50,6 +45,7 @@ def updater():
         repo.heads.main.set_tracking_branch(origin.refs.master)
         repo.heads.main.checkout(True)
     ac_br = repo.active_branch.name
+    off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
     try:
         repo.create_remote("upstream", off_repo)
     except Exception as er:
