@@ -41,12 +41,11 @@ def updater():
         origin = repo.create_remote("upstream", config.UPSTREAM_REPO)
         origin.fetch()
         repo.create_head("master", origin.refs.master)
-        repo.heads.main.set_tracking_branch(origin.refs.master)
-        repo.heads.main.checkout(True)
+        repo.heads.master.set_tracking_branch(origin.refs.master)
+        repo.heads.master.checkout(True)
     ac_br = repo.active_branch.name
-    off_repo = Repo().remotes[0].config_reader.get("url").replace(".git", "")
     try:
-        repo.create_remote("upstream", off_repo)
+        repo.create_remote("upstream", config.UPSTREAM_REPO)
     except Exception as er:
         print(er)
     ups_rem = repo.remote("upstream")
