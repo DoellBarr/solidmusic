@@ -66,12 +66,16 @@ async def update_repo(_, message: types.Message):
         repo = Repo()
     except InvalidGitRepositoryError:
         repo = Repo.init()
-        origin = repo.create_remote("upstream", config.HEROKU_GIT_URL)
+        if "upstream" in repo.remotes:
+            origin = repo.remote("upstream")
+        else:
+            origin = repo.create_remote("upstream", config.HEROKU_GIT_URL)
         origin.fetch()
         repo.create_head("master", origin.refs.master)
         repo.heads.main.set_tracking_branch(origin.refs.master)
         repo.heads.main.checkout(True)
-    active_branch = repo.active_branch
+    active_branch = repo.active_branch.name
+    repo.remote("upstream").fetch(active_branch)
     change_log = "".join(
         f" [{c.committed_datetime.strftime('%d/%m/%y')}]: {c.summary} <{c.author}>\n"
         for c in repo.iter_commits(f"HEAD..upstream/{active_branch}")
