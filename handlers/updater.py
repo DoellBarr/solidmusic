@@ -1,5 +1,5 @@
 import sys
-from os import system, execle, environ, path
+from os import system, execle, environ, path, getcwd, pardir
 
 from configs import config
 from dB.lang_utils import get_message as gm
@@ -29,17 +29,17 @@ def gen_chlog(repo, diff):
 
 def updater():
     try:
-        repo = Repo(path.join(path.dirname(path.realpath(__file__)), ".git"))
+        current_dir = getcwd()
+        git_dir = path.join(path.dirname(path.abspath(path.join(current_dir, pardir))), ".git")
+        repo = Repo(git_dir)
         off_repo = Repo(
-            path.join(path.dirname(path.realpath(__file__)), ".git")
+            git_dir
         ).remotes[0].config_reader.get("url").replace(".git", "")
     except NoSuchPathError as error:
         print(f"directory {error} is not found")
-        Repo().__del__()
         return
     except GitCommandError as error:
         print(f"Early failure! {error}")
-        Repo().__del__()
         return
     except InvalidGitRepositoryError:
         repo = Repo.init()
