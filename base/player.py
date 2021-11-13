@@ -26,10 +26,10 @@ class Player(Methods):
         stream_type = result["stream_type"]
         chat_id = cb.message.chat.id
         if stream_type == "music":
-            return await self.play(cb, user_id, title, duration, yt_url, yt_id)
-        if stream_type == "stream":
+            await self.play(cb, user_id, title, duration, yt_url, yt_id)
+        elif stream_type == "stream":
             quality = db.get_chat(chat_id)[0]["video_quality"]
-            return await self.stream(
+            await self.stream(
                 cb, user_id, title, duration, yt_url, yt_id, quality
             )
 
