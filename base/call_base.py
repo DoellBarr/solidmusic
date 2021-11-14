@@ -9,7 +9,7 @@ from pytgcalls.types.input_stream.quality import (
     HighQualityAudio,
     LowQualityVideo,
     MediumQualityVideo,
-    HighQualityVideo,
+    HighQualityVideo, LowQualityAudio, MediumQualityAudio,
 )
 
 from dB.database import db
@@ -137,19 +137,23 @@ class CallBase:
     async def stream_change(self, chat_id: int, yt_url: str, stream_type: str):
         call = self.call
         if stream_type == "music":
-            url = get_audio_direct_link(yt_url)
+            audio_quality = db.get_chat(chat_id)[0]["video_quality"]
+            url = get_audio_direct_link(yt_url, audio_quality)
             await call.change_stream(chat_id, AudioPiped(url))
         elif stream_type == "stream":
             quality = db.get_chat(chat_id)[0]["video_quality"]
             url = get_video_direct_link(yt_url, quality)
             if quality == "low":
                 video_quality = LowQualityVideo()
+                audio_quality = LowQualityAudio()
             elif quality == "medium":
                 video_quality = MediumQualityVideo()
+                audio_quality = MediumQualityAudio()
             else:
                 video_quality = HighQualityVideo()
+                audio_quality = HighQualityAudio()
             await call.change_stream(
-                chat_id, AudioVideoPiped(url, HighQualityAudio(), video_quality)
+                chat_id, AudioVideoPiped(url, audio_quality, video_quality)
             )
 
     async def change_stream(self, chat_id: int):
