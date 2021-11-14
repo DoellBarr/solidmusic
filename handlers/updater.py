@@ -1,12 +1,12 @@
 import sys
 from os import system, execle, environ
 
+from git import Repo
+from git.exc import InvalidGitRepositoryError
+from pyrogram import Client, filters, types
+
 from configs import config
 from dB.lang_utils import get_message as gm
-
-from pyrogram import Client, filters, types
-from git import Repo
-from git.exc import InvalidGitRepositoryError, NoSuchPathError, GitCommandError
 
 
 def gen_chlog(repo, diff):
@@ -30,12 +30,6 @@ def gen_chlog(repo, diff):
 def updater():
     try:
         repo = Repo()
-    except NoSuchPathError as error:
-        print(f"directory {error} is not found")
-        return
-    except GitCommandError as error:
-        print(f"Early failure! {error}")
-        return
     except InvalidGitRepositoryError:
         repo = Repo.init()
         origin = repo.create_remote("upstream", config.UPSTREAM_REPO)
@@ -44,11 +38,10 @@ def updater():
         repo.heads.master.set_tracking_branch(origin.refs.master)
         repo.heads.master.checkout(True)
     ac_br = repo.active_branch.name
-    try:
-        repo.create_remote("upstream", config.UPSTREAM_REPO)
-    except Exception as er:
-        print(er)
-    ups_rem = repo.remote("upstream")
+    if "upstream" in repo.remotes:
+        ups_rem = repo.remote("upstream")
+    else:
+        ups_rem = repo.create_remote("upstream", config.UPSTREAM_REPO)
     ups_rem.fetch(ac_br)
     changelog, tl_chnglog = gen_chlog(repo, f"HEAD..upstream/{ac_br}")
     return bool(changelog)
