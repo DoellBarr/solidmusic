@@ -1,3 +1,4 @@
+import asyncio
 from typing import Dict
 
 from pyrogram import types
@@ -41,6 +42,7 @@ class Player(Methods):
         except UserNotParticipant:
             await user.join_chat(chat_id)
             await cb.message.chat.promote_member(client_user_id, can_manage_voice_chats=True)
+            await asyncio.sleep(2)
             await self.join_stream(stream_type, cb, chat_id, user_id, title, duration, yt_url, yt_id)
 
     async def start(self):

@@ -6,18 +6,15 @@ from typing import Dict, List
 ydl = YoutubeDL()
 
 
-def get_audio_direct_link(yt_url: str, audio_quality: str):
-    ress = ydl.extract_info(yt_url, download=False)
-    yt_res: List[Dict[str, str]] = []
-    for res in ress["formats"]:
-        if res["ext"] == "m4a" and res["format_note"] == audio_quality.lower():
-            rus = {
-                "quality": res["format_note"],
-                "ext": res["ext"],
-                "direct_url": res["url"],
-            }
-            yt_res.append(rus.copy())
-    return yt_res[0]["direct_url"]
+def get_audio_direct_link(yt_url: str, audio_quality: str) -> str:
+    if audio_quality.lower() == "low":
+        with YoutubeDL({"format": "wa"}) as yt_dls:
+            info = yt_dls.extract_info(yt_url, download=False)
+            return info["url"]
+    elif audio_quality.lower() in ["medium", "high"]:
+        with YoutubeDL({"format": "ba"}) as yt_dls:
+            info = yt_dls.extract_info(yt_url, download=False)
+            return info["url"]
 
 
 def get_video_direct_link(yt_url: str, video_quality: str):
