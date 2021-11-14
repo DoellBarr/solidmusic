@@ -62,7 +62,20 @@ async def pm_start(_, message: Message):
                     ),
                 )
             if query.startswith("help"):
-                return await message.reply("hello.")
+                return await message.reply(
+                    gm(chat_id, "helpmusic"),
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    f"{gm(chat_id, 'commands')}",
+                                    url="https://telegra.ph/The-Bot-Command-11-14"
+                                )
+                            ]
+                        ]
+                    ),
+                    disable_web_page_preview=True
+                )
     if message.chat.type in ["group", "supergroup"]:
         await message.reply(
             gm(chat_id, "chat_greet").format(mention, bot_name),
@@ -78,3 +91,22 @@ async def pm_start(_, message: Message):
             ),
             disable_web_page_preview=True,
         )
+
+
+@Client.on_message(filters.command("help"))
+async def help_cmds_(_, message: Message):
+    chat_id = message.chat.id
+    return await message.reply(
+        gm(chat_id, "helpmusic"),
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        f"{gm(chat_id, 'commands')}",
+                        url="https://telegra.ph/The-Bot-Command-11-14"
+                    )
+                ]
+            ]
+        ),
+        disable_web_page_preview=True
+    )
