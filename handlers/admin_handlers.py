@@ -48,7 +48,7 @@ async def end_stream_(_, message: types.Message):
     chat_id = message.chat.id
     check_call = await player.end_stream(chat_id)
     if check_call:
-        await bot.send_message(message, "track_ended", reply_message=True)
+        return await bot.send_message(message, "track_ended", reply_message=True)
     return await bot.send_message(message, "not_streaming", reply_message=True)
 
 
