@@ -1,12 +1,13 @@
 from typing import Dict
 
 from pyrogram import types
+from pyrogram.errors import UserNotParticipant
 from pytgcalls import idle
 
 from .music_base import MusicPlayer
 from .video_base import VideoPlayer
 from .bot_base import pyro_bot
-from .client_base import call_py
+from .client_base import call_py, user
 from dB.database import db
 
 username = ""
@@ -17,6 +18,15 @@ class Methods(MusicPlayer, VideoPlayer):
 
 
 class Player(Methods):
+    async def join_stream(self, stream_type, cb, chat_id, user_id, title, duration, yt_url, yt_id):
+        if stream_type == "music":
+            await self.play(cb, user_id, title, duration, yt_url, yt_id)
+        elif stream_type == "stream":
+            quality = db.get_chat(chat_id)[0]["video_quality"]
+            await self.stream(
+                cb, user_id, title, duration, yt_url, yt_id, quality
+            )
+
     async def play_or_stream(self, cb: types.CallbackQuery, result: Dict):
         user_id = result["user_id"]
         title = result["title"]
@@ -25,13 +35,13 @@ class Player(Methods):
         yt_id = result["yt_id"]
         stream_type = result["stream_type"]
         chat_id = cb.message.chat.id
-        if stream_type == "music":
-            return await self.play(cb, user_id, title, duration, yt_url, yt_id)
-        if stream_type == "stream":
-            quality = db.get_chat(chat_id)[0]["video_quality"]
-            return await self.stream(
-                cb, user_id, title, duration, yt_url, yt_id, quality
-            )
+        client_user_id = (await user.get_me()).id
+        try:
+            await self.join_stream(stream_type, cb, chat_id, user_id, title, duration, yt_url, yt_id)
+        except UserNotParticipant:
+            await user.join_chat(chat_id)
+            await cb.message.chat.promote_member(client_user_id, can_manage_voice_chats=True)
+            await self.join_stream(stream_type, cb, chat_id, user_id, title, duration, yt_url, yt_id)
 
     async def start(self):
         print("[ INFO ] STARTING BOT CLIENT")
