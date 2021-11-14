@@ -60,9 +60,14 @@
   "group_support": "💬 Support",
   "quality_invalid": "**kualitas yang diberikan tidak benar**",
   "success_change_quality": "**sukses merubah kualitas video menjadi {}",
-  "helpmusic": "**Perintah di bot**\n\n**Member**\n/play: Untuk memutar lagu via link yt atau via teks\n/vplay: untuk memutar video\n/lang: untuk mengubah bahasa bot\n/addchat: untuk menambahkan group ke database bot dan agar bisa di lang\n\n**Admin**\n/pause: untuk menjeda lagu\n/resume: untuk melanjutkan lagu\n/skip: untuk melanjutkan ke lagu berikutnya\n/end: untuk menghentikan lagu",
+  "helpmusic": "**Perintah di bot**",
   "processing_update": "**sedang memproses...**",
   "start_update": "**memulai pembaruan...**",
   "success_update": "**pembaruan sukses, sekarang merestart bot...**",
-  "already_newest": "**bot ini telah berada di versi terbaru.**"
+  "already_newest": "**bot ini telah berada di versi terbaru.**",
+  "user_alert": "**Terimakasih telah membuatku sebagai admin, sekarang sya bisa memutar media appaun di obrolan suara telegram",
+  "user_here": "**Hi, Saya disini, apa yang saya bisa lakukan untukmu?**",
+  "user_leave_chat": "**Userbot keluar dari grup ini.**",
+  "user_already_leave_chat": "**Userbot sebelumnya sudah keluar dari grup ini.**",
+  "commands": "Perintah"
 }
