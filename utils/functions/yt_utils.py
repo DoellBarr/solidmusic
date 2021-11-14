@@ -6,11 +6,11 @@ from typing import Dict, List
 ydl = YoutubeDL()
 
 
-def get_audio_direct_link(yt_url: str):
+def get_audio_direct_link(yt_url: str, audio_quality: str):
     ress = ydl.extract_info(yt_url, download=False)
     yt_res: List[Dict[str, str]] = []
     for res in ress["formats"]:
-        if res["ext"] == "webm" and res["format_note"] == "medium":
+        if res["ext"] == "m4a" and res["format_note"] == audio_quality.lower():
             rus = {
                 "quality": res["format_note"],
                 "ext": res["ext"],
