@@ -112,7 +112,6 @@ class VideoPlayer(CallBase):
                 mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
                 await sleep(5)
                 return await mess.delete()
-            pass
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         video_url = get_video_direct_link(yt_url, quality)
         try:
