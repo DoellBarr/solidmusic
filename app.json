@@ -18,8 +18,8 @@
       "required": true
     },
     "OWNER_ID": {
-      "description": "Fill it with your id, not api id",
-      "required": false
+      "description": "Fill it with your telegram id, not api id",
+      "required": true
     },
     "SESSION": {
       "description": "Fill it with your assistant session string",
