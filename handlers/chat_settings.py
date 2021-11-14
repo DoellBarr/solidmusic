@@ -2,26 +2,33 @@ from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 
 from base.bot_base import bot_client as bot
-
+from base.client_base import user
+from configs import config
 from dB.database import db
+from utils.functions.decorators import authorized_only
 
 
 @Client.on_message(filters.new_chat_members)
 async def new_member_(client: Client, message: Message):
+    assistant_username = (await user.get_me()).username
     bot_id = (await client.get_me()).id
     for member in message.new_chat_members:
         if member.id == bot_id:
+            db.add_chat(message.chat.id)
             return await message.reply(
                 "Hi, english is my default language.\n"
                 "make me as admin in here with all permissions except anonymous admin\n"
-                "btw, thanks for inviting me to here, to use me, please use /addchat command first.\n"
+                "btw, thanks for inviting me to here, to use me, please use /userbotjoin command first.\n"
                 "and for changing language, tap /lang to see all language that supported for me, "
                 "don't forget to subscribe our channel.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
-                            InlineKeyboardButton("Channel", url="https://t.me/solidprojects"),
+                            InlineKeyboardButton("Channel", url=config.CHANNEL),
                             InlineKeyboardButton("Developer", url="https://t.me/talktoabdul_bot"),
+                        ],
+                        [
+                            InlineKeyboardButton("Assistant", url=f"https://t.me/{assistant_username}")
                         ]
                     ]
                 )
@@ -55,6 +62,7 @@ async def del_chat_(_, message: Message):
 
 
 @Client.on_message(filters.command("setquality"))
+@authorized_only
 async def set_vid_quality(_, message: Message):
     quality = "".join(message.command[1]).lower()
     if quality not in ["low", "medium", "high"]:
