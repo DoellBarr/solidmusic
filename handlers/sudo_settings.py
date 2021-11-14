@@ -1,9 +1,11 @@
 from pyrogram import Client, filters, types
 from dB.database import db
 from base.bot_base import bot_client as bot
+from utils.functions.decorators import authorized_only
 
 
 @Client.on_message(filters.command("addsudo"))
+@authorized_only
 async def add_sudo_(_, message: types.Message):
     chat_id = message.chat.id
     reply = message.reply_to_message
@@ -17,6 +19,7 @@ async def add_sudo_(_, message: types.Message):
 
 
 @Client.on_message(filters.command("delsudo"))
+@authorized_only
 async def del_sudo_(_, message: types.Message):
     chat_id = message.chat.id
     reply = message.reply_to_message
