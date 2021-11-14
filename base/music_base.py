@@ -6,7 +6,7 @@ from pyrogram.errors import FloodWait
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioPiped
-from pytgcalls.types.input_stream.quality import HighQualityAudio
+from pytgcalls.types.input_stream.quality import HighQualityAudio, LowQualityAudio, MediumQualityAudio
 
 from dB.database import db
 from dB.lang_utils import get_message as gm
@@ -39,9 +39,16 @@ class MusicPlayer(CallBase):
                 "stream_type": "music",
             }
         ]
+        quality: str = db.get_chat(chat_id)[0]["video_quality"]
+        if quality.lower() == "low":
+            audio_quality = LowQualityAudio()
+        elif quality.lower() == "medium":
+            audio_quality = MediumQualityAudio()
+        else:
+            audio_quality = HighQualityAudio()
         await call.join_group_call(
             chat_id,
-            AudioPiped(audio_url, HighQualityAudio()),
+            AudioPiped(audio_url, audio_quality),
             stream_type=StreamType().local_stream,
         )
 
@@ -61,7 +68,7 @@ class MusicPlayer(CallBase):
         await self._set_play(
             chat_id, user_id, audio_url, title, duration, yt_url, yt_id
         )
-        return await messy.edit(
+        await messy.edit(
             f"""
 {gm(chat_id, 'now_streaming')}
 📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
@@ -92,7 +99,8 @@ class MusicPlayer(CallBase):
                 await sleep(5)
                 return await mess.delete()
         messy = await cb.edit_message_text(gm(chat_id, "process"))
-        audio_url = get_audio_direct_link(yt_url)
+        audio_quality = db.get_chat(chat_id)[0]["video_quality"]
+        audio_url = get_audio_direct_link(yt_url, audio_quality)
         try:
             await self._set_playing(
                 chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
