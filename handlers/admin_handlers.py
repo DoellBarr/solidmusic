@@ -53,6 +53,7 @@ async def end_stream_(_, message: types.Message):
 
 
 @Client.on_message(filters.command("restart"))
+@authorized_only
 async def restart_bot_(_, message: types.Message):
     msg = await message.reply("restarting")
     args = [sys.executable, "main.py"]
