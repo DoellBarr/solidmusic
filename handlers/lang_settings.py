@@ -5,9 +5,11 @@ from base.bot_base import bot_client as bot
 
 from dB.database import db
 from dB.lang_utils import kode, lang_flags
+from utils.functions.decorators import authorized_only
 
 
 @Client.on_message(filters.command("lang"))
+@authorized_only
 async def change_lang_(_, message: Message):
     try:
         lang = message.command[1]
