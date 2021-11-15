@@ -47,8 +47,9 @@ async def change_vol_(_, message: types.Message):
 async def end_stream_(_, message: types.Message):
     chat_id = message.chat.id
     check_call = await player.end_stream(chat_id)
+    first_name = (await message.chat.get_member(message.from_user.id)).user.first_name
     if check_call:
-        return await bot.send_message(message, "track_ended", reply_message=True)
+        return await bot.send_message(message, "track_ended", first_name, reply_message=True)
     return await bot.send_message(message, "not_streaming", reply_message=True)
 
 
