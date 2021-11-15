@@ -5,8 +5,7 @@ from pyrogram import types
 from pyrogram.errors import FloodWait
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
-from pytgcalls.types.input_stream import AudioPiped
-from pytgcalls.types.input_stream.quality import HighQualityAudio, LowQualityAudio
+from pytgcalls.types.input_stream import AudioPiped, AudioParameters
 
 from dB.database import db
 from dB.lang_utils import get_message as gm
@@ -41,11 +40,11 @@ class MusicPlayer(CallBase):
         ]
         quality: str = db.get_chat(chat_id)[0]["video_quality"]
         if quality.lower() == "low":
-            audio_quality = LowQualityAudio()
+            audio_quality = AudioParameters(bitrate=24000)
         elif quality.lower() == "medium":
-            audio_quality = HighQualityAudio()
+            audio_quality = AudioParameters(bitrate=48000)
         else:
-            audio_quality = HighQualityAudio()
+            audio_quality = AudioParameters(bitrate=48000)
         await call.join_group_call(
             chat_id,
             AudioPiped(audio_url, audio_quality),

@@ -6,6 +6,7 @@ from utils.call_functions import (
     yt_search,
     process_button,
 )
+from utils.functions.decorators import only_admin
 
 
 def extract_all(query: str, chat_id: int, user_id: int, status: str):
@@ -16,6 +17,7 @@ def extract_all(query: str, chat_id: int, user_id: int, status: str):
 
 
 @Client.on_message(filters.command("play") & filters.group)
+@only_admin
 async def play_(_, message: types.Message):
     query = " ".join(message.command[1:])
     chat_id = message.chat.id
@@ -30,7 +32,7 @@ async def play_(_, message: types.Message):
                 yt_btn[1],
                 [
                     InlineKeyboardButton("🗑", f"close|{user_id}"),
-                    InlineKeyboardButton("➡", "nextmusic"),
+                    InlineKeyboardButton("➡", f"nextmusic|{user_id}"),
                 ],
             ],
         ),
@@ -38,6 +40,7 @@ async def play_(_, message: types.Message):
 
 
 @Client.on_message(filters.command("vplay") & filters.group)
+@only_admin
 async def vplay_(_, message: types.Message):
     query = " ".join(message.command[1:])
     chat_id = message.chat.id
@@ -52,7 +55,7 @@ async def vplay_(_, message: types.Message):
                 yt_btn[1],
                 [
                     InlineKeyboardButton("🗑", f"close|{user_id}"),
-                    InlineKeyboardButton("➡", "nextstream"),
+                    InlineKeyboardButton("➡", f"nextstream|{user_id}"),
                 ],
             ]
         ),

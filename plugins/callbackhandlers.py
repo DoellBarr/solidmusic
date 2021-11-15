@@ -16,10 +16,13 @@ from base.bot_base import bot_client as bot
 from utils.functions.markup_buttons import start_markup
 
 
-@Client.on_callback_query(filters.regex(pattern=r"(back|next)(music|stream)"))
+@Client.on_callback_query(filters.regex(pattern=r"(back|next)(music|stream)\|(\d+)"))
 async def _back_cb(_, cb: types.CallbackQuery):
     next_or_back = cb.matches[0].group(1)
     music_or_stream = cb.matches[0].group(2)
+    user_id = int(cb.matches[0].group(3))
+    if cb.message.from_user != user_id:
+        return await cb.answer(gm(cb.message.chat.id, "not_allowed"), show_alert=True)
     yt_btn = process_button(cb.message.from_user.id, music_or_stream)
     if next_or_back == "next":
         next_search(cb.message.chat.id)
@@ -77,6 +80,9 @@ async def close_button_(_, cb: types.CallbackQuery):
         return await cb.message.delete()
     if cb.from_user.id != user_id:
         return await cb.answer(gm(cb.message.chat.id, "not_for_you"), show_alert=True)
+    member = await cb.message.chat.get_member(cb.from_user.id)
+    if member.status in ["creator", "administrator"]:
+        return await cb.message.delete()
     return await cb.message.delete()
 
 

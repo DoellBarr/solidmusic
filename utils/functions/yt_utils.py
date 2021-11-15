@@ -1,23 +1,23 @@
 import pafy
 import requests
-from yt_dlp import YoutubeDL
+from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL as YtDL
 from typing import Dict, List
-
-ydl = YoutubeDL()
 
 
 def get_audio_direct_link(yt_url: str, audio_quality: str) -> str:
     if audio_quality.lower() == "low":
-        with YoutubeDL({"format": "wa"}) as yt_dls:
+        with YoutubeDL({"format": "worstaudio"}) as yt_dls:
             info = yt_dls.extract_info(yt_url, download=False)
             return info["url"]
     elif audio_quality.lower() in ["medium", "high"]:
-        with YoutubeDL({"format": "ba"}) as yt_dls:
+        with YoutubeDL({"format": "bestaudio"}) as yt_dls:
             info = yt_dls.extract_info(yt_url, download=False)
             return info["url"]
 
 
 def get_video_direct_link(yt_url: str, video_quality: str):
+    ydl = YtDL()
     ress = ydl.extract_info(yt_url, download=False)
     yt_res: List[Dict[str, str]] = []
     for res in ress["formats"]:
