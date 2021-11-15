@@ -32,7 +32,7 @@
   "not_allowed": "**Você não tem permissão para usar esse comando.**",
   "bot_leave_from_chat": "**Bot não está aqui, assistente vai sair deste bate-papo também.**",
   "powered_by": "Carregado por Projeto SolidMusic",
-  "chat_greet": "📕 Olá {0}!\n\Eu {1}, me adicione como um administrador, para que eu possa tocar músicas neste bate-papo",
+  "chat_greet": "📕 Olá {0}!\nEu {1}, me adicione como um administrador, para que eu possa tocar músicas neste bate-papo",
   "pm_greet": "Olá {}! Eu posso reproduzir músicas em seu grupo através de bate-papos de voz telegram\ndescobrir todo o meu comando clicando \"Help menu\" botão",
   "add_to_chat": "➕ Adicione ao seu chat ➕",
   "maintainer": "'🛠 Mantedor",
