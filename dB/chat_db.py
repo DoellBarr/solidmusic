@@ -19,3 +19,6 @@ class ChatDB:
 
     def get_stats(self, *args, **kwargs):
         pass
+
+    def set_only_admin_stream(self, *args, **kwargs):
+        pass

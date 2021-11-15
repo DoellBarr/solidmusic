@@ -36,6 +36,7 @@ async def new_member_(client: Client, message: Message):
 
 
 @Client.on_message(filters.command("addchat"))
+@authorized_only
 async def add_chat_(_, message: Message):
     try:
         lang = (await message.chat.get_member(message.from_user.id)).user.language_code
@@ -46,19 +47,24 @@ async def add_chat_(_, message: Message):
         for chat_id in cmds:
             db.add_chat(chat_id, lang)
         return await bot.send_message(message, "success_add_chats", reply_message=True)
-    db.add_chat(message.chat.id, lang)
-    return await bot.send_message(message, "success_add_chat", reply_message=True)
+    add_status = db.add_chat(message.chat.id, lang)
+    if add_status:
+        return await bot.send_message(message, "success_add_chat", reply_message=True)
+    return await bot.send_message(message, "already_added_chat", reply_message=True)
 
 
 @Client.on_message(filters.command("delchat"))
+@authorized_only
 async def del_chat_(_, message: Message):
     cmds = message.command[1:]
     if cmds:
         for chat_id in cmds:
             db.del_chat(chat_id)
         return await bot.send_message(message, "success_del_chats", reply_message=True)
-    db.del_chat(message.chat.id)
-    return await bot.send_message(message, "success_del_chat", reply_message=True)
+    del_status = db.del_chat(message.chat.id)
+    if del_status:
+        return await bot.send_message(message, "success_del_chat", reply_message=True)
+    return await bot.send_message(message, "already_deleted_chat")
 
 
 @Client.on_message(filters.command("setquality"))
@@ -71,3 +77,28 @@ async def set_vid_quality(_, message: Message):
     return await bot.send_message(
         message, "success_change_quality", quality, reply_message=True
     )
+
+
+@Client.on_message(filters.command("setadmin"))
+@authorized_only
+async def set_only_admin_(_, message: Message):
+    try:
+        cmd = message.command[1].lower()
+    except IndexError:
+        cmd = ""
+    if cmd not in ["yes", "true", "no", "false"]:
+        return await bot.send_message(message, "invalid_selection", reply_message=True)
+    only_admin: bool = False
+    if cmd in ["yes", "true"]:
+        only_admin = True
+    elif cmd in ["no", "false"]:
+        only_admin = False
+    pak = db.set_only_admin_stream(message.chat.id, only_admin)
+    if pak and only_admin:
+        return await bot.send_message(
+            message, "stream_only_can_use_by_admin", reply_message=True
+        )
+    if pak and not only_admin:
+        return await bot.send_message(
+            message, "stream_can_use_by_member"
+        )

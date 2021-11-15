@@ -50,6 +50,7 @@ class Database(Methods):
         lang: str = "en",
         owner_id: int = owners,
         video_quality: str = "medium",
+        only_admin: bool = False,
     ):
         already = self.get_chat(chat_id)
         already_chat_id = 0
@@ -57,12 +58,12 @@ class Database(Methods):
             already_chat_id = ready["chat_id"]
         if not already_chat_id:
             cur.execute(
-                "INSERT INTO chat_db VALUES (?, ?, ?, ?)",
-                (owner_id, chat_id, f"{lang}", f"{video_quality.lower()}")
+                "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?)",
+                (owner_id, chat_id, f"{lang}", f"{video_quality.lower()}", only_admin)
             )
             conn.commit()
             return True
-        return True
+        return False
 
     def get_chat(self, chat_id: int):
         results = cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,))
@@ -73,19 +74,26 @@ class Database(Methods):
             chat_id = res[1]
             lang = res[2]
             video_quality = res[3]
+            only_admin: bool = res[4]
+            admin = True if only_admin else False
             x = {
                 "owner_id": owner_id,
                 "chat_id": chat_id,
                 "lang": lang,
                 "video_quality": video_quality,
+                "only_admin": admin,
             }
             final.append(x.copy())
         return final
 
     def del_chat(self, chat_id: int):
-        cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
-        conn.commit()
-        return True
+        try:
+            self.get_chat(chat_id)
+            cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
+            conn.commit()
+            return True
+        except KeyError:
+            return False
 
     def set_chat_lang(self, chat_id: int, lang: str):
         cur.execute(
@@ -93,7 +101,7 @@ class Database(Methods):
                 UPDATE chat_db
                 SET lang = ?
                 WHERE chat_id = ?
-                """,
+            """,
             (f"{lang}", chat_id,)
         )
         conn.commit()
@@ -121,6 +129,18 @@ class Database(Methods):
             else:
                 pm += 1
         return {"groups": group, "pm": pm}
+
+    def set_only_admin_stream(self, chat_id: int, only_admin: bool):
+        cur.execute(
+            """
+            UPDATE chat_db
+            SET stream_only_admin = ?
+            WHERE chat_id = ?
+            """,
+            (only_admin, chat_id,)
+        )
+        conn.commit()
+        return True
 
 
 db = Database()
