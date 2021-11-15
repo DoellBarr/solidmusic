@@ -127,7 +127,8 @@ class CallBase:
         call = self.call
         is_active = self.is_call_active(chat_id)
         if is_active:
-            return await call.change_volume_call(chat_id, vol)
+            await call.change_volume_call(chat_id, vol)
+            return True
         return False
 
     async def change_streaming_status(self, status: str, chat_id: int):
