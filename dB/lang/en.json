@@ -69,5 +69,10 @@
   "user_here": "**Hi, I'm here, what can I do for you?**",
   "user_leave_chat": "**Userbot leave this chat.**",
   "user_already_leave_chat": "**Userbot is already leave from this chat.**",
-  "commands": "Commands"
+  "commands": "Commands",
+  "already_added_chat": "**this chat is already in database.**",
+  "already_deleted_chat": "**this chat is already deleted from database.**",
+  "invalid_selection": "**wrong selection, accepted selection only (yes|true, no|false)",
+  "stream_only_can_use_by_admin": "**from now on, only admin can use the play and vplay cmd**",
+  "stream_can_use_by_member": "**all members can use this cmd again.**"
 }

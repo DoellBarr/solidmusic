@@ -65,9 +65,14 @@
   "start_update": "**memulai pembaruan...**",
   "success_update": "**pembaruan sukses, sekarang merestart bot...**",
   "already_newest": "**bot ini telah berada di versi terbaru.**",
-  "user_alert": "**Terimakasih telah membuatku sebagai admin, sekarang sya bisa memutar media appaun di obrolan suara telegram",
+  "user_alert": "**Terimakasih telah membuatku sebagai admin, sekarang saya bisa memutar media appaun di obrolan suara telegram",
   "user_here": "**Hi, Saya disini, apa yang saya bisa lakukan untukmu?**",
   "user_leave_chat": "**Userbot keluar dari grup ini.**",
   "user_already_leave_chat": "**Userbot sebelumnya sudah keluar dari grup ini.**",
-  "commands": "Perintah"
+  "commands": "Perintah",
+  "already_added_chat": "**grup ini telah berada dalam database.**",
+  "already_deleted_chat": "**grup ini sebelumnya sudah dihapus dari database.**",
+  "invalid_selection": "**pemilihan cmd salah, yang diterima hanya (yes|true, no|false)",
+  "stream_only_can_use_by_admin": "**mulai dari sekarang, hanya admin yang bisa menggunakan perintah ini.**",
+  "stream_can_use_by_member": "**semua member grup bisa menggunakan perintah ini lagi.**"
 }
