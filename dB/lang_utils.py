@@ -14,6 +14,7 @@ lang_flags = {
     "id": f"{emoji.FLAG_INDONESIA} Indonesia",
     "grl": f"{emoji.FLAG_INDONESIA} Girl",
     "jv": f"{emoji.FLAG_INDONESIA} Javanese",
+    "su": f"{emoji.FLAG_INDONESIA} Sundanese",
     "pt": f"{emoji.FLAG_PORTUGAL} Portuguese",
     "ta": f"{emoji.FLAG_INDIA} Tamil"
 }
