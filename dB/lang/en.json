@@ -8,7 +8,7 @@
   "track_paused": "⏸ **stream paused**\n\n**To resume the stream, use /resume command.**",
   "track_resumed": "▶ **stream resumed**\n\n**To pause the stream, use /pause command**",
   "track_skipped": "Skipped track, and playing {}",
-  "track_ended": "streaming ended by user.",
+  "track_ended": "streaming ended by {}.",
   "no_playlists": "this chat have no playlist.",
   "vol_changed": "__volume changed to {}%__",
   "lang_changed": "**language changed to English!**",
