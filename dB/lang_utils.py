@@ -12,6 +12,7 @@ langs = {}
 lang_flags = {
     "en": f"{emoji.FLAG_UNITED_STATES} English",
     "id": f"{emoji.FLAG_INDONESIA} Indonesia",
+    "grl": f"{emoji.FLAG_INDONESIA} Girl",
     "pt": f"{emoji.FLAG_PORTUGAL} Portuguese",
     "ta": f"{emoji.FLAG_INDIA} Tamil"
 }
