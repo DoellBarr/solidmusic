@@ -33,7 +33,7 @@ async def userbot_join(client: Client, message: types.Message):
 
 @Client.on_message(filters.command("userbotleave"))
 @authorized_only
-async def userbot_leave_(client: Client, message: types.Message):
+async def userbot_leave_(_, message: types.Message):
     chat_id = message.chat.id
     try:
         await user.leave_chat(chat_id)
