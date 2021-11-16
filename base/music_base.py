@@ -45,11 +45,19 @@ class MusicPlayer(CallBase):
             audio_quality = AudioParameters(bitrate=24000)
         else:
             audio_quality = AudioParameters(bitrate=48000)
-        await call.join_group_call(
-            chat_id,
-            AudioPiped(audio_url, audio_quality),
-            stream_type=StreamType().local_stream,
-        )
+        try:
+            await call.join_group_call(
+                chat_id,
+                AudioPiped(audio_url, audio_quality),
+                stream_type=StreamType().local_stream,
+            )
+        except NoActiveGroupCall:
+            await self.create_call(chat_id)
+            await call.join_group_call(
+                chat_id,
+                AudioPiped(audio_url, audio_quality),
+                stream_type=StreamType().local_stream,
+            )
 
     async def _set_playing(
         self,
@@ -106,11 +114,6 @@ class MusicPlayer(CallBase):
         except FloodWait as e:
             await messy.edit(gm(chat_id, "error_flood").format(e.x))
             await sleep(e.x)
-            await self._set_playing(
-                chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
-            )
-        except NoActiveGroupCall:
-            await self.create_call(chat_id)
             await self._set_playing(
                 chat_id, user_id, audio_url, title, duration, yt_url, yt_id, messy
             )

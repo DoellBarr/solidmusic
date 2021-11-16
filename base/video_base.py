@@ -58,11 +58,19 @@ class VideoPlayer(CallBase):
         else:
             video_quality = HighQualityVideo()
             audio_quality = HighQualityAudio()
-        await call.join_group_call(
-            chat_id,
-            AudioVideoPiped(video_direct_link, audio_quality, video_quality),
-            stream_type=StreamType().local_stream,
-        )
+        try:
+            await call.join_group_call(
+                chat_id,
+                AudioVideoPiped(video_direct_link, audio_quality, video_quality),
+                stream_type=StreamType().local_stream,
+            )
+        except NoActiveGroupCall:
+            await self.create_call(chat_id)
+            await call.join_group_call(
+                chat_id,
+                AudioVideoPiped(video_direct_link, audio_quality, video_quality),
+                stream_type=StreamType().local_stream,
+            )
 
     async def _set_streaming(
         self,
@@ -139,17 +147,3 @@ class VideoPlayer(CallBase):
                 yt_id,
                 messy,
             )
-        except NoActiveGroupCall:
-            await self.create_call(chat_id)
-            await self._set_streaming(
-                chat_id,
-                user_id,
-                video_url,
-                quality,
-                title,
-                duration,
-                yt_url,
-                yt_id,
-                messy
-            )
-
