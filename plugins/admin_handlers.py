@@ -31,7 +31,7 @@ async def skip_(_, message: types.Message):
     return await bot.send_message(message, toxt, title, reply_message=True)
 
 
-@Client.on_message(filters.command("vol"))
+@Client.on_message(filters.command(["vol", "volume"]))
 @authorized_only
 async def change_vol_(_, message: types.Message):
     chat_id = message.chat.id
@@ -61,3 +61,4 @@ async def restart_bot_(_, message: types.Message):
     await msg.edit("restarted, now you can use this bot again.")
     execle(sys.executable, *args, environ)
     return
+

@@ -10,7 +10,7 @@ from pytgcalls.types.input_stream.quality import (
     MediumQualityVideo,
     HighQualityVideo,
 )
-from pytgcalls.types.stream import StreamAudioEnded, StreamVideoEnded
+from pytgcalls.types.stream import StreamAudioEnded
 
 from dB.database import db
 from utils.functions.yt_utils import get_audio_direct_link, get_video_direct_link
@@ -81,10 +81,8 @@ class CallBase:
     def is_call_active(self, chat_id: int):
         call = self.call
         for active_call in call.active_calls:
-            if chat_id == getattr(active_call, "chat_id"):
-                return True
-            else:
-                return False
+            var = bool(chat_id == getattr(active_call, "chat_id"))
+            return var
         return False
 
     def send_playlist(self, chat_id: int):
@@ -155,7 +153,7 @@ class CallBase:
             url = get_video_direct_link(yt_url, quality)
             if quality == "low":
                 video_quality = LowQualityVideo()
-                audio_quality = AudioParameters(bitrate=48000)
+                audio_quality = AudioParameters(bitrate=24000)
             elif quality == "medium":
                 video_quality = MediumQualityVideo()
                 audio_quality = AudioParameters(bitrate=48000)

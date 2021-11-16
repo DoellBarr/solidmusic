@@ -75,7 +75,7 @@ class Database(Methods):
             lang = res[2]
             video_quality = res[3]
             only_admin: bool = res[4]
-            admin = True if only_admin else False
+            admin = bool(only_admin)
             x = {
                 "owner_id": owner_id,
                 "chat_id": chat_id,
