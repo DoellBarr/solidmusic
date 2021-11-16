@@ -16,4 +16,4 @@ async def gcast_(client: Client, message: types.Message):
             except Exception as e:
                 print(e)
                 error += 1
-    return await msg.edit(gm(message.chat.id, "success_gcast").format(str(error), str(success)))
+    return await msg.edit(gm(message.chat.id, "success_gcast").format(str(success), str(error)))

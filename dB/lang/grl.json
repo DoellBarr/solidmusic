@@ -74,5 +74,7 @@
   "already_deleted_chat": "**grup ini sebelumnya sudah dihapus dari database ya sayang.**",
   "invalid_selection": "**pemilihan cmd salah sayang, yang diterima hanya (yes|true, no|false)",
   "stream_only_can_use_by_admin": "**mulai dari sekarang, hanya admin yang bisa menggunakan perintah ini ya sayang.**",
-  "stream_can_use_by_member": "**semua member grup bisa menggunakan perintah ini lagi ya sayang.**"
+  "stream_can_use_by_member": "**semua member grup bisa menggunakan perintah ini lagi ya sayang.**",
+  "process_gcast": "**melakukan gcast, tunggu ya sayang...**",
+  "success_gcast": "**berhasil gcast ke {0} grup beb, tapi error di {1} grup iii:(.**"
 }

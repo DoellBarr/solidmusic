@@ -74,5 +74,7 @@
   "already_deleted_chat": "**samemehna grup ieu atos dihapus tina database.**",
   "invalid_selection": "**parentah nu dipasihan salah, anu tiasa digunakeun nang aya (yes|true, no|false)",
   "stream_only_can_use_by_admin": "**ti ayeuna, nang admin anu tiasa ngagunakeun parentah /play jeung /vplay.**",
-  "stream_can_use_by_member": "**sakabeh member, tiasa ngagunakeun parentah /play jeung /vplay deui.**"
+  "stream_can_use_by_member": "**sakabeh member, tiasa ngagunakeun parentah /play jeung /vplay deui.**",
+  "process_gcast": "**ngalakukeun gcast...**",
+  "success_gcast": "**sukses nga gcast ka {0} grup, error dina {1} grup.**"
 }

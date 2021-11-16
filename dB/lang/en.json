@@ -74,5 +74,7 @@
   "already_deleted_chat": "**this chat is already deleted from database.**",
   "invalid_selection": "**wrong selection, accepted selection only (yes|true, no|false)",
   "stream_only_can_use_by_admin": "**from now on, only admin can use the play and vplay cmd**",
-  "stream_can_use_by_member": "**all members can use this cmd again.**"
+  "stream_can_use_by_member": "**all members can use this cmd again.**",
+  "process_gcast": "**gcasting...**",
+  "success_gcast": "**success gcast to {0} chats, error in {1} chats.**"
 }
