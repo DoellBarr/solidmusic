@@ -24,13 +24,16 @@ def authorized_only(func: Callable) -> Callable:
             )
         if member.status in ["creator", "administrator"] or user_id in db.get_sudos(chat_id):
             return await func(client, message)
+        if message.chat.type == "private":
+            return await func(client, message)
+
     return wrapper
 
 
 def only_admin(func: Callable) -> Callable:
     async def wrapper(client: Client, message: types.Message):
         only_admins = db.get_chat(message.chat.id)[0]["only_admin"]
-        adminun = True if only_admins else False
+        adminun = bool(only_admins)
         if adminun:
             member = await message.chat.get_member(message.from_user.id)
             if member.status not in ["creator", "administrator"]:
