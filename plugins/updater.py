@@ -43,7 +43,7 @@ def updater():
     else:
         ups_rem = repo.create_remote("upstream", config.UPSTREAM_REPO)
     ups_rem.fetch(ac_br)
-    changelog, tl_chnglog = gen_chlog(repo, f"HEAD..upstream/{ac_br}")
+    changelog, _ = gen_chlog(repo, f"HEAD..upstream/{ac_br}")
     return bool(changelog)
 
 
