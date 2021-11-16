@@ -17,7 +17,8 @@ lang_flags = {
     "su": f"{emoji.FLAG_INDONESIA} Sundanese",
     "pt": f"{emoji.FLAG_PORTUGAL} Portuguese",
     "ta": f"{emoji.FLAG_INDIA} Tamil",
-    "hi": f"{emoji.FLAG_INDIA} Hindi"
+    "hi": f"{emoji.FLAG_INDIA} Hindi",
+    "mi": f"{emoji.FLAG_INDIA} Marathi"
 }
 
 for file in listdir(lang_folder):
