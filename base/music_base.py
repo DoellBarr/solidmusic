@@ -39,10 +39,10 @@ class MusicPlayer(CallBase):
             }
         ]
         quality: str = db.get_chat(chat_id)[0]["video_quality"]
+        if quality.lower() not in ["low", "medium", "high"]:
+            raise KeyError("Invalid quality.")
         if quality.lower() == "low":
             audio_quality = AudioParameters(bitrate=24000)
-        elif quality.lower() == "medium":
-            audio_quality = AudioParameters(bitrate=48000)
         else:
             audio_quality = AudioParameters(bitrate=48000)
         await call.join_group_call(
@@ -89,14 +89,13 @@ class MusicPlayer(CallBase):
     ):
         playlist = self.playlist
         chat_id = cb.message.chat.id
-        if playlist:
-            if chat_id in playlist and len(playlist[chat_id]) >= 1:
-                self.extend_playlist(
-                    user_id, chat_id, title, duration, yt_url, yt_id, "music"
-                )
-                mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
-                await sleep(5)
-                return await mess.delete()
+        if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
+            self.extend_playlist(
+                user_id, chat_id, title, duration, yt_url, yt_id, "music"
+            )
+            mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
+            await sleep(5)
+            return await mess.delete()
         messy = await cb.edit_message_text(gm(chat_id, "process"))
         audio_quality = db.get_chat(chat_id)[0]["video_quality"]
         audio_url = get_audio_direct_link(yt_url, audio_quality)
