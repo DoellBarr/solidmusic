@@ -77,4 +77,6 @@
   "stream_can_use_by_member": "**Todos os membros podem usar este comando novamente.**",
   "process_gcast": "**Enviando à mensagem para todos...**",
   "success_gcast": "**Mensagem foi enviada com sucesso para {0} chats, erro em {1} chats.**"
+  "lyrik": "Nome:- {} \n\n {}",
+  "ly_key": "`Por favor, envie sua pesquisa`"
 }
