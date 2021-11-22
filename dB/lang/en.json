@@ -76,5 +76,7 @@
   "stream_only_can_use_by_admin": "**from now on, only admin can use the play and vplay cmd**",
   "stream_can_use_by_member": "**all members can use this cmd again.**",
   "process_gcast": "**gcasting...**",
-  "success_gcast": "**success gcast to {0} chats, error in {1} chats.**"
+  "success_gcast": "**success gcast to {0} chats, error in {1} chats.**",
+  "lyrik": "Name:- {} \n\n {}",
+  "ly_key": "`Please enter a QUERY`"
 }
