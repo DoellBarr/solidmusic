@@ -7,7 +7,7 @@ from dB.lang_utils import get_message as gm
 
 @Client.on_message(filters.command(["lyrics"]) & ~filters.edited)
 async def lyrics(_, message : Message):
-    query = message.text.strip().split(None, 1)[1]
+    query = " ".join(message.command[1:])
     chid = message.chat.id
     if len(message.command) < 2:
         return await message.reply_text(gm(chid, "ly_key"))
