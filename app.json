@@ -25,12 +25,12 @@
       "description": "Fill it with your assistant session string",
       "required": true
     },
-    "SUPPORT": {
+    "GROUP_LINK": {
       "description": "your group support link, can use private or public group, example https://t.me/solidprojects_chat",
       "required": false,
       "value": "https://t.me/solidprojects_chat"
     },
-    "CHANNEL": {
+    "CHANNEL_LINK": {
       "description": "your channel support link, can use private or public channel, example https://t.me/solidprojects",
       "required": false,
       "value": "https://t.me/solidprojects"
