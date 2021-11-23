@@ -5,26 +5,28 @@ from pyrogram.types import (
     Message,
 )
 
-from base.bot_base import bot_client as bot
-from dB.lang_utils import get_message as gm
-from utils.functions.markup_buttons import start_markup
-from utils.functions.yt_utils import get_yt_details, download_yt_thumbnails
+from core.bot import Bot
+from database.lang_utils import get_message as gm
+from functions.markup_button import start_markup
+from functions.youtube_utils import get_yt_details, download_yt_thumbnails
+
+bot = Bot()
 
 
 @Client.on_message(filters.command("start"))
 async def pm_start(_, message: Message):
-    bot_username, bot_name, _ = await bot.get_my()
+    bot_username = (await bot.get_me()).username
+    bot_name = (await bot.get_me()).first_name
     chat_id = message.chat.id
     mention = message.from_user.mention
     user_id = message.from_user.id
     if message.chat.type == "private":
         if len(message.command) == 1:
             return await bot.send_message(
-                message,
+                chat_id,
                 "pm_greet",
                 format_key=str(mention),
                 markup=start_markup(chat_id, bot_username),
-                reply_message=True,
             )
         if len(message.command) >= 2:
             query = message.command[1]

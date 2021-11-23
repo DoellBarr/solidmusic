@@ -1,12 +1,14 @@
 from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from utils.call_functions import (
+
+from core.player import player
+from functions.youtube_utils import (
     extract_info,
     stream_result,
     yt_search,
-    process_button,
 )
-from utils.functions.decorators import only_admin
+from functions.decorators import only_admin
+from functions.markup_button import process_button
 
 
 def extract_all(query: str, chat_id: int, user_id: int, status: str):
@@ -19,9 +21,12 @@ def extract_all(query: str, chat_id: int, user_id: int, status: str):
 @Client.on_message(filters.command("play") & filters.group)
 @only_admin
 async def play_(_, message: types.Message):
+    reply = message.reply_to_message
+    user_id = message.from_user.id
+    if reply:
+        return await player.local_music(user_id, reply)
     query = " ".join(message.command[1:])
     chat_id = message.chat.id
-    user_id = message.from_user.id
     status = "music"
     result, yt_btn = extract_all(query, chat_id, user_id, status)
     await message.reply(
@@ -42,10 +47,13 @@ async def play_(_, message: types.Message):
 @Client.on_message(filters.command("vplay") & filters.group)
 @only_admin
 async def vplay_(_, message: types.Message):
-    query = " ".join(message.command[1:])
     chat_id = message.chat.id
     user_id = message.from_user.id
-    status = "stream"
+    reply = message.reply_to_message
+    if reply:
+        return await player.local_video(user_id, reply)
+    query = " ".join(message.command[1:])
+    status = "video"
     result, yt_btn = extract_all(query, chat_id, user_id, status)
     await message.reply(
         result,
@@ -55,7 +63,7 @@ async def vplay_(_, message: types.Message):
                 yt_btn[1],
                 [
                     InlineKeyboardButton("🗑", f"close|{user_id}"),
-                    InlineKeyboardButton("➡", f"nextstream|{user_id}"),
+                    InlineKeyboardButton("➡", f"nextvideo|{user_id}"),
                 ],
             ]
         ),

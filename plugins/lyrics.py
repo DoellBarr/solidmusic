@@ -1,18 +1,19 @@
-import requests
-from asyncio import sleep
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
-from dB.lang_utils import get_message as gm
+from database.lang_utils import get_message as gm
+from functions.lyrics_search import get_lyrics, get_artist, get_title, parse_url
 
-@Client.on_message(filters.command(["lyrics"]) & ~filters.edited)
-async def lyrics(_, message : Message):
-    chid = message.chat.id
+
+@Client.on_message(filters.command("lyrics"))
+async def _get_lyrics(_, message: Message):
+    chat_id = message.chat.id
     if len(message.command) < 2:
-        return await message.reply_text(gm(chid, "ly_key"))
-    query = " ".join(message.command[1:])
-    lek = await message.reply_text(gm(chid, "searching"))
-    req = requests.get(f"https://apis.xditya.me/lyrics?song={query}").json()
-    lyric = req['lyrics']
-    name = req['name']
-    await lek.edit(gm(chid, "lyrik")).format({name},{lyric})
+        return await message.reply(gm(chat_id, "ly_key"))
+    query = "+".join(message.command[1:])
+    lek = await message.reply(gm(chat_id, "searching"))
+    google_link = f"https://google.com/search?q={query}+lyrics"
+    parsed = parse_url(google_link)
+    lyrics, title, artist = get_lyrics(parsed), get_title(parsed), get_artist(parsed)
+    name = f"{artist}: {title}"
+    await lek.edit(gm(chat_id, "lyrik").format(name, lyrics))

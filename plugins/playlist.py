@@ -1,8 +1,8 @@
 from pyrogram import Client, filters, types
 
-from base.player import player
-from dB.lang_utils import get_message as gm
-from utils.functions.decorators import authorized_only
+from core.player import player
+from database.lang_utils import get_message as gm
+from functions.decorators import authorized_only
 
 
 @Client.on_message(filters.command("playlist"))

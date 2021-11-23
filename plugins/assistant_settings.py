@@ -1,15 +1,16 @@
-from pyrogram import Client, filters, types
-from base.client_base import user
-from base.bot_base import bot_client as bot
+from pyrogram import Client, filters
+from pyrogram.types import Message
 from pyrogram.errors import UserAlreadyParticipant, UserNotParticipant
 
-from dB.lang_utils import get_message
-from utils.functions.decorators import authorized_only
+from core.clients import user
+from core.bot import Bot
+from database.lang_utils import get_message as gm
+from functions.decorators import authorized_only
 
 
 @Client.on_message(filters.command("userbotjoin"))
 @authorized_only
-async def userbot_join(client: Client, message: types.Message):
+async def userbot_join(client: Client, message: Message):
     chat_id = message.chat.id
     try:
         invite_link = await message.chat.export_invite_link()
@@ -19,7 +20,7 @@ async def userbot_join(client: Client, message: types.Message):
             (await user.get_me()).id,
             can_manage_voice_chats=True
         )
-        return await user.send_message(chat_id, get_message(chat_id, "user_alert"))
+        return await user.send_message(chat_id, gm(chat_id, "user_alert"))
     except UserAlreadyParticipant:
         admin = await message.chat.get_member((await user.get_me()).id)
         if not admin.can_manage_voice_chats:
@@ -27,24 +28,22 @@ async def userbot_join(client: Client, message: types.Message):
                 (await user.get_me()).id,
                 can_manage_voice_chats=True
             )
-            return await user.send_message(chat_id, get_message(chat_id, "user_here"))
-        return await user.send_message(chat_id, get_message(chat_id, "user_here"))
+            return await user.send_message(chat_id, gm(chat_id, "user_here"))
+        return await user.send_message(chat_id, gm(chat_id, "user_here"))
 
 
 @Client.on_message(filters.command("userbotleave"))
 @authorized_only
-async def userbot_leave_(_, message: types.Message):
+async def userbot_leave_(_, message: Message):
     chat_id = message.chat.id
     try:
         await user.leave_chat(chat_id)
-        return await bot.send_message(
-            message,
+        return await Bot().send_message(
+            chat_id,
             "user_leave_chat",
-            reply_message=True
         )
     except UserNotParticipant:
-        return await bot.send_message(
-            message,
+        return await Bot().send_message(
+            chat_id,
             "user_already_leave_chat",
-            reply_message=True
         )

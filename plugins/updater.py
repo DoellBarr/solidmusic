@@ -6,7 +6,7 @@ from git.exc import InvalidGitRepositoryError
 from pyrogram import Client, filters, types
 
 from configs import config
-from dB.lang_utils import get_message as gm
+from database.lang_utils import get_message as gm
 
 
 def gen_chlog(repo, diff):
