@@ -12,7 +12,7 @@ async def gcast_(_, message: Message):
     error = success = 0
     async for dialog in user.iter_dialogs():
         if dialog.chat.type in ["group", "supergroup"]:
-            chat_id = dialog.chat,id
+            chat_id = dialog.chat.id
             try:
                 success += 1
                 await user.send_message(chat_id, text)
