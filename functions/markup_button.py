@@ -49,10 +49,10 @@ def start_markup(chat_id: int, bot_username: str):
             ],
             [
                 InlineKeyboardButton(
-                    gm(chat_id, "channel"), url=config.CHANNEL
+                    gm(chat_id, "channel"), url=config.CHANNEL_LINK
                 ),
                 InlineKeyboardButton(
-                    gm(chat_id, "group_support"), url=config.SUPPORT
+                    gm(chat_id, "group_support"), url=config.GROUP_LINK
                 ),
             ],
             [
