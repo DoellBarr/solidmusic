@@ -34,7 +34,7 @@ def only_admin(func: Callable) -> Callable:
     async def wrapper(client: Client, message: types.Message):
         chat_id = message.chat.id
         user_id = message.from_user.id
-        admin_only = bool(chat_db.get_chat(chat_id)[0]["only_admin"])
+        admin_only = bool(chat_db.get_chat(chat_id)[0]["admin_only"])
         if admin_only:
             member = await message.chat.get_member(user_id)
             if member.status not in ["creator", "administrator"]:
