@@ -85,7 +85,7 @@ class ChatDB(Scaffold):
     def set_admin(self, chat_id: int, only_admin: bool):
         chats = self.get_chat(chat_id)
         for chat in chats:
-            if int(only_admin) == chat["admin_only"]:
+            if int(only_admin) == chat["only_admin"]:
                 return "only_admin_already_set"
             return
         self.cur.execute(
