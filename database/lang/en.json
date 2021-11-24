@@ -52,7 +52,7 @@
   "helpbutton": "🖇 Help menu 🖇",
   "backtomenu": "🏡 Main menu",
   "group_buttn": "🟡 Click here for more info 🟡 ",
-  "success_add_chat": "**Successfully added this chat to database.**",
+  "chat_added": "**Successfully added this chat to database.**",
   "success_add_chats": "**Successfully added all chats to database.**",
   "stream_type_title": "stream type",
   "stream_type_music": "music",
