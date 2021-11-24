@@ -235,7 +235,9 @@ class Call:
         return await self.bot.send_message(chat_id, "no_playlists")
 
     def send_playlist(self, chat_id: int):
-        playlist = self.playlist.playlist[chat_id]
-        current = playlist[0]
-        queued = playlist[1:]
-        return current, queued
+        playlist = self.playlist.playlist
+        if chat_id in playlist:
+            current = playlist[chat_id][0]
+            queued = playlist[chat_id][1:]
+            return current, queued
+        return None

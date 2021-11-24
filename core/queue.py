@@ -11,7 +11,7 @@ class Queue:
             queue = self.__queue[chat_id]
         else:
             queue = self.__queue[chat_id]
-        queue.extend([objects])
+            queue.extend([objects])
 
     def delete_one(self, chat_id: int):
         if chat_id not in self.__queue:
