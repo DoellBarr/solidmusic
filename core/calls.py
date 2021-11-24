@@ -1,6 +1,6 @@
 import random
 
-from pyrogram.errors import ChatIdInvalid
+from pyrogram.errors import ChatIdInvalid, ChannelInvalid
 from pyrogram.raw.base import InputChannel, InputGroupCall
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
@@ -134,7 +134,7 @@ class Call:
                 )
             )
             await self.bot.send_message(chat_id, "call_started")
-        except ChatIdInvalid:
+        except (ChatIdInvalid, ChannelInvalid):
             link = await self.bot.export_chat_invite_link(chat_id)
             await users.join_chat(link)
             user_id = (await users.get_me()).id
@@ -217,12 +217,13 @@ class Call:
     async def check_playlist(self, chat_id: int):
         playlist = self.playlist.playlist
         call = self.call
-        if playlist and chat_id in playlist and len(playlist[chat_id]) > 1:
-            title = await self._change_stream(chat_id)
-            await self.bot.send_message(chat_id, "track_changed", title)
-        if playlist and chat_id in playlist and len(playlist[chat_id]) == 1:
-            await call.leave_group_call(chat_id)
-            self.playlist.delete_chat(chat_id)
+        if playlist and chat_id in playlist:
+            if len(playlist[chat_id]) > 1:
+                title = await self._change_stream(chat_id)
+                await self.bot.send_message(chat_id, "track_changed", title)
+            elif len(playlist[chat_id]) == 1:
+                await call.leave_group_call(chat_id)
+                self.playlist.delete_chat(chat_id)
         else:
             await call.leave_group_call(chat_id)
 

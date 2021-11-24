@@ -12,7 +12,7 @@ from database.lang_utils import get_message as gm
 
 
 class TelegramPlayer(Call):
-    async def _audio_play(
+    async def _local_audio_play(
         self,
         mess: Message,
         user_id: int,
@@ -36,13 +36,13 @@ class TelegramPlayer(Call):
             )
         except NoActiveGroupCall:
             await self.start_call(chat_id)
-            await self._audio_play(
+            await self._local_audio_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
         except FloodWait as e:
             await mess.edit(gm(chat_id, "error_flood".format(str(e.x))))
             await asyncio.sleep(e.x)
-            await self._audio_play(
+            await self._local_audio_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
         return mess.edit(
@@ -56,7 +56,7 @@ class TelegramPlayer(Call):
             disable_web_page_preview=True,
         )
 
-    async def _video_play(
+    async def _local_video_play(
         self,
         mess: Message,
         user_id: int,
@@ -80,12 +80,12 @@ class TelegramPlayer(Call):
             )
         except NoActiveGroupCall:
             await self.start_call(chat_id)
-            await self._video_play(
+            await self._local_video_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
         except FloodWait as e:
             await mess.edit(gm(chat_id, "error_flood".format(str(e.x))))
-            await self._video_play(
+            await self._local_video_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
         return await mess.edit(
@@ -131,7 +131,7 @@ class TelegramPlayer(Call):
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return await mess.delete()
-            return await self._audio_play(
+            return await self._local_audio_play(
                 replied, user_id, chat_id, title, duration, download, link
             )
 
@@ -163,6 +163,6 @@ class TelegramPlayer(Call):
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return mess.delete()
-            return await self._video_play(
+            return await self._local_video_play(
                 replied, user_id, chat_id, title, duration, source_file, link
             )
