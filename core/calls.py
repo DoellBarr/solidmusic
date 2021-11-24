@@ -233,3 +233,9 @@ class Call:
             title = await self._change_stream(chat_id)
             return await self.bot.send_message(chat_id, "track_skipped", title)
         return await self.bot.send_message(chat_id, "no_playlists")
+
+    async def send_playlist(self, chat_id: int):
+        playlist = self.playlist.playlist[chat_id]
+        current = playlist[0]
+        queued = playlist[1:]
+        return current, queued

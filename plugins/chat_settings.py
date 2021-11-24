@@ -84,3 +84,17 @@ async def set_admin_(_, message: Message):
         return await Bot().send_message(
             message.chat.id, "stream_can_use_by_member"
         )
+
+
+@Client.on_message(filters.command("setquality"))
+@authorized_only
+async def set_quality_(_, message: Message):
+    try:
+        cmd = message.command[1].lower()
+    except IndexError:
+        cmd = ""
+    if cmd:
+        if cmd not in ["low", "medium", "high"]:
+            return await Bot().send_message(message.chat.id, "invalid_selection")
+        key = ChatDB().set_quality(message.chat.id, cmd)
+        return await Bot().send_message(message.chat.id, key)
