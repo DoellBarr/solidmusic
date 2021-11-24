@@ -20,3 +20,17 @@ class Scaffold:
             (chat_id integer, user_id integer);
             """
         )
+        try:
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD admin_only boolean
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD quality text"""
+            )
+        except sqlite3.OperationalError:
+            pass
