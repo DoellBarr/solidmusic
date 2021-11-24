@@ -15,5 +15,5 @@ async def _get_lyrics(_, message: Message):
     google_link = f"https://google.com/search?q={query}+lyrics"
     parsed = parse_url(google_link)
     lyrics, title, artist = get_lyrics(parsed), get_title(parsed), get_artist(parsed)
-    name = f"{artist}: {title}"
+    name = f"{artist}\n{gm(chat_id, 'yt_title')}: {title}"
     await lek.edit(gm(chat_id, "lyrik").format(name, lyrics))

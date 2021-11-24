@@ -2,11 +2,13 @@ from dotenv import load_dotenv
 from os import path, getenv, mkdir
 
 
-if path.exists("local.env") and not path.exists("search/"):
-    mkdir("search")
+if path.exists("local.env"):
     load_dotenv("local.env")
 else:
     load_dotenv()
+
+if not path.exists("search"):
+    mkdir("search")
 
 
 class Configs:

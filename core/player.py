@@ -6,8 +6,9 @@ from pyrogram.types import CallbackQuery
 from .clients import user
 from .telegram_call import TelegramPlayer
 from .youtube_call import YoutubePlayer
+from core import username as usernames
 
-username = ""
+username = usernames
 
 
 class MediaPlayer(TelegramPlayer, YoutubePlayer):

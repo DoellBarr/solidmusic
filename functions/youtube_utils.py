@@ -4,7 +4,7 @@ import requests
 from yt_dlp import YoutubeDL
 from youtubesearchpython import VideosSearch
 
-from core.player import username
+from core import username
 from database.lang_utils import get_message as gm
 
 new: Dict[int, List] = {}
