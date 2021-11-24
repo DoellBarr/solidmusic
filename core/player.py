@@ -3,7 +3,6 @@ from typing import Dict
 from pyrogram import idle
 from pyrogram.types import CallbackQuery
 
-from .clients import user
 from .telegram_call import TelegramPlayer
 from .youtube_call import YoutubePlayer
 from core import username as usernames
@@ -34,7 +33,6 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         yt_url = result["yt_url"]
         yt_id = result["yt_id"]
         stream_type = result["stream_type"]
-        client_user_id = (await user.get_me()).id
         await self.join_call(stream_type, cb, user_id, title, duration, yt_url, yt_id)
 
     async def run(self):

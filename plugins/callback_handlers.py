@@ -3,7 +3,6 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQ
 
 from configs import config
 from core.player import player
-from core.bot import Bot
 from functions.youtube_utils import (
     prev_search,
     next_search,
@@ -68,7 +67,7 @@ async def _music_or_video(_, cb: CallbackQuery):
         "yt_id": result["yt_id"],
         "stream_type": stream_type
     }
-    await player.music_or_video(cb, result)
+    await player.music_or_video(cb, res)
 
 
 @Client.on_callback_query(filters.regex(pattern=r"(close)(\|(\d+))?"))
