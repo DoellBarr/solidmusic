@@ -10,7 +10,8 @@ def main():
     if not path.exists("search"):
         mkdir("search")
     if py_ver.startswith("3.10"):
-        loop = asyncio.get_running_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
         loop.run_until_complete(player.run())
     else:
         loop = asyncio.get_event_loop()
