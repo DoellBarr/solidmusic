@@ -240,4 +240,4 @@ class Call:
             current = playlist[chat_id][0]
             queued = playlist[chat_id][1:]
             return current, queued
-        return None
+        return None, None

@@ -97,4 +97,4 @@ async def set_quality_(_, message: Message):
         if cmd not in ["low", "medium", "high"]:
             return await Bot().send_message(message.chat.id, "invalid_selection")
         key = ChatDB().set_quality(message.chat.id, cmd)
-        return await Bot().send_message(message.chat.id, key)
+        return await Bot().send_message(message.chat.id, key, cmd)

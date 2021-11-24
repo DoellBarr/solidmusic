@@ -71,7 +71,6 @@ class ChatDB(Scaffold):
         for chat in chats:
             if quality == chat["quality"]:
                 return "quality_already_used"
-            return
         self.cur.execute(
             """
             UPDATE chat_db
