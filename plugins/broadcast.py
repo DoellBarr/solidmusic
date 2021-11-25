@@ -1,3 +1,5 @@
+import asyncio
+
 from pyrogram import filters, Client
 from pyrogram.types import Message
 
@@ -15,6 +17,7 @@ async def gcast_(_, message: Message):
             chat_id = dialog.chat.id
             try:
                 success += 1
+                await asyncio.sleep(3)
                 await user.send_message(chat_id, text)
             except Exception as e:
                 print(e)
