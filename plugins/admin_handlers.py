@@ -1,6 +1,8 @@
 import sys
 
 from pyrogram import Client, filters, types
+
+from configs import config
 from core.bot import Bot
 from core.player import player
 from functions.decorators import authorized_only
@@ -47,8 +49,7 @@ async def end_stream_(_, message: types.Message):
     return await Bot().send_message(chat_id, "track_ended", first_name)
 
 
-@Client.on_message(filters.command("restart"))
-@authorized_only
+@Client.on_message(filters.command("restart") & filters.user(config.OWNER_ID))
 async def restart_bot_(client: Client, message: types.Message):
     msg = await message.reply("restarting")
     chat_id = message.chat.id
