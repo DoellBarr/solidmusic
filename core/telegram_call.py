@@ -25,7 +25,7 @@ class TelegramPlayer(Call):
         mention = await self.bot.get_user_mention(user_id)
         call = self.call
         self.init_telegram_player(
-            chat_id, user_id, title, duration, source_file, "audio_file"
+            chat_id, user_id, title, duration, source_file, link, "audio_file"
         )
         audio_quality, _ = self.get_quality(chat_id)
         try:
@@ -33,6 +33,15 @@ class TelegramPlayer(Call):
                 chat_id,
                 AudioPiped(source_file, audio_quality),
                 stream_type=StreamType().local_stream,
+            )
+            return mess.edit(
+                f"""
+{gm(chat_id, 'now_streaming')}
+📌 {gm(chat_id, 'yt_title')}: [{title}]({link}) 
+⏱️ {gm(chat_id, 'duration')}: {duration}
+✨ {gm(chat_id, 'req_by')}: {mention}
+🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_local_audio')}""",
+                disable_web_page_preview=True,
             )
         except NoActiveGroupCall:
             await self.start_call(chat_id)
@@ -45,16 +54,6 @@ class TelegramPlayer(Call):
             await self._local_audio_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
-        return mess.edit(
-            f"""
-{gm(chat_id, 'now_streaming')}
-📌 {gm(chat_id, 'yt_title')}: [{title}]({link}) 
-⏱️ {gm(chat_id, 'duration')}: {duration}
-✨ {gm(chat_id, 'req_by')}: {mention}
-🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_local_audio')}
-""",
-            disable_web_page_preview=True,
-        )
 
     async def _local_video_play(
         self,
@@ -69,7 +68,7 @@ class TelegramPlayer(Call):
         call = self.call
         mention = await self.bot.get_user_mention(user_id)
         self.init_telegram_player(
-            chat_id, user_id, title, duration, source_file, "video_file"
+            chat_id, user_id, title, duration, source_file, link, "video_file"
         )
         audio_quality, video_quality = self.get_quality(chat_id)
         try:
@@ -77,6 +76,15 @@ class TelegramPlayer(Call):
                 chat_id,
                 AudioVideoPiped(source_file, audio_quality, video_quality),
                 stream_type=StreamType().local_stream,
+            )
+            return await mess.edit(
+                f"""
+{gm(chat_id, 'now_streaming')}
+📌 {gm(chat_id, 'yt_title')}: [{title}]({link}) 
+⏱️ {gm(chat_id, 'duration')}: {duration}
+✨ {gm(chat_id, 'req_by')}: {mention}
+🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_local_audio')}""",
+                disable_web_page_preview=True,
             )
         except NoActiveGroupCall:
             await self.start_call(chat_id)
@@ -88,21 +96,12 @@ class TelegramPlayer(Call):
             await self._local_video_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
-        return await mess.edit(
-            f"""
-{gm(chat_id, 'now_streaming')}
-📌 {gm(chat_id, 'yt_title')}: [{title}]({link}) 
-⏱️ {gm(chat_id, 'duration')}: {duration}
-✨ {gm(chat_id, 'req_by')}: {mention}
-🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_local_audio')}
-""",
-            disable_web_page_preview=True,
-        )
 
     async def local_music(self, user_id: int, replied: Message):
         chat_id = replied.chat.id
         playlist = self.playlist.playlist
         if replied.audio or replied.voice:
+            bom = await replied.reply(gm(chat_id, "process"))
             download = await replied.download()
             link = replied.link
             if replied.audio:
@@ -125,6 +124,7 @@ class TelegramPlayer(Call):
                     "title": title,
                     "duration": duration,
                     "source_file": download,
+                    "link": link,
                     "stream_type": "local_music",
                 }
                 mess = await replied.reply(gm(chat_id, "track_queued"))
@@ -132,13 +132,14 @@ class TelegramPlayer(Call):
                 await asyncio.sleep(5)
                 return await mess.delete()
             return await self._local_audio_play(
-                replied, user_id, chat_id, title, duration, download, link
+                bom, user_id, chat_id, title, duration, download, link
             )
 
     async def local_video(self, user_id: int, replied: Message):
         chat_id = replied.chat.id
         playlist = self.playlist.playlist
         if replied.video or replied.document:
+            bom = await replied.reply(gm(chat_id, "process"))
             source_file = await replied.download()
             link = replied.link
             if replied.video:
@@ -146,17 +147,18 @@ class TelegramPlayer(Call):
                 duration = replied.video.duration
             else:
                 title = replied.document.file_name[:36]
-                duration = "00:03:00"
+                duration = "Not Found"
             if duration:
                 duration = str(datetime.timedelta(seconds=duration))
             else:
-                duration = "00:03:00"
+                duration = "Not Found"
             if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
                 objects = {
                     "user_id": user_id,
                     "title": title,
                     "duration": duration,
                     "source_file": source_file,
+                    "link": link,
                     "stream_type": "local_video",
                 }
                 mess = await replied.reply(gm(chat_id, "track_queued"))
@@ -164,5 +166,5 @@ class TelegramPlayer(Call):
                 await asyncio.sleep(5)
                 return mess.delete()
             return await self._local_video_play(
-                replied, user_id, chat_id, title, duration, source_file, link
+                bom, user_id, chat_id, title, duration, source_file, link
             )
