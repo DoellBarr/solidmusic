@@ -1,3 +1,6 @@
+import asyncio
+from typing import Optional
+
 from pyrogram.errors import ChatAdminRequired
 from pyrogram.types import InlineKeyboardMarkup
 
@@ -23,13 +26,18 @@ class Bot:
         key: str,
         format_key: str = "",
         markup: InlineKeyboardMarkup = None,
+        delete: Optional[int] = 0
     ):
-        return await self._bot.send_message(
+        msg = await self._bot.send_message(
             chat_id,
             gm(chat_id, key).format(format_key),
             reply_markup=markup,
             disable_web_page_preview=True,
         )
+        if delete:
+            await asyncio.sleep(delete)
+            return await msg.delete()
+        return msg
 
     async def export_chat_invite_link(self, chat_id: int):
         return (await self._bot.export_chat_invite_link(chat_id)).invite_link

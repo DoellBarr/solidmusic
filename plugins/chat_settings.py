@@ -57,7 +57,7 @@ async def del_chat_(_, message: Message):
     if cmds:
         for chat_id in cmds:
             ChatDB().del_chat(int(chat_id))
-        return await Bot().send_message(message.chat.id, "success_del_chats")
+        return await Bot().send_message(message.chat.id, "success_delete_chats")
     del_status = ChatDB().del_chat(message.chat.id)
     return await Bot().send_message(message.chat.id, del_status)
 
@@ -70,20 +70,15 @@ async def set_admin_(_, message: Message):
     except IndexError:
         cmd = ""
     if cmd not in ["yes", "true", "on", "no", "false", "off"]:
-        return await Bot().send_message(message.chat.id, "invalid_selection")
+        return await Bot().send_message(message.chat.id, "invalid_admin_selection")
     if cmd in ["yes", "true", "on"]:
         only_admin = True
     else:
         only_admin = False
     admin_set = ChatDB().set_admin(message.chat.id, only_admin)
-    if admin_set and only_admin:
-        return await Bot().send_message(
-            message.chat.id, "stream_only_can_use_by_admin"
-        )
-    if admin_set and not only_admin:
-        return await Bot().send_message(
-            message.chat.id, "stream_can_use_by_member"
-        )
+    return await Bot().send_message(
+        message.chat.id, admin_set
+    )
 
 
 @Client.on_message(filters.command("setquality"))
@@ -95,6 +90,6 @@ async def set_quality_(_, message: Message):
         cmd = ""
     if cmd:
         if cmd not in ["low", "medium", "high"]:
-            return await Bot().send_message(message.chat.id, "invalid_selection")
+            return await Bot().send_message(message.chat.id, "invalid_quality_selection")
         key = ChatDB().set_quality(message.chat.id, cmd)
         return await Bot().send_message(message.chat.id, key, cmd)

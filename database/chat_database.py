@@ -45,6 +45,10 @@ class ChatDB(Scaffold):
         return "success_add_chat"
 
     def del_chat(self, chat_id: int):
+        chats = self.get_chat(chat_id)
+        for chat in chats:
+            if chat_id == chat["chat_id"]:
+                return "already_deleted_chat"
         self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
         self.conn.commit()
         return "chat_deleted"
@@ -84,9 +88,10 @@ class ChatDB(Scaffold):
     def set_admin(self, chat_id: int, only_admin: bool):
         chats = self.get_chat(chat_id)
         for chat in chats:
-            if int(only_admin) == chat["only_admin"]:
+            if only_admin and int(only_admin) == chat["only_admin"]:
                 return "only_admin_already_set"
-            return
+            if not only_admin and int(only_admin) == chat["only_admin"]:
+                return "all_member_already_set"
         self.cur.execute(
             """
             UPDATE chat_db
@@ -96,7 +101,7 @@ class ChatDB(Scaffold):
             (only_admin, chat_id,)
         )
         self.conn.commit()
-        return "only_admin_changed"
+        return "only_admin_changed" if only_admin else "all_member_changed"
 
     def get_stats(self):
         chats = self.cur.execute("SELECT * FROM chat_db")

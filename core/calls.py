@@ -149,7 +149,7 @@ class Call:
         # Credit Userge
         call = await self._get_group_call(chat_id)
         await self.user.send(DiscardGroupCall(call=call))
-        await self.bot.send_message(chat_id, "call_ended")
+        await self.bot.send_message(chat_id, "call_closed")
 
     async def change_vol(self, chat_id: int, volume: int):
         call = self.call
@@ -224,7 +224,7 @@ class Call:
         if playlist and chat_id in playlist:
             if len(playlist[chat_id]) > 1:
                 title = await self._change_stream(chat_id)
-                await self.bot.send_message(chat_id, "track_changed", title)
+                await self.bot.send_message(chat_id, "track_changed", title, delete=5)
             elif len(playlist[chat_id]) == 1:
                 await call.leave_group_call(chat_id)
                 self.playlist.delete_chat(chat_id)
@@ -235,7 +235,7 @@ class Call:
         playlist = self.playlist.playlist
         if chat_id in playlist and len(playlist[chat_id]) > 1:
             title = await self._change_stream(chat_id)
-            return await self.bot.send_message(chat_id, "track_skipped", title)
+            return await self.bot.send_message(chat_id, "track_skipped", title, delete=5)
         return await self.bot.send_message(chat_id, "no_playlists")
 
     def send_playlist(self, chat_id: int):

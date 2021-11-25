@@ -7,6 +7,7 @@ from core.bot import Bot
 from core.player import player
 from functions.decorators import authorized_only
 from os import execle, environ
+from database.lang_utils import get_message as gm
 
 
 @Client.on_message(filters.command("pause"))
@@ -51,10 +52,10 @@ async def end_stream_(_, message: types.Message):
 
 @Client.on_message(filters.command("restart") & filters.user(config.OWNER_ID))
 async def restart_bot_(client: Client, message: types.Message):
-    msg = await message.reply("restarting")
     chat_id = message.chat.id
+    msg = await message.reply(gm(chat_id, "restart_bot"))
     args = [sys.executable, "main.py"]
-    await msg.edit("restarted, now you can use this bot again.")
+    await msg.edit(gm(chat_id, "restarted"))
     execle(sys.executable, *args, environ)
     await client.send_message(chat_id, "Hi, I'm Alive")
     return

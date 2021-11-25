@@ -32,10 +32,10 @@ async def change_lang_(_, message: types.Message):
             markup=types.InlineKeyboardMarkup(keyboard)
         )
     if len(lang) == 1:
-        return await Bot().send_message(chat_id, "error_lang_cmd")
+        return await Bot().send_message(chat_id, "invalid_lang")
     if len(lang) >= 2:
         if lang in kode:
             x = ChatDB().set_lang(chat_id, lang)
             return await Bot().send_message(
-                chat_id, "lang_changed"
+                chat_id, x, lang
             )

@@ -36,7 +36,7 @@ class YoutubePlayer(Call):
                 AudioPiped(audio_url, audio_quality),
                 stream_type=StreamType().local_stream,
             )
-            await mess.edit(
+            return await mess.edit(
                 f"""
 {gm(chat_id, 'now_streaming')}
 📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
@@ -82,6 +82,16 @@ class YoutubePlayer(Call):
                 AudioVideoPiped(video_url, audio_quality, video_quality),
                 stream_type=StreamType().local_stream,
             )
+            return await mess.edit(
+                f"""
+{gm(chat_id, 'now_streaming')}
+📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
+⏱️ {gm(chat_id, 'duration')}: {duration}
+✨ {gm(chat_id, 'req_by')}: {mention}
+🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_video')}
+""",
+                disable_web_page_preview=True,
+            )
         except NoActiveGroupCall:
             await self.start_call(chat_id)
             await self._video_play(
@@ -93,16 +103,6 @@ class YoutubePlayer(Call):
             await self._video_play(
                 mess, chat_id, user_id, video_url, title, duration, yt_url, yt_id
             )
-        return await mess.edit(
-            f"""
-{gm(chat_id, 'now_streaming')}
-📌 {gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
-⏱️ {gm(chat_id, 'duration')}: {duration}
-✨ {gm(chat_id, 'req_by')}: {mention}
-🎥 {gm(chat_id, 'stream_type_title')}: {gm(chat_id, 'stream_type_video')}
-""",
-            disable_web_page_preview=True,
-        )
 
     async def play(
         self,
@@ -143,7 +143,7 @@ class YoutubePlayer(Call):
             self.init_youtube_player(
                 chat_id, user_id, title, duration, yt_url, yt_id, "video"
             )
-            mess = await cb.edit_message_text(gm(chat_id, "track_queud"))
+            mess = await cb.edit_message_text(gm(chat_id, "track_queued"))
             await sleep(5)
             return await mess.delete()
         mess = await cb.edit_message_text(gm(chat_id, "process"))
