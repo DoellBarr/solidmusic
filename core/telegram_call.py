@@ -127,7 +127,7 @@ class TelegramPlayer(Call):
                     "source_file": download,
                     "stream_type": "local_music",
                 }
-                mess = await replied.edit(gm(chat_id, "track_queued"))
+                mess = await replied.reply(gm(chat_id, "track_queued"))
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return await mess.delete()
@@ -159,7 +159,7 @@ class TelegramPlayer(Call):
                     "source_file": source_file,
                     "stream_type": "local_video",
                 }
-                mess = await replied.edit(gm(chat_id, "track_queued"))
+                mess = await replied.reply(gm(chat_id, "track_queued"))
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return mess.delete()

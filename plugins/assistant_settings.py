@@ -14,9 +14,9 @@ async def userbot_join(client: Client, message: Message):
     chat_id = message.chat.id
     try:
         invite_link = await message.chat.export_invite_link()
-        telegram_invite_link = f"https://t.me/joinchat/{invite_link.split('t.me/')[1]}"
-        await user.join_chat(telegram_invite_link)
-        await client.revoke_chat_invite_link(chat_id, invite_link)
+        if "+" in invite_link:
+            link_hash = (invite_link.replace("+", "")).split("t.me/")[1]
+            await user.join_chat(f"https://t.me/joinchat/{link_hash}")
         await message.chat.promote_member(
             (await user.get_me()).id,
             can_manage_voice_chats=True

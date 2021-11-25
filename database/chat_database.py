@@ -37,13 +37,12 @@ class ChatDB(Scaffold):
         for chat in chats:
             if chat_id == chat["chat_id"]:
                 return "already_added_chat"
-            return
         self.cur.execute(
             "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?)",
             (owner_id, chat_id, f"{lang}", f"{quality.lower()}", only_admin)
         )
         self.conn.commit()
-        return "chat_added"
+        return "success_add_chat"
 
     def del_chat(self, chat_id: int):
         self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
