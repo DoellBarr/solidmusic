@@ -93,6 +93,7 @@ class Call:
         title: str,
         duration: str,
         source_file: str,
+        link: str,
         stream_type: str,
     ):
         objects = {
@@ -100,6 +101,7 @@ class Call:
             "title": title,
             "duration": duration,
             "source_file": source_file,
+            "link": link,
             "stream_type": stream_type,
         }
         return self.playlist.insert_one(chat_id, objects)
@@ -136,7 +138,9 @@ class Call:
             await self.bot.send_message(chat_id, "call_started")
         except (ChatIdInvalid, ChannelInvalid):
             link = await self.bot.export_chat_invite_link(chat_id)
-            await users.join_chat(link)
+            if "+" in link:
+                link_hash = (link.replace("+", "")).split("t.me/")[1]
+                await users.join_chat(link_hash)
             user_id = (await users.get_me()).id
             await self.bot.promote_member(chat_id, user_id)
             await self.start_call(chat_id)
