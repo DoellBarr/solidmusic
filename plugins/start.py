@@ -33,7 +33,7 @@ async def pm_start(_, message: Message):
             if query.startswith("ytinfo_"):
                 link = query.split("ytinfo_")[1]
                 details = get_yt_details(link)
-                thumb_url = details["thumbnails"]
+                thumb_url = details["thumbnail"]
                 thumb_file = download_yt_thumbnails(thumb_url, user_id)
                 result_text = f"""
 {gm(chat_id, 'track_info')}

@@ -25,7 +25,7 @@
   "req_by": "**Requested by**",
   "more_info": "More Information",
   "track_info": "**Track Information**",
-  "stream_type_title": "**Title**",
+  "stream_type_title": "**Stream Type**",
   "stream_type_music": "YouTube Music",
   "stream_type_video": "YouTube Video",
   "stream_type_local_audio": "**Telegram Local Audio**",
@@ -80,6 +80,6 @@
   "searching": "**Searching... please wait**",
   "lyrik": "**Title: {}**\n**Artist: {}**\n\n**Lyrics: **\n{}",
   "processing_update": "`Processing update... please wait`",
-  "success_update": "`Success updaitng, now restarting.`",
+  "success_update": "`Success updating, now restarting.`",
   "already_newest": "**This bot is already in newest version**"
 }

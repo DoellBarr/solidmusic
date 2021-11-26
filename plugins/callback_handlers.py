@@ -22,21 +22,21 @@ async def _button_cb(_, cb: CallbackQuery):
     music_or_video = match(2)
     user_id = int(match(3))
     chat_id = cb.message.chat.id
-    if cb.message.from_user.id != user_id:
-        return await cb.answer(gm(chat_id, "not_allowed"), show_alert=True)
+    if cb.from_user.id != user_id:
+        return await cb.answer(gm(chat_id, "not_for_you"), show_alert=True)
     yt_btn = process_button(user_id, music_or_video)
     if next_or_back == "next":
         next_search(chat_id)
         btn = [
-            InlineKeyboardButton("⬅️", f"back{music_or_video}"),
+            InlineKeyboardButton("⬅️", f"back{music_or_video}|{user_id}"),
             InlineKeyboardButton("🗑️", f"close|{user_id}"),
-            InlineKeyboardButton("➡️", f"next{music_or_video}")
+            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}")
         ]
     else:
         prev_search(chat_id)
         btn = [
             InlineKeyboardButton("🗑️", f"close|{user_id}"),
-            InlineKeyboardButton("➡️", f"next{music_or_video}")
+            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}")
         ]
     text = extract_info(chat_id, stream_result)
     await cb.edit_message_text(
@@ -77,7 +77,7 @@ async def _close_button(_, cb: CallbackQuery):
         user_id = int(match(3))
     except TypeError:
         user_id = None
-    if not user_id:
+    if cb.message.chat.type == "private" and not user_id:
         return await cb.message.delete()
     member = await cb.message.chat.get_member(cb.from_user.id)
     if member.status in ["creator", "administrator"]:

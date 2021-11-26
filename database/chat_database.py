@@ -51,7 +51,7 @@ class ChatDB(Scaffold):
                 return "already_deleted_chat"
         self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
         self.conn.commit()
-        return "chat_deleted"
+        return "success_delete_chat"
 
     def set_lang(self, chat_id: int, lang: str):
         chats = self.get_chat(chat_id)
