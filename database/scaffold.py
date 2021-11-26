@@ -6,51 +6,45 @@ class Scaffold:
         self.conn = sqlite3.connect("solid.db")
         self.cur = self.conn.cursor()
 
-    def _wrapper(self):
-        def wrap(func):
-            try:
-                return self
-            except sqlite3.OperationalError:
-                pass
-        return wrap
-
-    @_wrapper
     def init(self):
         cur = self.cur
-        cur.execute(
-            """
-            CREATE TABLE IF NOT EXISTS chat_db
-            (
-            owner_id integer, 
-            chat_id integer, 
-            lang text, 
-            quality text, 
-            admin_only boolean, 
-            gcast_type text
-            );
-            """
-        )
-        cur.execute(
-            """
-            CREATE TABLE IF NOT EXISTS sudo_db
-            (chat_id integer, user_id integer);
-            """
-        )
-        cur.execute(
-            """
-            ALTER TABLE chat_db
-            ADD gcast_type text
-            """
-        )
-        cur.execute(
-            """
-            ALTER TABLE chat_db
-            ADD admin_only boolean
-            """
-        )
-        cur.execute(
-            """
-            ALTER TABLE chat_db
-            ADD quality text
-            """
-        )
+        try:
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS chat_db
+                (
+                owner_id integer, 
+                chat_id integer, 
+                lang text, 
+                quality text, 
+                admin_only boolean, 
+                gcast_type text
+                );
+                """
+            )
+            cur.execute(
+                """
+                CREATE TABLE IF NOT EXISTS sudo_db
+                (chat_id integer, user_id integer);
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD gcast_type text
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD admin_only boolean
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD quality text
+                """
+            )
+        except sqlite3.OperationalError:
+            pass
