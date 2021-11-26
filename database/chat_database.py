@@ -33,14 +33,15 @@ class ChatDB(Scaffold):
         owner_id: int = config.OWNER_ID,
         quality: str = "medium",
         only_admin: bool = False,
+        gcast_type: str = "user"
     ):
         chats = self.get_chat(chat_id)
         for chat in chats:
             if chat_id == chat["chat_id"]:
                 return "already_added_chat"
         self.cur.execute(
-            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?)",
-            (owner_id, chat_id, f"{lang}", f"{quality.lower()}", only_admin)
+            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?)",
+            (owner_id, chat_id, f"{lang}", f"{quality.lower()}", only_admin, gcast_type)
         )
         self.conn.commit()
         return "success_add_chat"
