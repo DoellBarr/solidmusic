@@ -20,22 +20,20 @@ async def change_lang_(_, message: types.Message):
         keyboard = []
         for count, lang in enumerate(kode, start=1):
             flag = lang_flags[lang]
-            temp.append(types.InlineKeyboardButton(flag, callback_data=f"set_lang_{lang}"))
+            temp.append(
+                types.InlineKeyboardButton(flag, callback_data=f"set_lang_{lang}")
+            )
             if count % 2 == 0:
                 keyboard.append(temp)
                 temp = []
             if count == len(kode):
                 keyboard.append(temp)
         return await Bot().send_message(
-            chat_id,
-            "supported_lang",
-            markup=types.InlineKeyboardMarkup(keyboard)
+            chat_id, "supported_lang", markup=types.InlineKeyboardMarkup(keyboard)
         )
     if len(lang) == 1:
         return await Bot().send_message(chat_id, "invalid_lang")
     if len(lang) >= 2:
         if lang in kode:
             x = ChatDB().set_lang(chat_id, lang)
-            return await Bot().send_message(
-                chat_id, x, lang
-            )
+            return await Bot().send_message(chat_id, x, lang)

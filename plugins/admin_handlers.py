@@ -15,7 +15,10 @@ from database.lang_utils import get_message as gm
 async def pause(_, message: types.Message):
     chat_id = message.chat.id
     stats = await player.change_streaming_status("pause", chat_id)
-    return await Bot().send_message(chat_id, stats,)
+    return await Bot().send_message(
+        chat_id,
+        stats,
+    )
 
 
 @Client.on_message(filters.command("resume"))

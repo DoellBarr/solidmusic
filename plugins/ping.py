@@ -14,4 +14,8 @@ async def check_ping_(_, message: Message):
     msg = await message.reply(gm(chat_id, "ping_text"))
     pytgcalls_latency = await call_py.ping
     pyrogram_latency = time() - start
-    await msg.edit(gm(chat_id, "pong_text").format(round(pyrogram_latency * 1000, 3), round(pytgcalls_latency, 2)))
+    await msg.edit(
+        gm(chat_id, "pong_text").format(
+            round(pyrogram_latency * 1000, 3), round(pytgcalls_latency, 2)
+        )
+    )

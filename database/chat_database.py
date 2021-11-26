@@ -16,13 +16,15 @@ class ChatDB(Scaffold):
                 "lang": lang,
                 "quality": quality,
                 "only_admin": admin,
-                "gcast_type": gcast_type
+                "gcast_type": gcast_type,
             }
             final.append(x.copy())
         return final
 
     def get_chat(self, chat_id: int) -> List[Dict[str, str]]:
-        results = self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,))
+        results = self.cur.execute(
+            "SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)
+        )
         final = self._get(results)
         return final
 
@@ -33,7 +35,7 @@ class ChatDB(Scaffold):
         owner_id: int = config.OWNER_ID,
         quality: str = "medium",
         only_admin: bool = False,
-        gcast_type: str = "user"
+        gcast_type: str = "user",
     ):
         chats = self.get_chat(chat_id)
         for chat in chats:
@@ -41,7 +43,14 @@ class ChatDB(Scaffold):
                 return "already_added_chat"
         self.cur.execute(
             "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?)",
-            (owner_id, chat_id, f"{lang}", f"{quality.lower()}", only_admin, gcast_type)
+            (
+                owner_id,
+                chat_id,
+                f"{lang}",
+                f"{quality.lower()}",
+                only_admin,
+                gcast_type,
+            ),
         )
         self.conn.commit()
         return "success_add_chat"
@@ -66,7 +75,10 @@ class ChatDB(Scaffold):
             SET lang = ?
             WHERE chat_id = ?
             """,
-            (f"{lang}", chat_id,)
+            (
+                f"{lang}",
+                chat_id,
+            ),
         )
         self.conn.commit()
         return "lang_changed"
@@ -82,7 +94,10 @@ class ChatDB(Scaffold):
             SET quality = ?
             WHERE chat_id = ?
             """,
-            (f"{quality}", chat_id,)
+            (
+                f"{quality}",
+                chat_id,
+            ),
         )
         self.conn.commit()
         return "quality_changed"
@@ -100,7 +115,10 @@ class ChatDB(Scaffold):
             SET admin_only = ?
             WHERE chat_id = ?
             """,
-            (only_admin, chat_id,)
+            (
+                only_admin,
+                chat_id,
+            ),
         )
         self.conn.commit()
         return "only_admin_changed" if only_admin else "all_member_changed"
@@ -118,7 +136,10 @@ class ChatDB(Scaffold):
             SET gcast_type = ?
             WHERE chat_id = ?
             """,
-            (gcast_type, chat_id,)
+            (
+                gcast_type,
+                chat_id,
+            ),
         )
         return "gcast_changed"
 

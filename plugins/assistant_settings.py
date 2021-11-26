@@ -18,16 +18,14 @@ async def userbot_join(client: Client, message: Message):
             link_hash = (invite_link.replace("+", "")).split("t.me/")[1]
             await user.join_chat(f"https://t.me/joinchat/{link_hash}")
         await message.chat.promote_member(
-            (await user.get_me()).id,
-            can_manage_voice_chats=True
+            (await user.get_me()).id, can_manage_voice_chats=True
         )
         return await user.send_message(chat_id, gm(chat_id, "user_alert"))
     except UserAlreadyParticipant:
         admin = await message.chat.get_member((await user.get_me()).id)
         if not admin.can_manage_voice_chats:
             await message.chat.promote_member(
-                (await user.get_me()).id,
-                can_manage_voice_chats=True
+                (await user.get_me()).id, can_manage_voice_chats=True
             )
             return await user.send_message(chat_id, gm(chat_id, "user_here"))
         return await user.send_message(chat_id, gm(chat_id, "user_here"))

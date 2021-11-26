@@ -7,7 +7,7 @@ from functions.youtube_utils import (
     prev_search,
     next_search,
     extract_info,
-    stream_result
+    stream_result,
 )
 from functions.markup_button import process_button, start_markup
 
@@ -30,24 +30,17 @@ async def _button_cb(_, cb: CallbackQuery):
         btn = [
             InlineKeyboardButton("⬅️", f"back{music_or_video}|{user_id}"),
             InlineKeyboardButton("🗑️", f"close|{user_id}"),
-            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}")
+            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}"),
         ]
     else:
         prev_search(chat_id)
         btn = [
             InlineKeyboardButton("🗑️", f"close|{user_id}"),
-            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}")
+            InlineKeyboardButton("➡️", f"next{music_or_video}|{user_id}"),
         ]
     text = extract_info(chat_id, stream_result)
     await cb.edit_message_text(
-        text,
-        reply_markup=InlineKeyboardMarkup(
-            [
-                yt_btn[0],
-                yt_btn[1],
-                btn
-            ]
-        )
+        text, reply_markup=InlineKeyboardMarkup([yt_btn[0], yt_btn[1], btn])
     )
 
 
@@ -65,7 +58,7 @@ async def _music_or_video(_, cb: CallbackQuery):
         "duration": result["duration"],
         "yt_url": result["yt_url"],
         "yt_id": result["yt_id"],
-        "stream_type": stream_type
+        "stream_type": stream_type,
     }
     await player.music_or_video(cb, res)
 
@@ -94,12 +87,8 @@ async def _change_lang(_, cb: CallbackQuery):
     await cb.message.edit(
         gm(chat_id, set_lang),
         reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(gm(chat_id, "channel"), url=config.CHANNEL_LINK)
-                ]
-            ]
-        )
+            [[InlineKeyboardButton(gm(chat_id, "channel"), url=config.CHANNEL_LINK)]]
+        ),
     )
 
 

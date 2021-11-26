@@ -24,7 +24,7 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         title: str,
         duration: str,
         yt_url: str,
-        yt_id: str
+        yt_id: str,
     ):
         if stream_type == "music":
             await self.play(cb, user_id, title, duration, yt_url, yt_id)
@@ -50,7 +50,9 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         if config.AUTO_LEAVE:
             print("[ INFO ] STARTING SCHEDULER")
             scheduler.configure(timezone=pytz.utc)
-            scheduler.add_job(leave_from_inactive_call, "interval", seconds=config.AUTO_LEAVE)
+            scheduler.add_job(
+                leave_from_inactive_call, "interval", seconds=config.AUTO_LEAVE
+            )
             scheduler.start()
         else:
             pass

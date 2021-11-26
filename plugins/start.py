@@ -71,12 +71,12 @@ async def pm_start(_, message: Message):
                             [
                                 InlineKeyboardButton(
                                     f"{gm(chat_id, 'commands')}",
-                                    url="https://telegra.ph/The-Bot-Command-11-14"
+                                    url="https://telegra.ph/The-Bot-Command-11-14",
                                 )
                             ]
                         ]
                     ),
-                    disable_web_page_preview=True
+                    disable_web_page_preview=True,
                 )
     if message.chat.type in ["group", "supergroup"]:
         await message.reply(
@@ -105,10 +105,10 @@ async def help_cmds_(_, message: Message):
                 [
                     InlineKeyboardButton(
                         f"{gm(chat_id, 'commands')}",
-                        url="https://telegra.ph/The-Bot-Command-11-14"
+                        url="https://telegra.ph/The-Bot-Command-11-14",
                     )
                 ]
             ]
         ),
-        disable_web_page_preview=True
+        disable_web_page_preview=True,
     )

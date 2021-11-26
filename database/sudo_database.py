@@ -6,8 +6,7 @@ class SudoDB(Scaffold):
         return [
             row[1]
             for row in self.cur.execute(
-                "SELECT * FROM sudo_db WHERE chat_id = ?",
-                (chat_id,)
+                "SELECT * FROM sudo_db WHERE chat_id = ?", (chat_id,)
             )
         ]
 
@@ -16,7 +15,10 @@ class SudoDB(Scaffold):
             return "already_become_sudo"
         self.cur.execute(
             "INSERT INTO sudo_db VALUES (?, ?)",
-            (chat_id, user_id,)
+            (
+                chat_id,
+                user_id,
+            ),
         )
         self.conn.commit()
         return "added_sudo"
@@ -26,7 +28,10 @@ class SudoDB(Scaffold):
             return "already_deleted_sudo"
         self.cur.execute(
             "DELETE FROM sudo_db WHERE chat_id = ? AND user_id = ?",
-            (chat_id, user_id,)
+            (
+                chat_id,
+                user_id,
+            ),
         )
         self.conn.commit()
         return "deleted_sudo"

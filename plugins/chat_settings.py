@@ -1,5 +1,9 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup as MarkupKeyboard, InlineKeyboardButton as ButtonKeyboard
+from pyrogram.types import (
+    Message,
+    InlineKeyboardMarkup as MarkupKeyboard,
+    InlineKeyboardButton as ButtonKeyboard,
+)
 from core.bot import Bot
 from core.clients import user
 from configs import config
@@ -24,13 +28,15 @@ async def new_member_(client: Client, message: Message):
                     [
                         [
                             ButtonKeyboard("Channel", url=config.CHANNEL_LINK),
-                            ButtonKeyboard("Support", url=config.GROUP_LINK)
+                            ButtonKeyboard("Support", url=config.GROUP_LINK),
                         ],
                         [
-                            ButtonKeyboard("Assistant", url=f"https://t.me/{assistant_username}")
-                        ]
+                            ButtonKeyboard(
+                                "Assistant", url=f"https://t.me/{assistant_username}"
+                            )
+                        ],
                     ]
-                )
+                ),
             )
 
 
@@ -76,9 +82,7 @@ async def set_admin_(_, message: Message):
     else:
         only_admin = False
     admin_set = ChatDB().set_admin(message.chat.id, only_admin)
-    return await Bot().send_message(
-        message.chat.id, admin_set
-    )
+    return await Bot().send_message(message.chat.id, admin_set)
 
 
 @Client.on_message(filters.command("setquality"))
@@ -90,6 +94,8 @@ async def set_quality_(_, message: Message):
         cmd = ""
     if cmd:
         if cmd not in ["low", "medium", "high"]:
-            return await Bot().send_message(message.chat.id, "invalid_quality_selection")
+            return await Bot().send_message(
+                message.chat.id, "invalid_quality_selection"
+            )
         key = ChatDB().set_quality(message.chat.id, cmd)
         return await Bot().send_message(message.chat.id, key, cmd)

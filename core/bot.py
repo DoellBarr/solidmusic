@@ -26,7 +26,7 @@ class Bot:
         key: str,
         format_key: str = "",
         markup: InlineKeyboardMarkup = None,
-        delete: Optional[int] = 0
+        delete: Optional[int] = 0,
     ):
         msg = await self._bot.send_message(
             chat_id,
