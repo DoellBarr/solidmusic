@@ -12,6 +12,7 @@ bot = Bot()
 
 
 def authorized_only(func: Callable) -> Callable:
+    @del_cmd
     async def wrapper(client: Client, message: types.Message):
         client_user_id = (await user.get_me()).id
         user_id = message.from_user.id
@@ -64,4 +65,20 @@ def only_admin(func: Callable) -> Callable:
         if not admin_only:
             return await func(client, message)
 
+    return wrapper
+
+
+def del_cmd(func: Callable) -> Callable:
+    async def wrapper(client: Client, message: types.Message):
+        chat_id = message.chat.id
+        try:
+            delete_cmd = bool(chat_db.get_chat(chat_id)[0]["del_cmd_mode"])
+        except IndexError:
+            ChatDB().add_chat(chat_id)
+            delete_cmd = bool(chat_db.get_chat(chat_id)[0]["del_cmd_mode"])
+        if delete_cmd:
+            await client.delete_messages(chat_id, message.message_id)
+            return await func(client, message)
+        else:
+            return await func(client, message)
     return wrapper
