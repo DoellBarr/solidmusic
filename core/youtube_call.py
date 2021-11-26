@@ -1,6 +1,6 @@
 from asyncio import sleep
 
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, UserNotParticipant, ChatAdminRequired
 from pyrogram.types import CallbackQuery, Message
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -57,6 +57,11 @@ class YoutubePlayer(Call):
             await self._play(
                 mess, chat_id, user_id, audio_url, title, duration, yt_url, yt_id
             )
+        except UserNotParticipant:
+            await self.join_chat(chat_id)
+            await self._play(
+                mess, chat_id, user_id, audio_url, title, duration, yt_url, yt_id
+            )
 
     async def _video_play(
         self,
@@ -100,6 +105,11 @@ class YoutubePlayer(Call):
         except FloodWait as Fw:
             await mess.edit(gm(chat_id, "error_flood".format(str(Fw.x))))
             await sleep(Fw.x)
+            await self._video_play(
+                mess, chat_id, user_id, video_url, title, duration, yt_url, yt_id
+            )
+        except UserNotParticipant:
+            await self.join_chat(chat_id)
             await self._video_play(
                 mess, chat_id, user_id, video_url, title, duration, yt_url, yt_id
             )

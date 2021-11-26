@@ -1,7 +1,7 @@
 import asyncio
 import datetime
 
-from pyrogram.errors import FloodWait
+from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types import Message
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -54,6 +54,11 @@ class TelegramPlayer(Call):
             await self._local_audio_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )
+        except UserNotParticipant:
+            await self.join_chat(chat_id)
+            await self._local_audio_play(
+                mess, user_id, chat_id, title, duration, source_file, link
+            )
 
     async def _local_video_play(
         self,
@@ -93,6 +98,11 @@ class TelegramPlayer(Call):
             )
         except FloodWait as e:
             await mess.edit(gm(chat_id, "error_flood".format(str(e.x))))
+            await self._local_video_play(
+                mess, user_id, chat_id, title, duration, source_file, link
+            )
+        except UserNotParticipant:
+            await self.join_chat(chat_id)
             await self._local_video_play(
                 mess, user_id, chat_id, title, duration, source_file, link
             )

@@ -1,6 +1,13 @@
 import random
 
-from pyrogram.errors import ChatIdInvalid, ChannelInvalid
+from pyrogram.errors import (
+    ChatIdInvalid,
+    ChannelInvalid,
+    UserNotParticipant,
+    ChatAdminRequired,
+    ChannelPrivate,
+    ChatForbidden,
+)
 from pyrogram.raw.base import InputChannel, InputGroupCall
 from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
@@ -43,10 +50,13 @@ async def leave_from_inactive_call():
                 else:
                     all_chat_id.append(call_chat_id)
                 call_status = getattr(call, "status")
-                if call_chat_id == chat_id and call_status == "not_playing":
-                    await user.leave_chat(chat_id)
-                elif chat_id not in all_chat_id:
-                    await user.leave_chat(chat_id)
+                try:
+                    if call_chat_id == chat_id and call_status == "not_playing":
+                        await user.leave_chat(chat_id)
+                    elif chat_id not in all_chat_id:
+                        await user.leave_chat(chat_id)
+                except UserNotParticipant:
+                    pass
             if chat_id not in all_chat_id:
                 await user.leave_chat(chat_id)
 
@@ -129,7 +139,7 @@ class Call:
     def is_call_active(self, chat_id: int):
         call = self.call
         for calls in call.calls:
-            if getattr(calls, "status") == "playing":
+            if getattr(calls, "status") in ["playing", "paused"]:
                 return bool(chat_id == getattr(calls, "chat_id"))
 
     async def _get_group_call(self, chat_id: int) -> InputGroupCall:
@@ -160,10 +170,12 @@ class Call:
             link = await self.bot.export_chat_invite_link(chat_id)
             if "+" in link:
                 link_hash = (link.replace("+", "")).split("t.me/")[1]
-                await users.join_chat(link_hash)
+                await users.join_chat(f"https://t.me/joinchat/{link_hash}")
             user_id = (await users.get_me()).id
             await self.bot.promote_member(chat_id, user_id)
             await self.start_call(chat_id)
+        except (ChannelPrivate, ChatForbidden):
+            return await self.bot.send_message(chat_id, "user_banned")
 
     async def end_call(self, chat_id: int):
         # Credit Userge
@@ -255,8 +267,21 @@ class Call:
         playlist = self.playlist.playlist
         if chat_id in playlist and len(playlist[chat_id]) > 1:
             title = await self._change_stream(chat_id)
-            return await self.bot.send_message(chat_id, "track_skipped", title, delete=5)
+            return await self.bot.send_message(
+                chat_id, "track_skipped", title, delete=5
+            )
         return await self.bot.send_message(chat_id, "no_playlists")
+
+    async def join_chat(self, chat_id: int):
+        link = await self.bot.export_chat_invite_link(chat_id)
+        if "+" in link:
+            link_hash = (link.replace("+", "")).split("t.me/")[1]
+            await self.user.join_chat(f"https://t.me/joinchat/{link_hash}")
+            try:
+                client_user_id = (await self.user.get_me()).id
+                await self.bot.promote_member(chat_id, client_user_id)
+            except ChatAdminRequired:
+                pass
 
     def send_playlist(self, chat_id: int):
         playlist = self.playlist.playlist

@@ -3,6 +3,7 @@ import asyncio
 from pyrogram import filters, Client
 from pyrogram.types import Message
 
+from configs import config
 from core.bot import Bot
 from core.clients import user
 from database.lang_utils import get_message as gm
@@ -31,10 +32,12 @@ async def gcast_(client: Client, message: Message):
             except Exception as e:
                 print(e)
                 error += 1
-    return await msg.edit(gm(message.chat.id, "success_gcast").format(str(success), str(error)))
+    return await msg.edit(
+        gm(message.chat.id, "success_gcast").format(str(success), str(error))
+    )
 
 
-@Client.on_message(filters.command("setgcast"))
+@Client.on_message(filters.command("setgcast") & filters.user(config.OWNER_ID))
 async def set_gcast_(_, message: Message):
     chat_id = message.chat.id
     try:
@@ -42,7 +45,7 @@ async def set_gcast_(_, message: Message):
     except IndexError:
         gcast_type = ""
         return await message.reply("Give me an input")
-    if gcast_type not in ["bot", "user"] or not gcast_type:
+    if gcast_type not in ["bot", "user"]:
         return await message.reply(gm(chat_id, "invalid_gcast_type"))
     key = ChatDB().set_gcast(chat_id, gcast_type)
     return await Bot().send_message(chat_id, key, gcast_type)
