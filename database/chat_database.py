@@ -8,7 +8,15 @@ class ChatDB(Scaffold):
     def _get(chats: Tuple) -> List[Dict[str, str]]:
         final = []
         for chat in chats:
-            owner_id, chat_id, lang, quality, only_admin, gcast_type = chat
+            (
+                owner_id,
+                chat_id,
+                lang,
+                quality,
+                only_admin,
+                gcast_type,
+                del_cmd_mode
+            ) = chat
             admin = bool(only_admin)
             x = {
                 "owner_id": owner_id,
@@ -17,6 +25,7 @@ class ChatDB(Scaffold):
                 "quality": quality,
                 "only_admin": admin,
                 "gcast_type": gcast_type,
+                "del_cmd_mode": del_cmd_mode
             }
             final.append(x.copy())
         return final
@@ -31,25 +40,22 @@ class ChatDB(Scaffold):
     def add_chat(
         self,
         chat_id: int,
-        lang: str = "en",
-        owner_id: int = config.OWNER_ID,
-        quality: str = "medium",
-        only_admin: bool = False,
-        gcast_type: str = "user",
+        lang: str = "en"
     ):
         chats = self.get_chat(chat_id)
         for chat in chats:
             if chat_id == chat["chat_id"]:
                 return "already_added_chat"
         self.cur.execute(
-            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?)",
             (
-                owner_id,
+                config.OWNER_ID,
                 chat_id,
-                f"{lang}",
-                f"{quality.lower()}",
-                only_admin,
-                gcast_type,
+                lang,
+                "medium",
+                False,
+                "bot",
+                True
             ),
         )
         self.conn.commit()
@@ -141,7 +147,41 @@ class ChatDB(Scaffold):
                 chat_id,
             ),
         )
+        conn.commit()
         return "gcast_changed"
+
+    def set_del_cmd(self, chat_id: int, del_cmd_mode: bool):
+        cur, conn = self.cur, self.conn
+        chats = self.get_chat(chat_id)
+        for chat in chats:
+            if del_cmd_mode == bool(chat["del_cmd_mode"]):
+                return "del_cmd_mode_already_set"
+        cur.execute(
+            """
+            UPDATE chat_db
+            SET del_cmd_mode = ?
+            WHERE chat_id = ?
+            """,
+            (
+                del_cmd_mode,
+                chat_id,
+            )
+        )
+        conn.commit()
+        return "del_cmd_changed"
+
+    def reload_data(self):
+        for chat in self.cur.execute("SELECT * FROM chat_db"):
+            if None in chat:
+                self.cur.execute(
+                    """
+                    UPDATE chat_db
+                    SET del_cmd_mode = ?
+                    WHERE chat_id = ?
+                    """,
+                    (1, chat[1],)
+                )
+                self.conn.commit()
 
     def get_stats(self):
         chats = self.cur.execute("SELECT * FROM chat_db")
