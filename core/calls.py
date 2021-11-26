@@ -1,3 +1,4 @@
+import asyncio
 import random
 
 from pyrogram.errors import (
@@ -6,7 +7,7 @@ from pyrogram.errors import (
     UserNotParticipant,
     ChatAdminRequired,
     ChannelPrivate,
-    ChatForbidden,
+    ChatForbidden, PeerIdInvalid, UserAlreadyParticipant,
 )
 from pyrogram.raw.base import InputChannel, InputGroupCall
 from pyrogram.raw.functions.channels import GetFullChannel
@@ -159,6 +160,10 @@ class Call:
     async def start_call(self, chat_id: int):
         users = self.user
         try:
+            try:
+                await self.join_chat(chat_id)
+            except UserAlreadyParticipant:
+                pass
             await users.send(
                 CreateGroupCall(
                     peer=await users.resolve_peer(chat_id),
@@ -167,10 +172,21 @@ class Call:
             )
             await self.bot.send_message(chat_id, "call_started")
         except (ChatIdInvalid, ChannelInvalid):
-            await self.join_chat(chat_id)
             await self.start_call(chat_id)
         except (ChannelPrivate, ChatForbidden):
-            return await self.bot.send_message(chat_id, "user_banned")
+            try:
+                await self.bot.unban_member(chat_id, (await self.bot.get_me()).id)
+                await self.start_call(chat_id)
+            except PeerIdInvalid:
+                await users.send_message((await self.bot.get_me()).id, "/start")
+                await self.start_call(chat_id)
+            except ChatAdminRequired:
+                self.playlist.delete_chat(chat_id)
+                return await self.bot.send_message(chat_id, "user_banned")
+        except ChatAdminRequired:
+            await users.send_message((await self.bot.get_me()).id, "/start")
+            await self.bot.promote_member(chat_id, (await users.get_me()).id)
+            await self.start_call(chat_id)
 
     async def end_call(self, chat_id: int):
         # Credit Userge
@@ -275,8 +291,12 @@ class Call:
             try:
                 client_user_id = (await self.user.get_me()).id
                 await self.bot.promote_member(chat_id, client_user_id)
+                await self.join_chat(chat_id)
             except ChatAdminRequired:
-                pass
+                self.playlist.delete_chat(chat_id)
+                return await self.bot.send_message(chat_id, "need_add_user_permission")
+            await asyncio.sleep(5)
+            await self.bot.revoke_chat_invite_link(chat_id, link)
 
     def send_playlist(self, chat_id: int):
         playlist = self.playlist.playlist
