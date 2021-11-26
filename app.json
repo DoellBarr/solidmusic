@@ -39,6 +39,11 @@
       "description": "fill it if you fork from original repo",
       "required": false,
       "value": "https://github.com/DoellBarr/solidmusic"
+    },
+    "AUTO_LEAVE": {
+      "description": "fill it with delay time for leaving group, fill 0 if you do not want to use this feature",
+      "required": false,
+      "value": "0"
     }
   },
   "buildpacks": [

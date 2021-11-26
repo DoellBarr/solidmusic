@@ -31,6 +31,26 @@ class Methods(ChatDB, SudoDB):
         super(Methods, self).__init__()
 
 
+async def leave_from_inactive_call():
+    all_chat_id = []
+    async for chat in user.iter_dialogs():
+        chat_id = chat.chat.id
+        if chat.chat.type in ["group", "supergroup"]:
+            for call in call_py.calls:
+                call_chat_id = int(getattr(call, "chat_id"))
+                if call_chat_id in all_chat_id:
+                    pass
+                else:
+                    all_chat_id.append(call_chat_id)
+                call_status = getattr(call, "status")
+                if call_chat_id == chat_id and call_status == "not_playing":
+                    await user.leave_chat(chat_id)
+                elif chat_id not in all_chat_id:
+                    await user.leave_chat(chat_id)
+            if chat_id not in all_chat_id:
+                await user.leave_chat(chat_id)
+
+
 class Call:
     def __init__(self):
         self.call = call_py
@@ -108,9 +128,9 @@ class Call:
 
     def is_call_active(self, chat_id: int):
         call = self.call
-        for active_call in call.active_calls:
-            return bool(chat_id == getattr(active_call, "chat_id"))
-        return False
+        for calls in call.calls:
+            if getattr(calls, "status") == "playing":
+                return bool(chat_id == getattr(calls, "chat_id"))
 
     async def _get_group_call(self, chat_id: int) -> InputGroupCall:
         # Credit Userge
