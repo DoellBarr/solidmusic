@@ -81,5 +81,11 @@
   "lyrik": "**Title: {}**\n**Artist: {}**\n\n**Lyrics: **\n{}",
   "processing_update": "`Processing update... please wait`",
   "success_update": "`Success updating, now restarting.`",
-  "already_newest": "**This bot is already in newest version**"
+  "already_newest": "**This bot is already in newest version**",
+  "gcast_changed": "**Gcast mode changed to {}.**",
+  "gcast_already_set": "**Gcast mode alredy set to {}.**",
+  "give_input": "**Give me input (bot|user)**",
+  "invalid_gcast_type": "**Invalid gcast type, accepted type only (bot|user).**",
+  "ping_text": "`Ping...`",
+  "pong_text": "`🏓 Pong...\nPyrogram latency: {}ms\nPyTgCalls latency: {}ms"
 }

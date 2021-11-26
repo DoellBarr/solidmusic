@@ -8,14 +8,15 @@ class ChatDB(Scaffold):
     def _get(chats: Tuple) -> List[Dict[str, str]]:
         final = []
         for chat in chats:
-            owner_id, chat_id, lang, quality, only_admin = chat
+            owner_id, chat_id, lang, quality, only_admin, gcast_type = chat
             admin = bool(only_admin)
             x = {
                 "owner_id": owner_id,
                 "chat_id": chat_id,
                 "lang": lang,
                 "quality": quality,
-                "only_admin": admin
+                "only_admin": admin,
+                "gcast_type": gcast_type
             }
             final.append(x.copy())
         return final
@@ -102,6 +103,23 @@ class ChatDB(Scaffold):
         )
         self.conn.commit()
         return "only_admin_changed" if only_admin else "all_member_changed"
+
+    def set_gcast(self, chat_id: int, gcast_type: str):
+        cur = self.cur
+        conn = self.conn
+        chats = self.get_chat(chat_id)
+        for chat in chats:
+            if gcast_type == chat["gcast_type"]:
+                return "gcast_already_set"
+        cur.execute(
+            """
+            UPDATE chat_db
+            SET gcast_type = ?
+            WHERE chat_id = ?
+            """,
+            (gcast_type, chat_id,)
+        )
+        return "gcast_changed"
 
     def get_stats(self):
         chats = self.cur.execute("SELECT * FROM chat_db")
