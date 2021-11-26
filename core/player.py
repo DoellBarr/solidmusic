@@ -10,6 +10,7 @@ from .calls import leave_from_inactive_call
 from .telegram_call import TelegramPlayer
 from .youtube_call import YoutubePlayer
 from core import username as usernames
+from plugins import load_module
 
 username = usernames
 scheduler = AsyncIOScheduler()
@@ -41,11 +42,13 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         await self.join_call(stream_type, cb, user_id, title, duration, yt_url, yt_id)
 
     async def run(self):
-        print("[ INFO ] START BOT CLIENT")
+        print("⌈ [ INFO ] START BOT CLIENT")
         await self.bot.start()
-        print("[ INFO ] GETTING BOT USERNAME")
+        print("|- [ INFO ] LOAD ALL MODULES")
+        load_module()
+        print("|- [ INFO ] GETTING BOT USERNAME")
         await self.get_username()
-        print("[ INFO ] START PyTgCalls CLIENT")
+        print("⌊ [ INFO ] START PyTgCalls CLIENT")
         await self.call.start()
         if config.AUTO_LEAVE:
             print("[ INFO ] STARTING SCHEDULER")
