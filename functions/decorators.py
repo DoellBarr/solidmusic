@@ -42,7 +42,11 @@ def only_admin(func: Callable) -> Callable:
         client_user_id = (await user.get_me()).id
         chat_id = message.chat.id
         user_id = message.from_user.id
-        admin_only = bool(chat_db.get_chat(chat_id)[0]["only_admin"])
+        try:
+            admin_only = bool(chat_db.get_chat(chat_id)[0]["only_admin"])
+        except IndexError:
+            ChatDB().add_chat(chat_id)
+            admin_only = bool(chat_db.get_chat(chat_id)[0]["only_admin"])
         if admin_only:
             member = await message.chat.get_member(user_id)
             if member.status not in ["creator", "administrator"]:

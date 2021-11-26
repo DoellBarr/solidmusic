@@ -67,6 +67,7 @@
   "user_here": "**Hi, I'm here, can I help you?**",
   "user_leave_chat": "**Userbot leave from this chat.**",
   "user_already_leave_chat": "**Userbot already leave from this chat.",
+  "user_banned": "**Userbot banned in this chat.**",
   "success_gcast": "**Success gcasting to {} chats, and error in {} chats",
   "process_gcast": "`Gcasting...`",
   "not_for_you": "This button is not for you!",

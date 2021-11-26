@@ -167,12 +167,7 @@ class Call:
             )
             await self.bot.send_message(chat_id, "call_started")
         except (ChatIdInvalid, ChannelInvalid):
-            link = await self.bot.export_chat_invite_link(chat_id)
-            if "+" in link:
-                link_hash = (link.replace("+", "")).split("t.me/")[1]
-                await users.join_chat(f"https://t.me/joinchat/{link_hash}")
-            user_id = (await users.get_me()).id
-            await self.bot.promote_member(chat_id, user_id)
+            await self.join_chat(chat_id)
             await self.start_call(chat_id)
         except (ChannelPrivate, ChatForbidden):
             return await self.bot.send_message(chat_id, "user_banned")

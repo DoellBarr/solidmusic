@@ -40,7 +40,11 @@ class Bot:
         return msg
 
     async def export_chat_invite_link(self, chat_id: int):
-        return (await self._bot.export_chat_invite_link(chat_id)).invite_link
+        link = await self._bot.export_chat_invite_link(chat_id)
+        try:
+            return link.invite_link
+        except AttributeError:
+            return link
 
     async def get_me(self):
         return await self._bot.get_me()
