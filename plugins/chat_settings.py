@@ -11,6 +11,14 @@ from database.chat_database import ChatDB
 from functions.decorators import authorized_only
 
 
+def check_cmd(message: Message):
+    try:
+        cmd = message.command[1].lower()
+    except IndexError:
+        cmd = ""
+    return cmd
+
+
 @Client.on_message(filters.new_chat_members)
 async def new_member_(client: Client, message: Message):
     assistant_username = (await user.get_me()).username
@@ -71,12 +79,9 @@ async def del_chat_(_, message: Message):
 @Client.on_message(filters.command("setadmin"))
 @authorized_only
 async def set_admin_(_, message: Message):
-    try:
-        cmd = message.command[1].lower()
-    except IndexError:
-        cmd = ""
+    cmd = check_cmd(message)
     if cmd not in ["yes", "true", "on", "no", "false", "off"]:
-        return await Bot().send_message(message.chat.id, "invalid_admin_selection")
+        return await Bot().send_message(message.chat.id, "invalid_command_selection")
     if cmd in ["yes", "true", "on"]:
         only_admin = True
     else:
@@ -88,10 +93,7 @@ async def set_admin_(_, message: Message):
 @Client.on_message(filters.command("setquality"))
 @authorized_only
 async def set_quality_(_, message: Message):
-    try:
-        cmd = message.command[1].lower()
-    except IndexError:
-        cmd = ""
+    cmd = check_cmd(message)
     if cmd:
         if cmd not in ["low", "medium", "high"]:
             return await Bot().send_message(
@@ -99,3 +101,22 @@ async def set_quality_(_, message: Message):
             )
         key = ChatDB().set_quality(message.chat.id, cmd)
         return await Bot().send_message(message.chat.id, key, cmd)
+
+
+@Client.on_message(filters.command("delcmd"))
+@authorized_only
+async def set_del_cmd_(_, message: Message):
+    cmd = check_cmd(message)
+    if cmd not in ["on", "yes", "true", "off", "no", "false"]:
+        return await Bot().send_message(
+            message.chat.id, "invalid_command_selection"
+        )
+    del_cmd = bool(cmd in ["on", "yes", "true"])
+    key = ChatDB().set_del_cmd(message.chat.id, del_cmd)
+    return await Bot().send_message(message.chat.id, key, cmd)
+
+
+@Client.on_message(filters.command("reloaddb") & filters.user(config.OWNER_ID))
+async def reload_db_(_, message: Message):
+    ChatDB().reload_data()
+    return await Bot().send_message(message.chat.id, "db_reloaded")
