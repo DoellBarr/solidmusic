@@ -74,7 +74,7 @@
   "pm_greet": "✨ **Hi {}!**\n**I can to stream any media on groups through the new Telegram video chats feature!**\n💡**Find all of my command by clicking on the » Commands « button!",
   "helpmusic": "💡 **To use this bot, first you must make assistant and me to be admin in your group, then how to use this bot, already detailed in » Command « button.",
   "backtomenu": "**Back**",
-  "invalid_admin_selection": "**Wrong selection for setadmin command, accepted selection is (yes|true|on, no|false|off).**",
+  "invalid_command_selection": "**Wrong command selection, accepted selection is (yes|true|on, no|false|off).**",
   "invalid_quality_selection": "**Wrong selection for setquality command, accepted selection is (low|medium|high).**",
   "supported_lang": "**💡 Here is all the language that supported with this bot.**",
   "invalid_lang": "**You must use two characters or more to change the language.**",
@@ -89,5 +89,9 @@
   "give_input": "**Give me input (bot|user)**",
   "invalid_gcast_type": "**Invalid gcast type, accepted type only (bot|user).**",
   "ping_text": "`Ping...`",
-  "pong_text": "`🏓 Pong...\nPyrogram latency: {}ms\nPyTgCalls latency: {}ms"
+  "pong_text": "`🏓 Pong...\nPyrogram latency: {}ms\nPyTgCalls latency: {}ms",
+  "need_add_user_permission": "**I need the** `Add new admins` **permissions**.",
+  "del_cmd_mode_already_set": "**Delete command already set to {}**",
+  "del_cmd_changed": "**Delete command changed to {}**",
+  "db_reloaded": "**Database reloaded.**"
 }
