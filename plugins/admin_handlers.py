@@ -47,7 +47,7 @@ async def end_stream_(_, message: types.Message):
     chat_id = message.chat.id
     key = await player.end_stream(chat_id)
     first_name = (await message.chat.get_member(message.from_user.id)).user.first_name
-    return await Bot().send_message(chat_id, "track_ended", first_name)
+    return await Bot().send_message(chat_id, key, first_name)
 
 
 @Client.on_message(filters.command("restart") & filters.user(config.OWNER_ID))
