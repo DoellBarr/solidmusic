@@ -8,11 +8,9 @@ from core.bot import Bot
 from core.clients import user
 from database.lang_utils import get_message as gm
 from database.chat_database import ChatDB
-from functions.decorators import authorized_only
 
 
-@Client.on_message(filters.command("gcast"))
-@authorized_only
+@Client.on_message(filters.command("gcast") & filters.user(config.OWNER_ID))
 async def gcast_(client: Client, message: Message):
     if message.reply_to_message:
         text = message.reply_to_message.text
