@@ -18,8 +18,16 @@ class Scaffold:
                 lang text, 
                 quality text, 
                 admin_only boolean, 
-                gcast_type text
+                gcast_type text,
+                del_cmd_mode boolean
                 );
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD del_cmd_mode boolean
+                DEFAULT 1
                 """
             )
             cur.execute(
