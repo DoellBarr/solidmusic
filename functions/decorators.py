@@ -1,6 +1,8 @@
 from typing import Callable
 
 from pyrogram import types, Client
+from pyrogram.errors import MessageDeleteForbidden
+
 from database.sudo_database import SudoDB
 from database.chat_database import ChatDB
 from core.bot import Bot
@@ -62,7 +64,7 @@ def only_admin(func: Callable) -> Callable:
                 or user_id == client_user_id
             ):
                 return await func(client, message)
-        if not admin_only:
+        elif not admin_only:
             return await func(client, message)
 
     return wrapper
@@ -77,8 +79,10 @@ def del_cmd(func: Callable) -> Callable:
             ChatDB().add_chat(chat_id)
             delete_cmd = bool(chat_db.get_chat(chat_id)[0]["del_cmd_mode"])
         if delete_cmd:
-            await client.delete_messages(chat_id, message.message_id)
+            try:
+                await client.delete_messages(chat_id, message.message_id)
+            except MessageDeleteForbidden:
+                pass
             return await func(client, message)
-        else:
-            return await func(client, message)
+        return await func(client, message)
     return wrapper
