@@ -10,7 +10,7 @@ from functions.decorators import authorized_only
 
 @Client.on_message(filters.command("userbotjoin"))
 @authorized_only
-async def userbot_join(client: Client, message: Message):
+async def userbot_join(_, message: Message):
     chat_id = message.chat.id
     try:
         invite_link = await message.chat.export_invite_link()

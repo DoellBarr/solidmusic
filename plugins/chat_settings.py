@@ -82,10 +82,7 @@ async def set_admin_(_, message: Message):
     cmd = check_cmd(message)
     if cmd not in ["yes", "true", "on", "no", "false", "off"]:
         return await Bot().send_message(message.chat.id, "invalid_command_selection")
-    if cmd in ["yes", "true", "on"]:
-        only_admin = True
-    else:
-        only_admin = False
+    only_admin = bool(cmd in ["yes", "true", "on"])
     admin_set = ChatDB().set_admin(message.chat.id, only_admin)
     return await Bot().send_message(message.chat.id, admin_set)
 
