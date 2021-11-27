@@ -1,3 +1,4 @@
+import sys
 from typing import Dict
 
 import pytz
@@ -63,7 +64,7 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         await idle()
         print("[ INFO ] STOPPING BOT")
         await self.bot.stop()
-        quit()
+        sys.exit()
 
     async def get_username(self):
         global username
