@@ -41,6 +41,7 @@ def authorized_only(func: Callable) -> Callable:
 
 
 def only_admin(func: Callable) -> Callable:
+    @del_cmd
     async def wrapper(client: Client, message: types.Message):
         client_user_id = (await user.get_me()).id
         chat_id = message.chat.id
