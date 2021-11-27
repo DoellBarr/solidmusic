@@ -33,7 +33,6 @@ async def change_lang_(_, message: types.Message):
         )
     if len(lang) == 1:
         return await Bot().send_message(chat_id, "invalid_lang")
-    if len(lang) >= 2:
-        if lang in kode:
-            x = ChatDB().set_lang(chat_id, lang)
-            return await Bot().send_message(chat_id, x, lang)
+    if len(lang) >= 2 and lang in kode:
+        x = ChatDB().set_lang(chat_id, lang)
+        return await Bot().send_message(chat_id, x, lang)
