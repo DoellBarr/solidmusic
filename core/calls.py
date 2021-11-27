@@ -2,12 +2,12 @@ import asyncio
 import random
 
 from pyrogram.errors import (
-    ChatIdInvalid,
-    ChannelInvalid,
     UserNotParticipant,
     ChatAdminRequired,
     ChannelPrivate,
-    ChatForbidden, PeerIdInvalid, UserAlreadyParticipant,
+    ChatForbidden,
+    PeerIdInvalid,
+    UserAlreadyParticipant,
 )
 from pyrogram.raw.base import InputChannel, InputGroupCall
 from pyrogram.raw.functions.channels import GetFullChannel
@@ -162,10 +162,6 @@ class Call:
     async def start_call(self, chat_id: int):
         users = self.user
         try:
-            try:
-                await self.join_chat(chat_id)
-            except UserAlreadyParticipant:
-                pass
             await users.send(
                 CreateGroupCall(
                     peer=await users.resolve_peer(chat_id),
@@ -287,15 +283,16 @@ class Call:
         link = await self.bot.export_chat_invite_link(chat_id)
         if "+" in link:
             link_hash = (link.replace("+", "")).split("t.me/")[1]
-            await self.user.join_chat(f"https://t.me/joinchat/{link_hash}")
             try:
+                await self.user.join_chat(f"https://t.me/joinchat/{link_hash}")
                 client_user_id = (await self.user.get_me()).id
                 await self.bot.promote_member(chat_id, client_user_id)
-                await self.join_chat(chat_id)
             except ChatAdminRequired:
                 self.playlist.delete_chat(chat_id)
                 return await self.bot.send_message(chat_id, "need_add_user_permission")
-            await asyncio.sleep(5)
+            except UserAlreadyParticipant:
+                pass
+            await asyncio.sleep(3)
             await self.bot.revoke_chat_invite_link(chat_id, link)
 
     def send_playlist(self, chat_id: int):

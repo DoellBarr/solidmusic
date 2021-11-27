@@ -1,6 +1,6 @@
 from asyncio import sleep
 
-from pyrogram.errors import FloodWait, UserNotParticipant, ChatAdminRequired
+from pyrogram.errors import FloodWait, UserNotParticipant
 from pyrogram.types import CallbackQuery, Message
 from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
@@ -26,9 +26,15 @@ class YoutubePlayer(Call):
         bot_username = (await self.bot.get_me()).username
         mention = await self.bot.get_user_mention(user_id)
         call = self.call
-        self.init_youtube_player(
-            chat_id, user_id, title, duration, yt_url, yt_id, "music"
-        )
+        playlist = self.playlist.playlist
+        if playlist and chat_id not in playlist:
+            self.init_youtube_player(
+                chat_id, user_id, title, duration, yt_url, yt_id, "music"
+            )
+        elif not playlist:
+            self.init_youtube_player(
+                chat_id, user_id, title, duration, yt_url, yt_id, "music"
+            )
         audio_quality, _ = self.get_quality(chat_id)
         try:
             await call.join_group_call(
@@ -47,6 +53,7 @@ class YoutubePlayer(Call):
                 disable_web_page_preview=True,
             )
         except NoActiveGroupCall:
+            await self.join_chat(chat_id)
             await self.start_call(chat_id)
             await self._play(
                 mess, chat_id, user_id, audio_url, title, duration, yt_url, yt_id
@@ -75,9 +82,15 @@ class YoutubePlayer(Call):
         yt_id: str,
     ):
         call = self.call
-        self.init_youtube_player(
-            chat_id, user_id, title, duration, yt_url, yt_id, "video"
-        )
+        playlist = self.playlist.playlist
+        if playlist and chat_id not in playlist:
+            self.init_youtube_player(
+                chat_id, user_id, title, duration, yt_url, yt_id, "video"
+            )
+        elif not playlist:
+            self.init_youtube_player(
+                chat_id, user_id, title, duration, yt_url, yt_id, "video"
+            )
         mention = await self.bot.get_user_mention(user_id)
         bot_username = (await self.bot.get_me()).username
         audio_quality, video_quality = self.get_quality(chat_id)
@@ -98,6 +111,7 @@ class YoutubePlayer(Call):
                 disable_web_page_preview=True,
             )
         except NoActiveGroupCall:
+            await self.join_chat(chat_id)
             await self.start_call(chat_id)
             await self._video_play(
                 mess, chat_id, user_id, video_url, title, duration, yt_url, yt_id
