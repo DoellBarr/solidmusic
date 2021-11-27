@@ -35,8 +35,7 @@ from database.sudo_database import SudoDB
 
 
 class Methods(ChatDB, SudoDB):
-    def __init__(self):
-        super(Methods, self).__init__()
+    pass
 
 
 async def leave_from_inactive_call():
@@ -59,7 +58,10 @@ async def leave_from_inactive_call():
                 except UserNotParticipant:
                     pass
             if chat_id not in all_chat_id:
-                await user.leave_chat(chat_id)
+                try:
+                    await user.leave_chat(chat_id)
+                except PeerIdInvalid:
+                    pass
 
 
 class Call:
@@ -171,8 +173,6 @@ class Call:
                 )
             )
             await self.bot.send_message(chat_id, "call_started")
-        except (ChatIdInvalid, ChannelInvalid):
-            await self.start_call(chat_id)
         except (ChannelPrivate, ChatForbidden):
             try:
                 await self.bot.unban_member(chat_id, (await self.bot.get_me()).id)
