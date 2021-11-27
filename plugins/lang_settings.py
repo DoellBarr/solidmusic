@@ -36,3 +36,9 @@ async def change_lang_(_, message: types.Message):
     if len(lang) >= 2 and lang in kode:
         x = ChatDB().set_lang(chat_id, lang)
         return await Bot().send_message(chat_id, x, lang)
+
+
+__cmds__ = ["lang"]
+__help__ = {
+    "lang": "help_lang"
+}

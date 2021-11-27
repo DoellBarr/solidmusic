@@ -13,6 +13,7 @@ from functions.markup_button import process_button, start_markup
 
 from database.lang_utils import get_message as gm
 from database.chat_database import ChatDB
+from . import helps, paginate_module
 
 
 @Client.on_callback_query(filters.regex(pattern=r"(back|next)(music|video)\|(\d+)"))
@@ -70,12 +71,14 @@ async def _close_button(_, cb: CallbackQuery):
         user_id = int(match(3))
     except TypeError:
         user_id = None
-    if cb.message.chat.type == "private" and not user_id:
+    if cb.message.chat.type == "private":
+        if not user_id:
+            return await cb.message.delete()
         return await cb.message.delete()
     member = await cb.message.chat.get_member(cb.from_user.id)
     if member.status in ["creator", "administrator"]:
         return await cb.message.delete()
-    if cb.from_user.id != user_id:
+    if cb.from_user.id != user_id or not user_id:
         return await cb.answer(gm(cb.message.chat.id, "not_for_you"), show_alert=True)
 
 
@@ -102,17 +105,51 @@ async def goback(client: Client, hee: CallbackQuery):
     )
 
 
-@Client.on_callback_query(filters.regex("cbhelp"))
+@Client.on_callback_query(filters.regex(r"(cbhelp|plug_back)"))
 async def cbhelp(_, lol: CallbackQuery):
-    return await lol.edit_message_text(
-        gm(lol.message.chat.id, "helpmusic"),
+    match = lol.matches[0].group(1)
+    chat_id = lol.message.chat.id
+    if match == "cbhelp":
+        return await lol.edit_message_text(
+            gm(chat_id, "helpmusic"),
+            reply_markup=InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            gm(chat_id, "commands"), callback_data="plug_back"
+                        ),
+                        InlineKeyboardButton(
+                            gm(chat_id, "backtomenu"), callback_data="goback"
+                        )
+                    ]
+                ]
+            ),
+        )
+    if match == "plug_back":
+        user_id = lol.from_user.id
+        keyboard = paginate_module(chat_id, user_id)
+        return await lol.edit_message_text(
+            gm(chat_id, "here_all_commands"),
+            reply_markup=InlineKeyboardMarkup(keyboard)
+        )
+
+
+@Client.on_callback_query(filters.regex(r"(plugins\.\w+)"))
+async def cb_help_plugins_(_, cb: CallbackQuery):
+    module = cb.matches[0].group(1)
+    items = helps[module]
+    module_name = f"{module.split('plugins.')[1].title()}"
+    result = ""
+    chat_id = cb.message.chat.id
+    for key, value in items.items():
+        result += f"/{key}:    {gm(chat_id, value)}\n"
+    return await cb.edit_message_text(
+        gm(chat_id, "help_for").format(module_name, result),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(
-                        gm(lol.message.chat.id, "backtomenu"), callback_data="goback"
-                    )
+                    InlineKeyboardButton("⬅️ Back", "plug_back")
                 ]
             ]
-        ),
+        )
     )

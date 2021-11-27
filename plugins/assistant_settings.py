@@ -46,3 +46,10 @@ async def userbot_leave_(_, message: Message):
             chat_id,
             "user_already_leave_chat",
         )
+
+
+__cmds__ = ["userbotjoin", "userbotleave"]
+__help__ = {
+    "userbotjoin": "help_userbotjoin",
+    "userbotleave": "help_userbotleave"
+}

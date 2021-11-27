@@ -62,3 +62,21 @@ async def restart_bot_(client: Client, message: types.Message):
     execle(sys.executable, *args, environ)
     await client.send_message(chat_id, "Hi, I'm Alive")
     return
+
+
+__cmds__ = [
+    "pause",
+    "resume",
+    "skip",
+    "volume",
+    "end",
+    "restart"
+]
+__help__ = {
+    "pause": "help_pause",
+    "resume": "help_resume",
+    "skip": "help_skip",
+    "volume": "help_volume",
+    "end": "help_end",
+    "restart": "help_restart"
+}

@@ -44,3 +44,9 @@ async def playlist_(client: Client, message: types.Message):
             text += f"**#{count}** - [{queue_title}]({queue_yt_info}) | `{queue_stream_type}`\n"
         return await message.reply(text, disable_web_page_preview=True)
     return await message.reply(gm(chat_id, "no_playlists"))
+
+
+__cmds__ = ["playlist"]
+__help__ = {
+    "playlist": "help_playlist"
+}

@@ -19,3 +19,9 @@ async def check_ping_(_, message: Message):
             round(pyrogram_latency * 1000, 3), round(pytgcalls_latency, 2)
         )
     )
+
+
+__cmds__ = ["ping"]
+__help__ = {
+    "ping": "help_ping"
+}

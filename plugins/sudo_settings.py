@@ -69,3 +69,10 @@ async def add_sudo_(_, message: types.Message):
 @authorized_only
 async def del_sudo_(_, message: types.Message):
     await process_sudo(message, "delete")
+
+
+__cmds__ = ["addsudo", "delsudo"]
+__help__ = {
+    "addsudo": "help_addsudo",
+    "delsudo": "help_delsudo"
+}

@@ -41,9 +41,15 @@ async def set_gcast_(_, message: Message):
     try:
         gcast_type = message.command[1]
     except IndexError:
-        gcast_type = ""
         return await message.reply("Give me an input")
     if gcast_type not in ["bot", "user"]:
         return await message.reply(gm(chat_id, "invalid_gcast_type"))
     key = ChatDB().set_gcast(chat_id, gcast_type)
     return await Bot().send_message(chat_id, key, gcast_type)
+
+
+__cmds__ = ["gcast", "setgcast"]
+__help__ = {
+    "gcast": "help_gcast",
+    "setgcast": "help_setgcast"
+}

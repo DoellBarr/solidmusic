@@ -68,3 +68,10 @@ async def vplay_(_, message: types.Message):
             ]
         ),
     )
+
+
+__cmds__ = ["play", "vplay"]
+__help__ = {
+    "play": "help_play",
+    "vplay": "help_vplay"
+}

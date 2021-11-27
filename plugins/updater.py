@@ -58,3 +58,9 @@ async def update_repo(_, message: types.Message):
         execle(sys.executable, sys.executable, "main.py", environ)
         return
     await msg.edit(gm(chat_id, "already_newest"))
+
+
+__cmds__ = ["update"]
+__help__ = {
+    "update": "help_update"
+}

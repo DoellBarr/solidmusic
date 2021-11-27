@@ -73,7 +73,7 @@
   "not_for_you": "Tombol ini bukan untuk Anda!",
   "pm_greet": "✨ **Hai {}!**\n**Saya bisa melakukan streaming media apa pun di grup melalui fitur obrolan video Telegram baru!**\n💡**Temukan semua perintah saya dengan mengklik » Perintah « tombol!",
   "helpmusic": "💡 **Untuk menggunakan bot ini, pertama Anda harus membuat asisten dan saya menjadi admin di grup Anda, lalu cara menggunakan bot ini, sudah dijelaskan di » Tombol « Perintah.",
-  "backtomenu": "**Kembali**",
+  "backtomenu": "Kembali",
   "invalid_command_selection": "**Pilihan salah untuk perintah command, pilihan yang diterima adalah (yes|true|on, no|false|off).**",
   "invalid_quality_selection": "**Pilihan salah untuk perintah setquality, pilihan yang diterima adalah (low|medium|high).**",
   "supported_lang": "**💡 Ini semua bahasa yang didukung dengan bot ini.**",
@@ -92,6 +92,8 @@
   "pong_text": "🏓 Pong...\nPyrogram latency: {}ms\nPyTgCalls latency: {}ms",
   "need_add_user_permission" : " **Saya membutuhkan** `Add new admins` **permissions**. " ,
   "del_cmd_mode_already_set" : " **Hapus command sudah disetel ke {}** ",
-  "del_cmd_changed" : " **Perintah hapus diubah menjadi {}** ",
-  "db_reloaded" : " **Database dimuat ulang.**"
+  "del_cmd_changed": " **Perintah hapus diubah menjadi {}** ",
+  "db_reloaded" : " **Database dimuat ulang.**",
+  "here_all_commands": "**Dibawah ini adalah seluruh perintah bot, silahkan pencet salah satu agar mengetahui perintah yang ada didalamnya.**",
+  "help_for": "**Bantuan perintah untuk modul {}**\n{}"
 }

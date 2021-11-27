@@ -117,3 +117,21 @@ async def set_del_cmd_(_, message: Message):
 async def reload_db_(_, message: Message):
     ChatDB().reload_data()
     return await Bot().send_message(message.chat.id, "db_reloaded")
+
+
+__cmds__ = [
+    "addchat",
+    "delchat",
+    "setadmin",
+    "setquality",
+    "delcmd",
+    "reloaddb"
+]
+__help__ = {
+    "addchat": "help_addchat",
+    "delchat": "help_delchat",
+    "setadmin": "help_setadmin",
+    "setquality": "help_setquality",
+    "delcmd": "help_delcmd",
+    "reloaddb": "help_reloaddb"
+}

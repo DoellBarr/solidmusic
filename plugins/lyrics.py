@@ -16,3 +16,9 @@ async def _get_lyrics(_, message: Message):
     parsed = parse_url(google_link)
     lyrics, title, artist = get_lyrics(parsed), get_title(parsed), get_artist(parsed)
     await lek.edit(gm(chat_id, "lyrik").format(title, artist, lyrics))
+
+
+__cmds__ = ["lyrics"]
+__help__ = {
+    "lyrics": "help_lyrics"
+}
