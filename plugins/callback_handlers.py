@@ -13,7 +13,7 @@ from functions.markup_button import process_button, start_markup
 
 from database.lang_utils import get_message as gm
 from database.chat_database import ChatDB
-from . import helps, paginate_module
+from . import helps, paginate_module, modules, load_module
 
 
 @Client.on_callback_query(filters.regex(pattern=r"(back|next)(music|video)\|(\d+)"))
@@ -80,6 +80,8 @@ async def _close_button(_, cb: CallbackQuery):
         return await cb.message.delete()
     if cb.from_user.id != user_id or not user_id:
         return await cb.answer(gm(cb.message.chat.id, "not_for_you"), show_alert=True)
+    if modules:
+        modules.clear()
 
 
 @Client.on_callback_query(filters.regex(pattern=r"set_lang_(.*)"))
@@ -110,15 +112,14 @@ async def cbhelp(_, lol: CallbackQuery):
     match = lol.matches[0].group(1)
     chat_id = lol.message.chat.id
     user_id = int(lol.matches[0].group(3))
-    plug_match = lol.matches[0].group(2)
-    if match:
+    if match == "cbhelp":
         return await lol.edit_message_text(
             gm(chat_id, "helpmusic"),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            gm(chat_id, "commands"), callback_data="plug_back"
+                            gm(chat_id, "commands"), callback_data=f"plug_back|{user_id}"
                         ),
                         InlineKeyboardButton(
                             gm(chat_id, "backtomenu"), callback_data="goback"
@@ -127,16 +128,17 @@ async def cbhelp(_, lol: CallbackQuery):
                 ]
             ),
         )
-    if plug_match:
+    if match == f"plug_back|{user_id}":
         from_user_id = lol.from_user.id
         if from_user_id != user_id:
             return await lol.answer(gm(chat_id, "not_for_you"), show_alert=True)
+        if not modules:
+            load_module(user_id)
         keyboard = paginate_module(chat_id, user_id)
         await lol.edit_message_text(
             gm(chat_id, "here_all_commands"),
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
-        keyboard.clear()
 
 
 @Client.on_callback_query(filters.regex(r"(plugins\.\w+)\|(\d+)"))

@@ -1,4 +1,4 @@
-from . import paginate_module, load_module
+from . import paginate_module, load_module, modules
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
@@ -15,6 +15,7 @@ async def help_cmds_(_, message: Message):
         get_message(chat_id, "here_all_commands"),
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
+    modules.clear()
     keyboard.clear()
 
 
