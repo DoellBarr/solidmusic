@@ -49,7 +49,7 @@ class ChatDB(Scaffold):
             if chat_id == chat["chat_id"]:
                 return "already_added_chat"
         self.cur.execute(
-            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 config.OWNER_ID,
                 chat_id,
@@ -57,6 +57,7 @@ class ChatDB(Scaffold):
                 "medium",
                 False,
                 "bot",
+                True,
                 True
             ),
         )
