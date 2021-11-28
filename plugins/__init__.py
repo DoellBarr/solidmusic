@@ -2,7 +2,7 @@ import time
 from importlib import import_module
 from os.path import join, dirname, realpath
 from os import listdir
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from pyrogram.types import InlineKeyboardButton
 
@@ -43,24 +43,35 @@ def paginate_module(chat_id: int, user_id: int):
     return keyboard
 
 
-def load_module():
+def load_module(user_id: Optional[int] = 0):
     for mods in __all_module():
         try:
             imported_mods = import_module(f"plugins.{mods}")
-            time.sleep(0.25)
-            print("|- Loaded Plugins " + imported_mods.__name__)
+            if user_id:
+                pass
+            else:
+                time.sleep(0.25)
+            if user_id:
+                pass
+            else:
+                print("|- Loaded Plugins " + imported_mods.__name__)
             if hasattr(imported_mods, "__cmds__"):
                 if "_" in imported_mods.__name__:
                     x = imported_mods.__name__.split('_')[0]
                 else:
                     x = imported_mods.__name__
-                print(f"|- Loaded command {imported_mods.__cmds__}")
+                if user_id:
+                    pass
+                else:
+                    print(f"|- Loaded command {imported_mods.__cmds__}")
                 cmds[x] = imported_mods.__cmds__
-                modules.append(
-                    InlineKeyboardButton(
-                        x.split('plugins.')[1].title(),
-                        callback_data=f"plugins.{mods.split('_')[0] if '_' in mods else mods}"
-                    ))
+                if user_id:
+                    modules.append(
+                        InlineKeyboardButton(
+                            x.split('plugins.')[1].title(),
+                            callback_data=f"plugins.{mods.split('_')[0] if '_' in mods else mods}|{user_id}"
+                        )
+                    )
             if hasattr(imported_mods, "__help__"):
                 if "_" in imported_mods.__name__:
                     x = imported_mods.__name__.split('_')[0]

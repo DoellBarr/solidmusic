@@ -105,11 +105,13 @@ async def goback(client: Client, hee: CallbackQuery):
     )
 
 
-@Client.on_callback_query(filters.regex(r"(cbhelp|plug_back)"))
+@Client.on_callback_query(filters.regex(r"(cbhelp|(plug_back)\|(\w+))"))
 async def cbhelp(_, lol: CallbackQuery):
     match = lol.matches[0].group(1)
     chat_id = lol.message.chat.id
-    if match == "cbhelp":
+    user_id = int(lol.matches[0].group(3))
+    plug_match = lol.matches[0].group(2)
+    if match:
         return await lol.edit_message_text(
             gm(chat_id, "helpmusic"),
             reply_markup=InlineKeyboardMarkup(
@@ -125,8 +127,10 @@ async def cbhelp(_, lol: CallbackQuery):
                 ]
             ),
         )
-    if match == "plug_back":
-        user_id = lol.from_user.id
+    if plug_match:
+        from_user_id = lol.from_user.id
+        if from_user_id != user_id:
+            return await lol.answer(gm(chat_id, "not_for_you"), show_alert=True)
         keyboard = paginate_module(chat_id, user_id)
         return await lol.edit_message_text(
             gm(chat_id, "here_all_commands"),
@@ -134,13 +138,17 @@ async def cbhelp(_, lol: CallbackQuery):
         )
 
 
-@Client.on_callback_query(filters.regex(r"(plugins\.\w+)"))
+@Client.on_callback_query(filters.regex(r"(plugins\.\w+)\|(\d+)"))
 async def cb_help_plugins_(_, cb: CallbackQuery):
     module = cb.matches[0].group(1)
+    user_id = int(cb.matches[0].group(2))
+    from_user_id = cb.from_user.id
+    chat_id = cb.message.chat.id
+    if from_user_id != user_id:
+        return await cb.answer(gm(chat_id, "not_for_you"), show_alert=True)
     items = helps[module]
     module_name = f"{module.split('plugins.')[1].title()}"
     result = ""
-    chat_id = cb.message.chat.id
     for key, value in items.items():
         result += f"/{key}:    {gm(chat_id, value)}\n"
     return await cb.edit_message_text(
@@ -148,7 +156,7 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("⬅️ Back", "plug_back")
+                    InlineKeyboardButton("⬅️ Back", f"plug_back|{user_id}")
                 ]
             ]
         )
