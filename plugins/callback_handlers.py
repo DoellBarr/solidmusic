@@ -132,10 +132,11 @@ async def cbhelp(_, lol: CallbackQuery):
         if from_user_id != user_id:
             return await lol.answer(gm(chat_id, "not_for_you"), show_alert=True)
         keyboard = paginate_module(chat_id, user_id)
-        return await lol.edit_message_text(
+        await lol.edit_message_text(
             gm(chat_id, "here_all_commands"),
             reply_markup=InlineKeyboardMarkup(keyboard)
         )
+        keyboard.clear()
 
 
 @Client.on_callback_query(filters.regex(r"(plugins\.\w+)\|(\d+)"))
