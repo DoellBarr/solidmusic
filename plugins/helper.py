@@ -15,6 +15,7 @@ async def help_cmds_(_, message: Message):
         get_message(chat_id, "here_all_commands"),
         reply_markup=InlineKeyboardMarkup(keyboard)
     )
+    keyboard.clear()
 
 
 __cmds__ = ["help"]

@@ -40,6 +40,7 @@ def paginate_module(chat_id: int, user_id: int):
             )
         ]
     )
+    temp.clear()
     return keyboard
 
 
