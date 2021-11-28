@@ -14,6 +14,7 @@ from pyrogram.raw.functions.channels import GetFullChannel
 from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.raw.types import InputPeerChannel
+from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (
@@ -141,9 +142,11 @@ class Call:
 
     def is_call_active(self, chat_id: int):
         call = self.call
-        for calls in call.calls:
-            if getattr(calls, "status") in ["playing", "paused"]:
-                return bool(chat_id == getattr(calls, "chat_id"))
+        try:
+            if call.get_call(chat_id):
+                return True
+        except GroupCallNotFound:
+            return False
 
     async def _get_group_call(self, chat_id: int) -> InputGroupCall:
         # Credit Userge
@@ -162,13 +165,17 @@ class Call:
     async def start_call(self, chat_id: int):
         users = self.user
         try:
-            await users.send(
-                CreateGroupCall(
-                    peer=await users.resolve_peer(chat_id),
-                    random_id=random.randint(10000, 999999999),
+            is_active = self.is_call_active(chat_id)
+            if not is_active:
+                await users.send(
+                    CreateGroupCall(
+                        peer=await users.resolve_peer(chat_id),
+                        random_id=random.randint(10000, 999999999),
+                    )
                 )
-            )
-            await self.bot.send_message(chat_id, "call_started")
+                await self.bot.send_message(chat_id, "call_started")
+            else:
+                pass
         except (ChannelPrivate, ChatForbidden):
             try:
                 await self.bot.unban_member(chat_id, (await self.bot.get_me()).id)
@@ -176,7 +183,7 @@ class Call:
             except PeerIdInvalid:
                 await users.send_message((await self.bot.get_me()).id, "/start")
                 await self.start_call(chat_id)
-            except ChatAdminRequired:
+            except (ChatForbidden, ChannelPrivate):
                 self.playlist.delete_chat(chat_id)
                 return await self.bot.send_message(chat_id, "user_banned")
         except ChatAdminRequired:
