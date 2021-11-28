@@ -25,15 +25,15 @@ class Scaffold:
             )
             cur.execute(
                 """
-                ALTER TABLE chat_db
-                ADD del_cmd_mode boolean
-                DEFAULT 1
+                CREATE TABLE IF NOT EXISTS sudo_db
+                (chat_id integer, user_id integer);
                 """
             )
             cur.execute(
                 """
-                CREATE TABLE IF NOT EXISTS sudo_db
-                (chat_id integer, user_id integer);
+                ALTER TABLE chat_db
+                ADD del_cmd_mode boolean
+                DEFAULT 1
                 """
             )
             cur.execute(
