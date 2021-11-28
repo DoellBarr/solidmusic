@@ -14,6 +14,7 @@ bot = Bot()
 
 
 def authorized_only(func: Callable) -> Callable:
+    @check_player
     @del_cmd
     async def wrapper(client: Client, message: types.Message):
         client_user_id = (await user.get_me()).id
@@ -41,6 +42,7 @@ def authorized_only(func: Callable) -> Callable:
 
 
 def only_admin(func: Callable) -> Callable:
+    @check_player
     @del_cmd
     async def wrapper(client: Client, message: types.Message):
         client_user_id = (await user.get_me()).id
@@ -74,6 +76,8 @@ def only_admin(func: Callable) -> Callable:
 def del_cmd(func: Callable) -> Callable:
     async def wrapper(client: Client, message: types.Message):
         chat_id = message.chat.id
+        if message.chat.type == "private":
+            return await func(client, message)
         try:
             delete_cmd = bool(chat_db.get_chat(chat_id)[0]["del_cmd_mode"])
         except IndexError:
@@ -86,4 +90,18 @@ def del_cmd(func: Callable) -> Callable:
                 pass
             return await func(client, message)
         return await func(client, message)
+    return wrapper
+
+
+def check_player(func: Callable) -> Callable:
+    async def wrapper(client: Client, message: types.Message):
+        chat_id = message.chat.id
+        try:
+            player_mode = bool(chat_db.get_chat(chat_id)[0]["player_mode"])
+        except IndexError:
+            ChatDB().add_chat(chat_id)
+            player_mode = bool(chat_db.get_chat(chat_id)[0]["player_mode"])
+        if player_mode:
+            return await func(client, message)
+        return await Bot().send_message(chat_id, "player_is_nonactive")
     return wrapper

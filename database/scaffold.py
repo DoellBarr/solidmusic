@@ -19,7 +19,8 @@ class Scaffold:
                 quality text, 
                 admin_only boolean, 
                 gcast_type text,
-                del_cmd_mode boolean
+                del_cmd_mode boolean,
+                player_mode boolean
                 );
                 """
             )
@@ -27,6 +28,13 @@ class Scaffold:
                 """
                 CREATE TABLE IF NOT EXISTS sudo_db
                 (chat_id integer, user_id integer);
+                """
+            )
+            cur.execute(
+                """
+                ALTER TABLE chat_db
+                ADD player_mode boolean
+                DEFAULT 1
                 """
             )
             cur.execute(

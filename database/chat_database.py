@@ -15,7 +15,8 @@ class ChatDB(Scaffold):
                 quality,
                 only_admin,
                 gcast_type,
-                del_cmd_mode
+                del_cmd_mode,
+                player_mode
             ) = chat
             admin = bool(only_admin)
             x = {
@@ -25,7 +26,8 @@ class ChatDB(Scaffold):
                 "quality": quality,
                 "only_admin": admin,
                 "gcast_type": gcast_type,
-                "del_cmd_mode": del_cmd_mode
+                "del_cmd_mode": del_cmd_mode,
+                "player_mode": player_mode
             }
             final.append(x.copy())
         return final
@@ -169,6 +171,23 @@ class ChatDB(Scaffold):
         )
         conn.commit()
         return "del_cmd_changed"
+
+    def set_player_mode(self, chat_id: int, player_mode: bool):
+        cur, conn = self.cur, self.conn
+        chats = self.get_chat(chat_id)
+        for chat in chats:
+            if player_mode == bool(chat["player_mode"]):
+                return "player_mode_already_set"
+        cur.execute(
+            """
+            UPDATE chat_db
+            SET player_mode = ?
+            WHERE chat_id = ?
+            """,
+            (player_mode, chat_id,)
+        )
+        conn.commit()
+        return "player_mode_changed"
 
     def reload_data(self):
         for chat in self.cur.execute("SELECT * FROM chat_db"):

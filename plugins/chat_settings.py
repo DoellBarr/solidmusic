@@ -119,13 +119,24 @@ async def reload_db_(_, message: Message):
     return await Bot().send_message(message.chat.id, "db_reloaded")
 
 
+@Client.on_message(filters.command("player") & filters.group)
+@authorized_only
+async def set_player_mode(_, message: Message):
+    chat_id = message.chat.id
+    cmd = check_cmd(message)
+    set_play_mode = bool(cmd in ["on", "yes", "true"])
+    key = ChatDB().set_player_mode(chat_id, set_play_mode)
+    return await Bot().send_message(chat_id, key, cmd)
+
+
 __cmds__ = [
     "addchat",
     "delchat",
     "setadmin",
     "setquality",
     "delcmd",
-    "reloaddb"
+    "reloaddb",
+    "player"
 ]
 __help__ = {
     "addchat": "help_addchat",
@@ -133,5 +144,6 @@ __help__ = {
     "setadmin": "help_setadmin",
     "setquality": "help_setquality",
     "delcmd": "help_delcmd",
-    "reloaddb": "help_reloaddb"
+    "reloaddb": "help_reloaddb",
+    "player": "help_player"
 }
