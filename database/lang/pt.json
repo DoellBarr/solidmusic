@@ -126,6 +126,6 @@
   "help_player": "Desativar ou habilitar bot para transmissão em um chat",
   "player_is_nonactive": "**Este bate-papo foi desativado para reproduzir mídia.**",
   "player_mode_changed": "**Modo de tocar neste chat mudou para {}**",
-  "player_mode_already_set": "**Modo de tocar já definido para {}**"
+  "player_mode_already_set": "**Modo de tocar já definido para {}**",
   "wrong_play_vplay_input": "**Dê-me algum nome ou link do youtube.**"
 }
