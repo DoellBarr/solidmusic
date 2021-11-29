@@ -45,6 +45,7 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         await self.join_call(stream_type, cb, user_id, title, duration, yt_url, yt_id)
 
     async def run(self):
+        self.db.init()
         print("⌈ [ INFO ] START BOT CLIENT")
         await self.bot.start()
         print("|- [ INFO ] LOAD ALL MODULES")
@@ -66,6 +67,7 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         print("[ INFO ] CLIENT RUNNING")
         await idle()
         print("[ INFO ] STOPPING BOT")
+        self.db.close()
         await self.bot.stop()
         sys.exit()
 

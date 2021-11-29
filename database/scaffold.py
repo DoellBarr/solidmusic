@@ -64,3 +64,6 @@ class Scaffold:
             )
         except sqlite3.OperationalError:
             pass
+
+    def close(self):
+        return self.cur.close()

@@ -39,42 +39,37 @@ class ChatDB(Scaffold):
         final = self._get(results)
         return final
 
-    def get_chats(self) -> List[int]:
-        chats = []
-        for chat in self.cur.execute("SELECT * FROM chat_db"):
-            chat_ids = chat[1]
-            chats.append(chat_ids)
-        return chats
-
     def add_chat(
         self,
         chat_id: int,
         lang: str = "en"
     ):
-        if chat_id in self.get_chats():
-            return "already_added_chat"
-        self.cur.execute(
-            "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            (
-                config.OWNER_ID,
-                chat_id,
-                lang,
-                "medium",
-                False,
-                "bot",
-                True,
-                True
-            ),
-        )
-        self.conn.commit()
-        return "success_add_chat"
+        x = list(self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)))
+        if not x:
+            self.cur.execute(
+                "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    config.OWNER_ID,
+                    chat_id,
+                    lang,
+                    "medium",
+                    False,
+                    "bot",
+                    True,
+                    True
+                ),
+            )
+            self.conn.commit()
+            return "success_add_chat"
+        return "already_added_chat"
 
     def del_chat(self, chat_id: int):
-        if chat_id not in self.get_chats():
-            return "already_deleted_chat"
-        self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
-        self.conn.commit()
-        return "success_delete_chat"
+        x = list(self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)))
+        if x:
+            self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
+            self.conn.commit()
+            return "success_delete_chat"
+        return "already_deleted_chat"
 
     def set_lang(self, chat_id: int, lang: str):
         chats = self.get_chat(chat_id)

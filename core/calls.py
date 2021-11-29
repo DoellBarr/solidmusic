@@ -10,7 +10,6 @@ from pyrogram.errors import (
     UserAlreadyParticipant,
 )
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
-from pyrogram.raw.types import InputGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
