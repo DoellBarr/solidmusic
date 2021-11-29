@@ -9,11 +9,8 @@ from pyrogram.errors import (
     PeerIdInvalid,
     UserAlreadyParticipant,
 )
-from pyrogram.raw.base import InputChannel, InputGroupCall
-from pyrogram.raw.functions.channels import GetFullChannel
-from pyrogram.raw.functions.messages import GetFullChat
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
-from pyrogram.raw.types import InputPeerChannel
+from pyrogram.raw.types import InputGroupCall
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types import Update
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
@@ -148,20 +145,6 @@ class Call:
         except GroupCallNotFound:
             return False
 
-    async def _get_group_call(self, chat_id: int) -> InputGroupCall:
-        # Credit Userge
-        chat_peer = await self.user.resolve_peer(chat_id)
-        if isinstance(chat_peer, (InputPeerChannel, InputChannel)):
-            full_chat = (
-                await self.user.send(GetFullChannel(channel=chat_peer))
-            ).full_chat
-        else:
-            full_chat = (
-                await self.user.send(GetFullChat(chat_id=chat_peer.chat_id))
-            ).full_chat
-        if full_chat:
-            return full_chat.call
-
     async def start_call(self, chat_id: int):
         users = self.user
         try:
@@ -187,15 +170,22 @@ class Call:
                 self.playlist.delete_chat(chat_id)
                 return await self.bot.send_message(chat_id, "user_banned")
         except ChatAdminRequired:
-            await users.send_message((await self.bot.get_me()).id, "/start")
-            await self.bot.promote_member(chat_id, (await users.get_me()).id)
-            await self.start_call(chat_id)
+            try:
+                await self.bot.promote_member(chat_id, (await users.get_me()).id)
+                await self.start_call(chat_id)
+            except PeerIdInvalid:
+                await users.send_message((await self.bot.get_me()).id, "/start")
+                await self.bot.promote_member(chat_id, (await users.get_me()).id)
+                await self.start_call(chat_id)
 
     async def end_call(self, chat_id: int):
         # Credit Userge
-        call = await self._get_group_call(chat_id)
-        await self.user.send(DiscardGroupCall(call=call))
-        await self.bot.send_message(chat_id, "call_closed")
+        try:
+            call = await self.call.get_call(chat_id)
+            await self.user.send(DiscardGroupCall(call=call))
+            await self.bot.send_message(chat_id, "call_closed")
+        except GroupCallNotFound:
+            await self.bot.send_message(chat_id, "no_active_group_call")
 
     async def change_vol(self, chat_id: int, volume: int):
         call = self.call

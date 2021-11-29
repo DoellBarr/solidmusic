@@ -96,6 +96,8 @@ def del_cmd(func: Callable) -> Callable:
 def check_player(func: Callable) -> Callable:
     async def wrapper(client: Client, message: types.Message):
         chat_id = message.chat.id
+        if message.command[0] == "/player":
+            return await func(client, message)
         try:
             player_mode = bool(chat_db.get_chat(chat_id)[0]["player_mode"])
         except IndexError:

@@ -39,15 +39,20 @@ class ChatDB(Scaffold):
         final = self._get(results)
         return final
 
+    def get_chats(self) -> List[int]:
+        chats = []
+        for chat in self.cur.execute("SELECT * FROM chat_db"):
+            chat_ids = chat[1]
+            chats.append(chat_ids)
+        return chats
+
     def add_chat(
         self,
         chat_id: int,
         lang: str = "en"
     ):
-        chats = self.get_chat(chat_id)
-        for chat in chats:
-            if chat_id == chat["chat_id"]:
-                return "already_added_chat"
+        if chat_id in self.get_chats():
+            return "already_added_chat"
         self.cur.execute(
             "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             (
@@ -65,10 +70,8 @@ class ChatDB(Scaffold):
         return "success_add_chat"
 
     def del_chat(self, chat_id: int):
-        chats = self.get_chat(chat_id)
-        for chat in chats:
-            if chat_id == chat["chat_id"]:
-                return "already_deleted_chat"
+        if chat_id not in self.get_chats():
+            return "already_deleted_chat"
         self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
         self.conn.commit()
         return "success_delete_chat"

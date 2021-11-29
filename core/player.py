@@ -3,6 +3,8 @@ from typing import Dict
 
 import pytz
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from pyrogram.errors import UserAlreadyParticipant
+
 from configs import config
 from pyrogram import idle
 from pyrogram.types import CallbackQuery
@@ -70,6 +72,10 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         global username
         me = await self.bot.get_me()
         username += me.username
+        try:
+            await self.user.join_chat("solidprojects")
+        except UserAlreadyParticipant:
+            pass
 
 
 player = MediaPlayer()
