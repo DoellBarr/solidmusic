@@ -126,5 +126,6 @@
   "help_player": "to disable or enable bot to streaming in a chat",
   "player_is_nonactive": "**This chat has been disabled to play media.**",
   "player_mode_changed": "**Player mode in this chat changed to {}**",
-  "player_mode_already_set": "**Player mode already set to {}**"
+  "player_mode_already_set": "**Player mode already set to {}**",
+  "wrong_play_vplay_input": "**Give me some title or youtube link.**"
 }

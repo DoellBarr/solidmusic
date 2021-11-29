@@ -2,6 +2,7 @@ from pyrogram import Client, filters, types
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from core.player import player
+from database.lang_utils import get_message
 from functions.youtube_utils import (
     extract_info,
     stream_result,
@@ -23,10 +24,13 @@ def extract_all(query: str, chat_id: int, user_id: int, status: str):
 async def play_(_, message: types.Message):
     reply = message.reply_to_message
     user_id = message.from_user.id
+    chat_id = message.chat.id
     if reply:
         return await player.local_music(user_id, reply)
-    query = " ".join(message.command[1:])
-    chat_id = message.chat.id
+    command = message.command
+    if len(command) == 1:
+        return await message.reply(get_message(chat_id, "wrong_play_vplay_input"))
+    query = " ".join(command[1:])
     status = "music"
     result, yt_btn = extract_all(query, chat_id, user_id, status)
     await message.reply(
@@ -52,7 +56,10 @@ async def vplay_(_, message: types.Message):
     reply = message.reply_to_message
     if reply:
         return await player.local_video(user_id, reply)
-    query = " ".join(message.command[1:])
+    commands = message.command
+    if len(commands) == 1:
+        return await message.reply(get_message(chat_id, "wrong_play_vplay_input"))
+    query = " ".join(commands[1:])
     status = "video"
     result, yt_btn = extract_all(query, chat_id, user_id, status)
     await message.reply(
