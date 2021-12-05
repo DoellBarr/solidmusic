@@ -219,38 +219,38 @@ class Call:
     async def _change_stream(self, chat_id: int):
         playlist = self.playlist
         playlist.delete_one(chat_id)
-        yt_url = playlist.get(chat_id)["yt_url"]
         title = playlist.get(chat_id)["title"]
         stream_type = playlist.get(chat_id)["stream_type"]
-        await self._stream_change(chat_id, yt_url, stream_type)
+        if stream_type in ["video", "music"]:
+            yt_url = playlist.get(chat_id)["yt_url"]
+            await self._stream_change(chat_id, yt_url, stream_type)
+        elif stream_type in ["local_video", "local_music"]:
+            await self._stream_change(chat_id, stream_type=stream_type)
         return title
 
-    async def _stream_change(self, chat_id: int, yt_url: str, stream_type: str):
+    async def _stream_change(self, chat_id: int, yt_url: str = None, stream_type: str = None):
         call = self.call
         if stream_type == "music":
-            audio_quality = self.db.get_chat(chat_id)[0]["quality"]
             url = get_audio_direct_link(yt_url)
-            if audio_quality == "low":
-                quality = LowQualityAudio()
-            elif audio_quality == "medium":
-                quality = MediumQualityAudio()
-            else:
-                quality = HighQualityAudio()
+            quality, _ = self.get_quality(chat_id)
             await call.change_stream(chat_id, AudioPiped(url, quality))
         elif stream_type == "video":
-            quality = self.db.get_chat(chat_id)[0]["quality"]
             url = get_video_direct_link(yt_url)
-            if quality == "low":
-                video_quality = LowQualityVideo()
-                audio_quality = LowQualityAudio()
-            elif quality == "medium":
-                video_quality = MediumQualityVideo()
-                audio_quality = MediumQualityAudio()
-            else:
-                video_quality = HighQualityVideo()
-                audio_quality = HighQualityAudio()
+            audio_quality, video_quality = self.get_quality(chat_id)
             await call.change_stream(
                 chat_id, AudioVideoPiped(url, audio_quality, video_quality)
+            )
+        elif stream_type == "local_music":
+            audio_quality, _ = self.get_quality(chat_id)
+            local_audio = self.playlist.get(chat_id)["source_file"]
+            await call.change_stream(
+                chat_id, AudioPiped(local_audio, audio_quality)
+            )
+        elif stream_type == "local_video":
+            audio_quality, video_quality = self.get_quality(chat_id)
+            source_file = self.playlist.get(chat_id)["source_file"]
+            await call.change_stream(
+                chat_id, AudioVideoPiped(source_file, audio_quality, video_quality)
             )
 
     async def check_playlist(self, chat_id: int):

@@ -3,6 +3,7 @@ from typing import Callable
 from pyrogram import types, Client
 from pyrogram.errors import MessageDeleteForbidden
 
+import configs
 from database.sudo_database import SudoDB
 from database.chat_database import ChatDB
 from core.bot import Bot
@@ -24,7 +25,7 @@ def authorized_only(func: Callable) -> Callable:
         if member.status not in [
             "creator",
             "administrator",
-        ] and user_id not in db.get_sudos(chat_id):
+        ] and user_id not in db.get_sudos(chat_id) and user_id != configs.config.OWNER_ID:
             return await bot.send_message(
                 chat_id,
                 "not_allowed",
@@ -35,6 +36,7 @@ def authorized_only(func: Callable) -> Callable:
             member.status in ["creator", "administrator"]
             or user_id in db.get_sudos(chat_id)
             or user_id == client_user_id
+            or user_id == configs.config.OWNER_ID
         ):
             return await func(client, message)
 
@@ -55,7 +57,7 @@ def only_admin(func: Callable) -> Callable:
             admin_only = bool(chat_db.get_chat(chat_id)[0]["only_admin"])
         if admin_only:
             member = await message.chat.get_member(user_id)
-            if member.status not in ["creator", "administrator"]:
+            if member.status not in ["creator", "administrator"] or user_id != configs.config.OWNER_ID:
                 return await bot.send_message(
                     chat_id,
                     "not_allowed",
@@ -65,6 +67,7 @@ def only_admin(func: Callable) -> Callable:
             if (
                 member.status in ["creator", "administrator"]
                 or user_id == client_user_id
+                or user_id == configs.config.OWNER_ID
             ):
                 return await func(client, message)
         elif not admin_only:

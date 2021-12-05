@@ -1,3 +1,5 @@
+import os.path
+import shutil
 import sys
 from typing import Dict
 
@@ -68,6 +70,10 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
         await idle()
         print("[ INFO ] STOPPING BOT")
         self.db.close()
+        if os.path.exists("downloads"):
+            shutil.rmtree("downloads")
+        if os.path.exists("search"):
+            shutil.rmtree("search")
         await self.bot.stop()
         sys.exit()
 

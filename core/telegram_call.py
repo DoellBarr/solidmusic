@@ -25,7 +25,7 @@ class TelegramPlayer(Call):
         mention = await self.bot.get_user_mention(user_id)
         call = self.call
         self.init_telegram_player(
-            chat_id, user_id, title, duration, source_file, link, "audio_file"
+            chat_id, user_id, title, duration, source_file, link, "local_music"
         )
         audio_quality, _ = self.get_quality(chat_id)
         try:
@@ -34,7 +34,7 @@ class TelegramPlayer(Call):
                 AudioPiped(source_file, audio_quality),
                 stream_type=StreamType().local_stream,
             )
-            return mess.edit(
+            return await mess.edit(
                 f"""
 {gm(chat_id, 'now_streaming')}
 📌 {gm(chat_id, 'yt_title')}: [{title}]({link}) 
@@ -137,7 +137,7 @@ class TelegramPlayer(Call):
                     "link": link,
                     "stream_type": "local_music",
                 }
-                mess = await replied.reply(gm(chat_id, "track_queued"))
+                mess = await bom.edit(gm(chat_id, "track_queued"))
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return await mess.delete()
@@ -171,7 +171,7 @@ class TelegramPlayer(Call):
                     "link": link,
                     "stream_type": "local_video",
                 }
-                mess = await replied.reply(gm(chat_id, "track_queued"))
+                mess = await bom.edit(gm(chat_id, "track_queued"))
                 self.playlist.insert_one(chat_id, objects)
                 await asyncio.sleep(5)
                 return mess.delete()
