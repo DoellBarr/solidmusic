@@ -36,6 +36,9 @@ def paginate_module(chat_id: int, user_id: int):
     keyboard.append(
         [
             InlineKeyboardButton(
+                f"⬅️ {get_message(chat_id, 'backtomenu')}", "goback"
+            ),
+            InlineKeyboardButton(
                 f"🗑️ {get_message(chat_id, 'close_btn_name')}", f"close|{user_id}"
             )
         ]

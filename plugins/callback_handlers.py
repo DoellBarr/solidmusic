@@ -111,8 +111,8 @@ async def goback(client: Client, hee: CallbackQuery):
 async def cbhelp(_, lol: CallbackQuery):
     match = lol.matches[0].group(1)
     chat_id = lol.message.chat.id
-    user_id = int(lol.matches[0].group(3))
     if match == "cbhelp":
+        user_id = lol.from_user.id
         return await lol.edit_message_text(
             gm(chat_id, "helpmusic"),
             reply_markup=InlineKeyboardMarkup(
@@ -128,6 +128,7 @@ async def cbhelp(_, lol: CallbackQuery):
                 ]
             ),
         )
+    user_id = int(lol.matches[0].group(3))
     if match == f"plug_back|{user_id}":
         from_user_id = lol.from_user.id
         if from_user_id != user_id:
