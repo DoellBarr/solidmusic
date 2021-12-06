@@ -37,7 +37,6 @@ def get_yt_details(yt_url: str):
             "rating": round(float(infos["average_rating"]), 2),
             "views": infos["view_count"],
             "likes": infos["like_count"],
-            "dislikes": infos["dislike_count"],
             "link": yt_url,
         }
         return result
