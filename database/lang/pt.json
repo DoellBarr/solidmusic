@@ -128,4 +128,5 @@
   "player_mode_changed": "**Modo de tocar neste chat mudou para {}**",
   "player_mode_already_set": "**Modo de tocar já definido para {}**",
   "wrong_play_vplay_input": "**Dê-me algum nome ou link do youtube.**"
+  "duration_reach_limit": "Limite de alcance de duração, duração permitida é {}"
 }
