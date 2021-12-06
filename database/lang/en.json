@@ -127,5 +127,6 @@
   "player_is_nonactive": "**This chat has been disabled to play media.**",
   "player_mode_changed": "**Player mode in this chat changed to {}**",
   "player_mode_already_set": "**Player mode already set to {}**",
-  "wrong_play_vplay_input": "**Give me some title or youtube link.**"
+  "wrong_play_vplay_input": "**Give me some title or youtube link.**",
+  "duration_reach_limit": "Duration reach limit, allowed duration is {}"
 }

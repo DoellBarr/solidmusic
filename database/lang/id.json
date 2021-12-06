@@ -127,5 +127,6 @@
   "player_is_nonactive": "**Obrolan ini telah dinonaktifkan untuk memutar media.**",
   "player_mode_changed": "**Mode pemain dalam obrolan ini diubah menjadi {}**",
   "player_mode_already_set": "**Mode pemutar sudah disetel ke {}**",
-  "wrong_play_vplay_input": "**Berikan sebuah judul ataupun link youtube.**"
+  "wrong_play_vplay_input": "**Berikan sebuah judul ataupun link youtube.**",
+  "duration_reach_limit": "Durasi mencapai limit, durasi yang diperbolehkan ialah {}"
 }

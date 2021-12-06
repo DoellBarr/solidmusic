@@ -44,6 +44,11 @@
       "description": "fill it with delay time for leaving group, fill 0 if you do not want to use this feature",
       "required": false,
       "value": "0"
+    },
+    "DURATION_LIMIT": {
+      "description": "fill it with minute that you want, example, limit for 3 minute, just fill 3, and for a hour, fill 60",
+      "required": false,
+      "value": "0"
     }
   },
   "buildpacks": [
