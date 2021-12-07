@@ -211,4 +211,4 @@ class ChatDB(Scaffold):
                 group += 1
             else:
                 pm += 1
-        return {"groups": group, "pm": pm}
+        return pm, group

@@ -22,10 +22,16 @@ def authorized_only(func: Callable) -> Callable:
         user_id = message.from_user.id
         chat_id = message.chat.id
         member = await message.chat.get_member(user_id)
-        if member.status not in [
-            "creator",
-            "administrator",
-        ] and user_id not in db.get_sudos(chat_id) and user_id != configs.config.OWNER_ID:
+        if (
+            member.status not in [
+                "creator",
+                "administrator",
+            ]
+            and (
+                user_id not in db.get_sudos(chat_id)
+                or user_id != configs.config.OWNER_ID
+            )
+        ):
             return await bot.send_message(
                 chat_id,
                 "not_allowed",
