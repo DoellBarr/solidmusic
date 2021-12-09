@@ -49,7 +49,7 @@ class ChatDB(Scaffold):
         x = list(self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)))
         if not x:
             self.cur.execute(
-                "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                "INSERT INTO chat_db VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     config.OWNER_ID,
                     chat_id,
@@ -58,7 +58,8 @@ class ChatDB(Scaffold):
                     False,
                     "bot",
                     True,
-                    True
+                    True,
+                    0
                 ),
             )
             self.conn.commit()
