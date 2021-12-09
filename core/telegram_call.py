@@ -7,6 +7,8 @@ from pytgcalls import StreamType
 from pytgcalls.exceptions import NoActiveGroupCall
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 
+from database.chat_database import ChatDB
+from .bot import Bot
 from .calls import Call
 from database.lang_utils import get_message as gm
 
@@ -112,21 +114,37 @@ class TelegramPlayer(Call):
         playlist = self.playlist.playlist
         if replied.audio or replied.voice:
             bom = await replied.reply(gm(chat_id, "process"))
-            download = await replied.download()
             link = replied.link
+            duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
             if replied.audio:
                 if replied.audio.title:
                     title = replied.audio.title[:36]
                     duration = replied.audio.duration
+                    if duration >= duration_limit:
+                        await bom.delete()
+                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
+                    download = await replied.download()
                 elif replied.audio.file_name:
-                    title = replied.audio.file_name[:36]
                     duration = replied.audio.duration
+                    title = replied.audio.file_name[:36]
+                    if duration >= duration_limit:
+                        await bom.delete()
+                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
+                    download = await replied.download()
                 else:
                     title = "Music"
                     duration = replied.audio.duration
+                    if duration >= duration_limit:
+                        await bom.delete()
+                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
+                    download = await replied.download()
             else:
                 title = "Voice Note"
                 duration = replied.voice.duration
+                if duration >= duration_limit:
+                    await bom.delete()
+                    return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
+                download = await replied.download()
             duration = str(datetime.timedelta(seconds=duration))
             if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
                 objects = {
@@ -150,12 +168,16 @@ class TelegramPlayer(Call):
         playlist = self.playlist.playlist
         if replied.video or replied.document:
             bom = await replied.reply(gm(chat_id, "process"))
-            source_file = await replied.download()
             link = replied.link
             if replied.video:
                 title = replied.video.file_name[:36]
                 duration = replied.video.duration
+                duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
+                if duration >= duration_limit:
+                    return await Bot().send_message(chat_id, "duration_reach_limit", str(duration_limit))
+                source_file = await replied.download()
             else:
+                source_file = await replied.download()
                 title = replied.document.file_name[:36]
                 duration = "Not Found"
             if duration:

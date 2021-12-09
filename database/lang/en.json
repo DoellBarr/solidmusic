@@ -129,5 +129,7 @@
   "player_mode_already_set": "**Player mode already set to {}**",
   "wrong_play_vplay_input": "**Give me some title or youtube link.**",
   "duration_reach_limit": "Duration reach limit, allowed duration is {}",
-  "stats_text": "**Global statistics for {}**\n\n**🤖 Bot version**: `{}`\n**PyTgCalls version**: `{}`\n**🔥 Pyrogram version**: `{}`\n**🐍 Python version**: `{}`\n\n**🤖 Bot status**\n**Status**: `Online`\n**Chats**: `{}` chats\n**Pm**: `{}` pms\n\n**⚒️ System status**\n**CPU usage**: `{}`\n**RAM usage**: `{}`\n**Storage used**: `{}`\n**Storage free**: `{}`\n**Total storage**: `{}`\n**Architecture**: `{}`\n**Platform**: `{}`"
+  "stats_text": "**Global statistics for {}**\n\n**🤖 Bot version**: `{}`\n**PyTgCalls version**: `{}`\n**🔥 Pyrogram version**: `{}`\n**🐍 Python version**: `{}`\n\n**🤖 Bot status**\n**Status**: `Online`\n**Chats**: `{}` chats\n**Pm**: `{}` pms\n\n**⚒️ System status**\n**CPU usage**: `{}`\n**RAM usage**: `{}`\n**Storage used**: `{}`\n**Storage free**: `{}`\n**Total storage**: `{}`\n**Architecture**: `{}`\n**Platform**: `{}`",
+  "duration_limit_changed": "**Duration limit changed to {} minutes.**",
+  "duration_limit_already_set": "**Duration limit has changed before to {} minutes.**"
 }

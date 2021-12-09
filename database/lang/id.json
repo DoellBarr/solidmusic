@@ -129,5 +129,7 @@
   "player_mode_already_set": "**Mode pemutar sudah disetel ke {}**",
   "wrong_play_vplay_input": "**Berikan sebuah judul ataupun link youtube.**",
   "duration_reach_limit": "Durasi mencapai limit, durasi yang diperbolehkan ialah {}",
-  "stats_text": "**Statistik global untuk `{}`**\n\n**🤖 Versi bot**: `{}`\n**Versi PyTgCalls**: `{}`\n**🔥 Versi Pyrogram**: `{}`\n**🐍 Versi Python**: `{}`\n\n**🤖 Status bot**\n**Status**: `Online`\n**Grup**: `{}` chats\n**User**: `{}` user\n\n**⚒️ Status sistem**\n**Penggunaan CPU**: `{}`\n**Penggunaan RAM**: `{}`\n**Penyimpanan yang digunakan**: `{}`\n**Penyimpanan bebas**: `{}`\n**Total penyimpanan**: `{}`\n**Arsitektur**: `{}`\n**Platform**: `{}`"
+  "stats_text": "**Statistik global untuk `{}`**\n\n**🤖 Versi bot**: `{}`\n**Versi PyTgCalls**: `{}`\n**🔥 Versi Pyrogram**: `{}`\n**🐍 Versi Python**: `{}`\n\n**🤖 Status bot**\n**Status**: `Online`\n**Grup**: `{}` chats\n**User**: `{}` user\n\n**⚒️ Status sistem**\n**Penggunaan CPU**: `{}`\n**Penggunaan RAM**: `{}`\n**Penyimpanan yang digunakan**: `{}`\n**Penyimpanan bebas**: `{}`\n**Total penyimpanan**: `{}`\n**Arsitektur**: `{}`\n**Platform**: `{}`",
+  "duration_limit_changed": "**Limit durasi diubah ke {} menit.**",
+  "duration_limit_already_set": "**Limit durasi sudah diubah ke {} menit.**"
 }

@@ -129,6 +129,14 @@ async def set_player_mode(_, message: Message):
     return await Bot().send_message(chat_id, key, cmd)
 
 
+@Client.on_message(filters.command("setduration") & filters.group)
+@authorized_only
+async def set_duration_limit(_, m: Message):
+    chat_id = m.chat.id
+    duration = int(m.command[1])
+    key = ChatDB().set_duration_limit(chat_id, duration)
+    return await Bot().send_message(chat_id, key, str(duration))
+
 __cmds__ = [
     "addchat",
     "delchat",
@@ -136,7 +144,8 @@ __cmds__ = [
     "setquality",
     "delcmd",
     "reloaddb",
-    "player"
+    "player",
+    "setduration"
 ]
 __help__ = {
     "addchat": "help_addchat",
@@ -145,5 +154,6 @@ __help__ = {
     "setquality": "help_setquality",
     "delcmd": "help_delcmd",
     "reloaddb": "help_reloaddb",
-    "player": "help_player"
+    "player": "help_player",
+    "setduration": "help_setduration"
 }

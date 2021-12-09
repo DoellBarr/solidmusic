@@ -45,3 +45,9 @@ async def get_stats_(client: Client, m: Message):
         system_platform
     )
     await m.reply(text, disable_web_page_preview=True)
+
+
+__cmds__ = ["stats"]
+__help__ = {
+    "stats": "help_stats"
+}
