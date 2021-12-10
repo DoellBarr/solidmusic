@@ -59,7 +59,7 @@ class ChatDB(Scaffold):
                     "bot",
                     True,
                     True,
-                    0
+                    0,
                 ),
             )
             self.conn.commit()
