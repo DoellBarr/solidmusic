@@ -1,7 +1,6 @@
 {
-  "name": "SolidMusic Bot",
-  "description": "Open Source bot to stream media trough Telegram Voice Chat. Powered by PyTgCalls and Pyrogram",
-  "keywords": ["solidmusic", "musicbot", "video-stream", "videochat", "voicechat", "telegram"],
+  "name": "solid music repo",
+  "description": "Open Source bot to stream media trough Telegram Voice Chat",
   "repository": "https://github.com/DoellBarr/solidmusic",
   "stack": "container",
   "env": {
