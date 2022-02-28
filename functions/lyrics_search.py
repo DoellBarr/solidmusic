@@ -13,21 +13,15 @@ def parse_url(url: str):
     page_html = u_client.read()
     u_client.close()
 
-    # scrape page as html
-    page_soup = Soup(page_html, "html.parser")
-
-    return page_soup
+    return Soup(page_html, "html.parser")
 
 
 def get_lyrics(page_soup: Soup):
     # containerize
     containers = page_soup.find_all("div", {"class": "BNeawe tAd8D AP7Wnd"})
-    lyrics = []
+    lyrics = [containers[i].text for i in range(0, len(containers), 2)]
 
-    for i in range(0, len(containers), 2):
-        lyrics.append(containers[i].text)
-    lyrics_str = "".join([str(x) for x in lyrics]).strip("\n")
-    return lyrics_str
+    return "".join([str(x) for x in lyrics]).strip("\n")
 
 
 def get_artist(page_soup: Soup):

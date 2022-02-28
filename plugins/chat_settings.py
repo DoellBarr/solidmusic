@@ -12,11 +12,7 @@ from functions.decorators import authorized_only
 
 
 def check_cmd(message: Message):
-    try:
-        cmd = message.command[1].lower()
-    except IndexError:
-        cmd = ""
-    return cmd
+    return message.command[1].lower() if len(message.command) > 1 else ""
 
 
 @Client.on_message(filters.new_chat_members)
@@ -55,8 +51,7 @@ async def add_chat_(_, message: Message):
         lang = (await message.chat.get_member(message.from_user.id)).user.language_code
     except (AttributeError, ValueError):
         lang = "en"
-    cmds = message.command[1:]
-    if cmds:
+    if cmds := message.command[1:]:
         for chat_id in cmds:
             ChatDB().add_chat(int(chat_id), lang)
         return await Bot().send_message(message.chat.id, "success_add_chats")
@@ -67,8 +62,7 @@ async def add_chat_(_, message: Message):
 @Client.on_message(filters.command("delchat"))
 @authorized_only
 async def del_chat_(_, message: Message):
-    cmds = message.command[1:]
-    if cmds:
+    if cmds := message.command[1:]:
         for chat_id in cmds:
             ChatDB().del_chat(int(chat_id))
         return await Bot().send_message(message.chat.id, "success_delete_chats")
@@ -90,8 +84,7 @@ async def set_admin_(_, message: Message):
 @Client.on_message(filters.command("setquality"))
 @authorized_only
 async def set_quality_(_, message: Message):
-    cmd = check_cmd(message)
-    if cmd:
+    if cmd := check_cmd(message):
         if cmd not in ["low", "medium", "high"]:
             return await Bot().send_message(
                 message.chat.id, "invalid_quality_selection"

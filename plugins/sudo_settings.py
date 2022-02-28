@@ -7,8 +7,7 @@ from functions.decorators import authorized_only
 
 async def process_sudo(message: types.Message, status: str):
     chat_id = message.chat.id
-    reply = message.reply_to_message
-    if reply:
+    if reply := message.reply_to_message:
         user_id = reply.from_user.id
         key = (
             SudoDB().add_sudo(chat_id, user_id)
@@ -16,8 +15,7 @@ async def process_sudo(message: types.Message, status: str):
             else SudoDB().del_sudo(chat_id, user_id)
         )
         return await Bot().send_message(chat_id, key)
-    users = message.command[1:]
-    if users:
+    if users := message.command[1:]:
         for user in users:
             user_ids = str(user)
             if user_ids.isnumeric():

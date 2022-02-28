@@ -110,93 +110,81 @@ class TelegramPlayer(Call):
             )
 
     async def local_music(self, user_id: int, replied: Message):
+        if not replied.audio and not replied.voice:
+            return
         chat_id = replied.chat.id
         playlist = self.playlist.playlist
-        if replied.audio or replied.voice:
-            bom = await replied.reply(gm(chat_id, "process"))
-            link = replied.link
-            duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
-            if replied.audio:
-                if replied.audio.title:
-                    title = replied.audio.title[:36]
-                    duration = replied.audio.duration
-                    if duration >= duration_limit:
-                        await bom.delete()
-                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
-                    download = await replied.download()
-                elif replied.audio.file_name:
-                    duration = replied.audio.duration
-                    title = replied.audio.file_name[:36]
-                    if duration >= duration_limit:
-                        await bom.delete()
-                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
-                    download = await replied.download()
-                else:
-                    title = "Music"
-                    duration = replied.audio.duration
-                    if duration >= duration_limit:
-                        await bom.delete()
-                        return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
-                    download = await replied.download()
+        bom = await replied.reply(gm(chat_id, "process"))
+        link = replied.link
+        duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
+        if replied.audio:
+            duration = replied.audio.duration
+            if replied.audio.title:
+                title = replied.audio.title[:36]
+            elif replied.audio.file_name:
+                title = replied.audio.file_name[:36]
             else:
-                title = "Voice Note"
-                duration = replied.voice.duration
-                if duration >= duration_limit:
-                    await bom.delete()
-                    return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
-                download = await replied.download()
-            duration = str(datetime.timedelta(seconds=duration))
-            if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
-                objects = {
-                    "user_id": user_id,
-                    "title": title,
-                    "duration": duration,
-                    "source_file": download,
-                    "link": link,
-                    "stream_type": "local_music",
-                }
-                mess = await bom.edit(gm(chat_id, "track_queued"))
-                self.playlist.insert_one(chat_id, objects)
-                await asyncio.sleep(5)
-                return await mess.delete()
-            return await self._local_audio_play(
-                bom, user_id, chat_id, title, duration, download, link
-            )
+                title = "Music"
+        else:
+            title = "Voice Note"
+            duration = replied.voice.duration
+        if duration >= duration_limit:
+            await bom.delete()
+            return await Bot().send_message(chat_id, "duration_reach_limit", str(duration))
+        download = await replied.download()
+        duration = str(datetime.timedelta(seconds=duration))
+        if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
+            objects = {
+                "user_id": user_id,
+                "title": title,
+                "duration": duration,
+                "source_file": download,
+                "link": link,
+                "stream_type": "local_music",
+            }
+            mess = await bom.edit(gm(chat_id, "track_queued"))
+            self.playlist.insert_one(chat_id, objects)
+            await asyncio.sleep(5)
+            return await mess.delete()
+        return await self._local_audio_play(
+            bom, user_id, chat_id, title, duration, download, link
+        )
 
     async def local_video(self, user_id: int, replied: Message):
+        if not replied.video and not replied.document:
+            return
         chat_id = replied.chat.id
         playlist = self.playlist.playlist
-        if replied.video or replied.document:
-            bom = await replied.reply(gm(chat_id, "process"))
-            link = replied.link
-            if replied.video:
-                title = replied.video.file_name[:36]
-                duration = replied.video.duration
-                duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
-                if duration >= duration_limit:
-                    return await Bot().send_message(chat_id, "duration_reach_limit", str(duration_limit))
-                source_file = await replied.download()
-            else:
-                source_file = await replied.download()
-                title = replied.document.file_name[:36]
-                duration = "Not Found"
-            if duration:
-                duration = str(datetime.timedelta(seconds=duration))
-            else:
-                duration = "Not Found"
-            if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
-                objects = {
-                    "user_id": user_id,
-                    "title": title,
-                    "duration": duration,
-                    "source_file": source_file,
-                    "link": link,
-                    "stream_type": "local_video",
-                }
-                mess = await bom.edit(gm(chat_id, "track_queued"))
-                self.playlist.insert_one(chat_id, objects)
-                await asyncio.sleep(5)
-                return mess.delete()
-            return await self._local_video_play(
-                bom, user_id, chat_id, title, duration, source_file, link
-            )
+        bom = await replied.reply(gm(chat_id, "process"))
+        link = replied.link
+        if replied.video:
+            title = replied.video.file_name[:36]
+            duration = replied.video.duration
+            duration_limit = int(ChatDB().get_chat(chat_id)[0]["duration"])
+            if duration >= duration_limit:
+                return await Bot().send_message(chat_id, "duration_reach_limit", str(duration_limit))
+            source_file = await replied.download()
+        else:
+            source_file = await replied.download()
+            title = replied.document.file_name[:36]
+            duration = "Not Found"
+        if duration:
+            duration = str(datetime.timedelta(seconds=duration))
+        else:
+            duration = "Not Found"
+        if playlist and chat_id in playlist and len(playlist[chat_id]) >= 1:
+            objects = {
+                "user_id": user_id,
+                "title": title,
+                "duration": duration,
+                "source_file": source_file,
+                "link": link,
+                "stream_type": "local_video",
+            }
+            mess = await bom.edit(gm(chat_id, "track_queued"))
+            self.playlist.insert_one(chat_id, objects)
+            await asyncio.sleep(5)
+            return mess.delete()
+        return await self._local_video_play(
+            bom, user_id, chat_id, title, duration, source_file, link
+        )

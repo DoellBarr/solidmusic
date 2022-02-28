@@ -22,10 +22,9 @@ def extract_all(query: str, chat_id: int, user_id: int, status: str):
 @Client.on_message(filters.command("play") & filters.group)
 @only_admin
 async def play_(_, message: types.Message):
-    reply = message.reply_to_message
     user_id = message.from_user.id
     chat_id = message.chat.id
-    if reply:
+    if reply := message.reply_to_message:
         return await player.local_music(user_id, reply)
     command = message.command
     if len(command) == 1:

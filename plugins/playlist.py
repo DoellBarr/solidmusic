@@ -21,7 +21,7 @@ async def playlist_(client: Client, message: types.Message):
         )
         text = f"**{gm(chat_id, 'now_streaming')}**:\n» [{current_title}]({current_yt_info}) | `{current_stream_type}`"
         return await message.reply(text, disable_web_page_preview=True)
-    if current and queued:
+    if current:
         current_title = current["title"]
         current_stream_type = current["stream_type"]
         current_yt_info = (

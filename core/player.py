@@ -64,8 +64,6 @@ class MediaPlayer(TelegramPlayer, YoutubePlayer):
                 leave_from_inactive_call, "interval", seconds=config.AUTO_LEAVE
             )
             scheduler.start()
-        else:
-            pass
         print("[ INFO ] CLIENT RUNNING")
         await idle()
         print("[ INFO ] STOPPING BOT")

@@ -38,8 +38,7 @@ class ChatDB(Scaffold):
         results = self.cur.execute(
             "SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)
         )
-        final = self._get(results)
-        return final
+        return self._get(results)
 
     def add_chat(
         self,
@@ -67,8 +66,9 @@ class ChatDB(Scaffold):
         return "already_added_chat"
 
     def del_chat(self, chat_id: int):
-        x = list(self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,)))
-        if x:
+        if list(
+            self.cur.execute("SELECT * FROM chat_db WHERE chat_id = ?", (chat_id,))
+        ):
             self.cur.execute("DELETE FROM chat_db WHERE chat_id = ? ", (chat_id,))
             self.conn.commit()
             return "success_delete_chat"

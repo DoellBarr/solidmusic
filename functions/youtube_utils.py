@@ -29,7 +29,7 @@ def get_video_direct_link(yt_url: str) -> str:
 def get_yt_details(yt_url: str):
     with YoutubeDL() as ydl:
         infos = ydl.extract_info(yt_url, download=False)
-        result = {
+        return {
             "title": infos["title"],
             "thumbnail": infos["thumbnail"],
             "duration": infos["duration_string"],
@@ -39,7 +39,6 @@ def get_yt_details(yt_url: str):
             "likes": infos["like_count"],
             "link": yt_url,
         }
-        return result
 
 
 def append_new_results(chat_id: int, results: List, yt_res: List):
@@ -73,8 +72,7 @@ def yt_search(chat_id, title: str):
     results = rez.result()["result"]
     yt_res = []
     append_new_results(chat_id, results, yt_res)
-    global_search[chat_id] = []
-    global_search[chat_id].append(rez)
+    global_search[chat_id] = [rez]
     append_to_music(chat_id, yt_res)
     return yt_res
 

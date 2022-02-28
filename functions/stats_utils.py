@@ -8,4 +8,4 @@ def humanbytes(size):
     while size > power:
         size /= power
         raised_to_pow += 1
-    return f"{str(round(size, 2))} {dict_power_n[raised_to_pow]}B"
+    return f"{round(size, 2)} {dict_power_n[raised_to_pow]}B"

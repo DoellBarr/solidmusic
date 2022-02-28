@@ -5,15 +5,10 @@ from database.lang_utils import get_message as gm
 
 
 def music_or_video_keyboard(user_id: int, streaming_status: str):
-    keyboard = []
     number = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
-    for count, j in enumerate(number):
-        keyboard.append(
-            InlineKeyboardButton(
+    return [InlineKeyboardButton(
                 f"{j}", callback_data=f"{streaming_status} {count}|{user_id}"
-            )
-        )
-    return keyboard
+            ) for count, j in enumerate(number)]
 
 
 def process_button(user_id: int, streaming_status: str):
