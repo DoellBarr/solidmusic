@@ -1,0 +1,8 @@
+Pyrogram
+py-tgcalls==0.9.0b1
+tgcrypto
+databases[aiosqlite]
+python-dotenv
+yt-dlp
+youtube-search-python
+aiohttp[speedups]
