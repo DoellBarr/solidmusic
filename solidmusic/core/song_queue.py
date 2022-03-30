@@ -21,7 +21,7 @@ class Queue:
         return self.__queue[chat_id][0]
 
     @property
-    async def playlist(self):
+    def playlist(self):
         return self.__queue
 
 
