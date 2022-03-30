@@ -6,3 +6,5 @@ python-dotenv
 yt-dlp
 youtube-search-python
 aiohttp[speedups]
+aiosqlite
+PyYaml
