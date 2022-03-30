@@ -1,0 +1,59 @@
+{
+  "name": "Solid Music",
+  "description": "Open Source bot to stream media through Telegram Voice Chat. Powered by PyTgCalls and Pyrogram",
+  "logo": "https://telegra.ph/file/1a08c47ac4d3250ddac57.jpg",
+  "keywords": ["SolidMusic", "MusicBot", "Video-stream", "Videochat", "Voicechat", "Telegram"],
+  "repository": "https://github.com/DoellBarr/solidmusic",
+  "stack": "container",
+  "env": {
+    "API_ID": {
+      "description": "Fill it with your API_ID, get it from my.telegram.org/apps",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Fill it with your API_HASH, get it from my.telegram.org/apps",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Fill it with your Bot token, get it from @BotFather",
+      "required": true
+    },
+    "OWNER_ID": {
+      "description": "Fill it with your telegram id, not username",
+      "required": true,
+      "value": ""
+    },
+    "SESSION": {
+      "description": "Fill it with your assistant pyrogram string session",
+      "required": true
+    },
+    "GROUP_LINK": {
+      "description": "Your support group link, can use private or public group",
+      "required": false,
+      "value": "https://t.me/"
+    },
+    "CHANNEL_LINK": {
+      "description": "your channel support link, can use private or public channel",
+      "required": false,
+      "value": "https://t.me/"
+    },
+    "UPSTREAM_REPO": {
+      "description": "fill it if you fork from original repo",
+      "required": false,
+      "value": "https://github.com/DoellBarr/solidmusic"
+    },
+    "AUTO_LEAVE": {
+      "description": "Don't change the value filled below.",
+      "required": false,
+      "value": "0"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
