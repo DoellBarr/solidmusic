@@ -12,9 +12,15 @@ class Client(RawClient):
         api_id: int | str,
         api_hash: str,
         bot_token: str = None,
-        plugins: dict[str, str] = None
+        plugins: dict[str, str] = None,
     ):
-        super().__init__(session_name, api_id=api_id, api_hash=api_hash, bot_token=bot_token, plugins=plugins)
+        super().__init__(
+            session_name,
+            api_id=api_id,
+            api_hash=api_hash,
+            bot_token=bot_token,
+            plugins=plugins,
+        )
 
     @property
     async def username(self):
@@ -25,5 +31,11 @@ class Client(RawClient):
 
 
 user = Client(config.sessioin, config.api_id, config.api_hash)
-bot = Client(":memory:", config.api_id, config.api_hash, bot_token=config.bot_token, plugins={"root": "solidmusic.plugins"})
+bot = Client(
+    ":memory:",
+    config.api_id,
+    config.api_hash,
+    bot_token=config.bot_token,
+    plugins={"root": "solidmusic.plugins"},
+)
 call_py = PyTgCalls(user)

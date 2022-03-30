@@ -55,8 +55,8 @@ class ChatDB(Db):
         fetch = await self.db.fetch_one(
             "select * from chat_db where chat_id = :chat_id", {"chat_id": chat_id}
         )
-        result = {} if not fetch else list(fetch)
-        return {} if not result else self._get(result)
+        result = list(fetch) if fetch else {}
+        return self._get(result) if result else {}
 
     async def check_chat(self, chat_id: int):
         chat = await self.get_chat(chat_id)

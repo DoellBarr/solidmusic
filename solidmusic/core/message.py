@@ -24,7 +24,7 @@ class Message(RawMessage):
         reply_to_message_id: int = None,
         schedule_date: int = None,
         protect_content: bool = None,
-        reply_markup=None
+        reply_markup=None,
     ) -> "Message":
         text = await gm(self.chat.id, key, format_key)
         if quote is None:
@@ -41,7 +41,7 @@ class Message(RawMessage):
             reply_to_message_id=reply_to_message_id,
             schedule_date=schedule_date,
             protect_content=protect_content,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
         )
         if delete_time:
             await asyncio.sleep(delete_time)
