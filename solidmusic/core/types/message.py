@@ -1,5 +1,4 @@
 import asyncio
-from typing import Optional, List
 
 from pyrogram import types
 from pyrogram.types import Message as RawMessage
@@ -14,11 +13,11 @@ class Message(RawMessage):
     async def reply_msg(
         self,
         key: str,
-        format_key: List[str] = None,
+        format_key: list[str] = None,
         delete_time: int = 0,
         quote: bool = None,
-        parse_mode: Optional[str] = object,
-        entities: List["types.MessageEntity"] = None,
+        parse_mode: str | object = object,
+        entities: list["types.MessageEntity"] = None,
         disable_web_page_preview: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
