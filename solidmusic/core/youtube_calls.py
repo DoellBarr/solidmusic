@@ -42,6 +42,7 @@ class YoutubePlayer(Call):
             return await mess.delete()
         audio_parameters, video_parameters = await self.get_quality(chat_id)
         path = await get_audio_direct_link(yt_url) if stream_type == "audio" else await get_video_direct_link(yt_url)
+        stream_type_text = "stream_type_youtube_audio" if stream_type == "audio" else "stream_type_youtube_video"
         stream = (
             AudioPiped(path, audio_parameters)
             if stream_type == "audio"
@@ -60,7 +61,7 @@ class YoutubePlayer(Call):
 {await gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
 {await gm(chat_id, 'duration')}: {duration}
 {await gm(chat_id, 'req_by')}: {mention}
-{await gm(chat_id, 'stream_type_tite')}: {await gm(chat_id, 'stream_type_video')}
+{await gm(chat_id, 'stream_type_tite')}: {await gm(chat_id, stream_type_text)}
 """,
                 disable_web_page_preview=True
             )

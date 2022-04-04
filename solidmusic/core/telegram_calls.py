@@ -148,7 +148,7 @@ class TelegramPlayer(Call):
                 "stream_type": "local_audio"
             }
             await self.playlist.insert_one(chat_id, datas)
-            msg = await msg.edit(await gm(chat_id, "added_to_playlist"))
+            msg = await msg.edit(await gm(chat_id, "added_to_playlist", [title]))
             await asyncio.sleep(5)
             return await msg.delete()
         return await self._local_audio_play(

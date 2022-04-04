@@ -43,7 +43,7 @@ class Call:
     async def get_quality(self, chat_id: int):
         quality: str = (await self.db.get_chat(chat_id)).get("quality")
         if quality not in {"low", "medium", "high"}:
-            raise KeyError("Invalid Quality")
+            raise KeyError("Invalid Quality, Valid Quality is low, medium, high")
         audio_quality = (
             LowQualityAudio()
             if quality == "low"
