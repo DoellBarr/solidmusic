@@ -21,7 +21,7 @@ from pytgcalls.types.input_stream.quality import (
 )
 
 from solidmusic.core.client import user, bot, call_py
-from solidmusic.core.message import Message
+from solidmusic.core.types.message import Message
 from solidmusic.core.song_queue import queue
 from solidmusic.database.chat_db import ChatDB
 from solidmusic.database.sudo_db import SudoDB
