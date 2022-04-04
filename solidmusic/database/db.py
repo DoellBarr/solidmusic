@@ -3,7 +3,7 @@ from databases import Database
 
 class Db:
     def __init__(self):
-        self.db = Database("sqlite+aiosqlite:///native.db")
+        self.db = Database("sqlite+aiosqlite:///solidmusic.db")
 
     async def connect(self):
         return await self.db.connect()
