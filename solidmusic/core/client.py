@@ -22,9 +22,12 @@ class Client(RawClient):
             plugins=plugins,
         )
 
-    @property
-    async def username(self):
+    async def get_username(self):
         return (await self.get_me()).username
+
+    async def get_full_name(self):
+        me = await self.get_me()
+        return f"{me.first_name} {me.last_name or ''}"
 
     async def mention(self, user_ids: Iterable[int | str] | str | int):
         return (await self.get_users(user_ids)).mention
