@@ -37,6 +37,14 @@ user_banned:
   Userbot has been banned from this group
 need_add_user_permission:
   I need `Add users to chat` permission to do that
+user_alert:
+  Thanks for inviting me in this chat now i can play any media that you want.
+user_here:
+  Userbot successfully joined the chat, now you can play.
+user_leave_chat:
+  Userbot successfully left the chat.
+user_already_leave_chat:
+  Userbot already left this chat.
 
 # Errors
 error_flood:
