@@ -22,7 +22,6 @@ for file in listdir(lang_dir):
 
 
 async def gm(chat_id: int, key: str, format_key=None) -> str:
-    print(list_lang, lang, lang_flags)
     if not format_key:
         format_key = ["{}"]
     chat_lang = (await chat_db.get_chat(chat_id))["chat_lang"]
