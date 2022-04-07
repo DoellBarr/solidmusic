@@ -1,8 +1,7 @@
-from pyrogram import filters
+from pyrogram import filters, types
 from pyrogram.types import MessageEntity
-
-from solidmusic.core import types
 from solidmusic.core.client import Client
+from solidmusic.database.lang_utils import gm
 from solidmusic.database.sudo_db import sudo_db
 from solidmusic.functions.decorators import authorized_only
 
@@ -16,7 +15,7 @@ async def process_sudo(message: types.Message, status: str):
             if status == "add"
             else await sudo_db.del_sudo(chat_id, user_id)
         )
-        return await message.reply(key)
+        return await message.reply(await gm(chat_id, key))
     if users := message.command[1:]:
         for user in users:
             user_ids = str(user)
@@ -31,7 +30,7 @@ async def process_sudo(message: types.Message, status: str):
                 if status == "add"
                 else await sudo_db.del_sudo(chat_id, user_id)
             )
-            return await message.reply(key)
+            return await message.reply(await gm(chat_id, key))
     user = message.command[1]
     if user.startswith("@"):
         user_id = (await message.chat.get_member(user)).user.id
@@ -40,7 +39,7 @@ async def process_sudo(message: types.Message, status: str):
             if status == "add"
             else await sudo_db.del_sudo(chat_id, user_id)
         )
-        return await message.reply(key)
+        return await message.reply(await gm(chat_id, key))
     if isinstance(user, MessageEntity) and user.user:
         user_id = user.user.id
         key = (
@@ -48,7 +47,7 @@ async def process_sudo(message: types.Message, status: str):
             if status == "add"
             else await sudo_db.del_sudo(chat_id, user_id)
         )
-        return await message.reply(key)
+        return await message.reply(await gm(chat_id, key))
     if isinstance(user, int):
         user_id = user
         key = (
@@ -56,7 +55,7 @@ async def process_sudo(message: types.Message, status: str):
             if status == "add"
             else await sudo_db.del_sudo(chat_id, user_id)
         )
-        return await message.reply(key)
+        return await message.reply(await gm(chat_id, key))
 
 
 @Client.on_message(filters.command("addsudo"))
@@ -72,7 +71,4 @@ async def del_sudo_(_, message: types.Message):
 
 
 __cmds__ = ["addsudo", "delsudo"]
-__help__ = {
-    "addsudo": "help_addsudo",
-    "delsudo": "help_delsudo"
-}
+__help__ = {"addsudo": "help_addsudo", "delsudo": "help_delsudo"}

@@ -2,7 +2,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from solidmusic.core.client import Client
-from solidmusic.core.types import Message
+from pyrogram.types import Message
 from solidmusic.database.lang_utils import gm
 from solidmusic.plugins import modules, paginate_module, load_module
 
@@ -14,7 +14,7 @@ async def help_cmds_(_, message: Message):
     if modules:
         modules.clear()
     load_module(user_id)
-    keyboard = paginate_module(chat_id, user_id)
+    keyboard = await paginate_module(chat_id, user_id)
     keyboard.pop(-1)
     keyboard[-1].append(
         InlineKeyboardButton(
@@ -22,7 +22,8 @@ async def help_cmds_(_, message: Message):
         )
     )
     await message.reply(
-        "here_all_commands", reply_markup=InlineKeyboardMarkup(keyboard)
+        await gm(chat_id, "here_all_commands"),
+        reply_markup=InlineKeyboardMarkup(keyboard),
     )
     modules.clear()
     keyboard.clear()

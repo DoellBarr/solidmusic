@@ -1,7 +1,9 @@
 import sys
+
+from pyrogram.types import CallbackQuery
+
 import solidmusic.core
 
-from .types import CallbackQuery
 from .telegram_calls import TelegramPlayer
 from .youtube_calls import YoutubePlayer
 
@@ -22,17 +24,13 @@ class Player(TelegramPlayer, YoutubePlayer):
         duration: str,
         yt_url: str,
         yt_id: str,
-        stream_type: str
+        stream_type: str,
     ):
-        return await self.stream(
-            cb, title, duration, yt_url, yt_id, stream_type
-        )
+        return await self.stream(cb, title, duration, yt_url, yt_id, stream_type)
 
     async def start_stream(self, cb: CallbackQuery, results: dict[str, str]):
         title, duration, yt_url, yt_id, stream_type = results.values()
-        return await self.join_call(
-            cb, title, duration, yt_url, yt_id, stream_type
-        )
+        return await self.join_call(cb, title, duration, yt_url, yt_id, stream_type)
 
     async def run(self):
         await self.db.init()

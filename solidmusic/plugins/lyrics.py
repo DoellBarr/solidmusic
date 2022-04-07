@@ -1,7 +1,7 @@
 from pyrogram import filters
 
 from solidmusic.core.client import Client
-from solidmusic.core.types import Message
+from pyrogram.types import Message
 from solidmusic.database.lang_utils import gm
 from solidmusic.functions.lyrcis_search import (
     parse_url,
@@ -15,9 +15,9 @@ from solidmusic.functions.lyrcis_search import (
 async def _get_lyrics(_, message: Message):
     chat_id = message.chat.id
     if len(message.command) < 2:
-        return await message.reply("invalid_lyrics")
+        return await message.reply(await gm(chat_id, "invalid_lyrics"))
     query = "+".join(message.command[1:])
-    lek = await message.reply("searching")
+    lek = await message.reply(await gm(chat_id, "searching"))
     google_link = f"https://google.com/search?q={query}+lyrics"
     parsed = await parse_url(google_link)
     lyrics, title, artist = (

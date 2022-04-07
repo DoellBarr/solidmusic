@@ -4,7 +4,7 @@ from os import execle, environ
 
 from configs import config
 
-from solidmusic.core import types
+from pyrogram import types
 from solidmusic.core.client import Client
 from solidmusic.core.player import player
 from solidmusic.functions.decorators import authorized_only
@@ -40,7 +40,7 @@ async def end_stream(_, m: types.Message):
 @Client.on_message(filters.command("restart") & filters.user(config.owner_id))
 async def restart_bot(_, m: types.Message):
     chat_id = m.chat.id
-    msg = await m.reply("restart_bot")
+    msg = await m.reply(await gm(chat_id, "restart_bot"))
     await asyncio.sleep(3)
     await msg.edit(await gm(chat_id, "restarted"))
     args = [sys.executable, "main.py"]

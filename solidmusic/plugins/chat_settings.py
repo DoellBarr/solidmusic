@@ -6,8 +6,9 @@ from pyrogram.types import (
 
 from configs import config
 from solidmusic.core.client import Client, user
-from solidmusic.core.types import Message
+from pyrogram.types import Message
 from solidmusic.database.chat_db import chat_db
+from solidmusic.database.lang_utils import gm
 from solidmusic.functions.decorators import authorized_only
 
 
@@ -23,7 +24,7 @@ async def new_member_(client: Client, message: Message):
         if member.id == bot_id:
             await chat_db.add_chat(message.chat.id)
             return await message.reply(
-                "Hi, english is my default language.\n"
+                "Hi), english is my default language.\n"
                 "make me as admin in here with all permissions except anonymous admin\n"
                 "btw, thanks for inviting me to here, to use me, please use /userbotjoin command first.\n"
                 "and for changing language, tap /lang to see all language that supported for me, "
@@ -47,59 +48,64 @@ async def new_member_(client: Client, message: Message):
 @Client.on_message(filters.command("addchat"))
 @authorized_only
 async def add_chat_(_, message: Message):
+    chat_id = message.chat.id
     try:
         lang = (await message.chat.get_member(message.from_user.id)).user.language_code
     except (AttributeError, ValueError):
         lang = "en"
     if cmds := message.command[1:]:
-        for chat_id in cmds:
-            await chat_db.add_chat(int(chat_id), lang)
-        return await message.reply("success_add_chats")
+        for ch_id in cmds:
+            await chat_db.add_chat(int(ch_id), lang)
+        return await message.reply(await gm(chat_id, "success_add_chats"))
     add_status = await chat_db.add_chat(message.chat.id, lang)
-    return await message.reply(add_status)
+    return await message.reply(await gm(chat_id, add_status))
 
 
 @Client.on_message(filters.command("delchat"))
 @authorized_only
 async def del_chat_(_, message: Message):
+    chat_id = message.chat.id
     if cmds := message.command[1:]:
-        for chat_id in cmds:
-            await chat_db.del_chat(int(chat_id))
-        return await message.reply("success_delete_chats")
+        for ch_id in cmds:
+            await chat_db.del_chat(int(ch_id))
+        return await message.reply(await gm(chat_id, "success_delete_chats"))
     del_status = await chat_db.del_chat(message.chat.id)
-    return await message.reply(del_status)
+    return await message.reply(await gm(chat_id, del_status))
 
 
 @Client.on_message(filters.command("setadmin"))
 @authorized_only
 async def set_admin_(_, message: Message):
     cmd = check_cmd(message)
+    chat_id = message.chat.id
     if cmd not in ["yes", "true", "on", "no", "false", "off"]:
-        return await message.reply("invalid_command_selection")
+        return await message.reply(await gm(chat_id, "invalid_command_selection"))
     only_admin = bool(cmd in ["yes", "true", "on"])
     admin_set = await chat_db.set_admin_mode(message.chat.id, only_admin)
-    return await message.reply(admin_set)
+    return await message.reply(await gm(chat_id, admin_set))
 
 
 @Client.on_message(filters.command("setquality"))
 @authorized_only
 async def set_quality_(_, message: Message):
+    chat_id = message.chat.id
     if cmd := check_cmd(message):
         if cmd not in ["low", "medium", "high"]:
-            return await message.reply("invalid_quality_selection")
+            return await message.reply(await gm(chat_id, "invalid_quality_selection"))
         key = await chat_db.set_quality(message.chat.id, cmd)
-        return await message.reply(key, [cmd])
+        return await message.reply(await gm(chat_id, key, [cmd]))
 
 
 @Client.on_message(filters.command("delcmd"))
 @authorized_only
 async def set_del_cmd_(_, message: Message):
     cmd = check_cmd(message)
+    chat_id = message.chat.id
     if cmd not in ["on", "yes", "true", "off", "no", "false"]:
-        return await message.reply("invalid_command_selection")
+        return await message.reply(await gm(chat_id, "invalid_command_selection"))
     del_cmd = bool(cmd in ["on", "yes", "true"])
     key = await chat_db.set_del_cmd_mode(message.chat.id, del_cmd)
-    return await message.reply(key, [cmd])
+    return await message.reply(await gm(chat_id, key, [cmd]))
 
 
 @Client.on_message(filters.command("player") & filters.group)
@@ -109,7 +115,7 @@ async def set_player_mode(_, message: Message):
     cmd = check_cmd(message)
     set_play_mode = bool(cmd in ["on", "yes", "true"])
     key = await chat_db.set_player_mode(chat_id, set_play_mode)
-    return await message.reply(key, [cmd])
+    return await message.reply(await gm(chat_id, key, [cmd]))
 
 
 @Client.on_message(filters.command("setduration") & filters.group)
@@ -118,7 +124,7 @@ async def set_duration_limit(_, m: Message):
     chat_id = m.chat.id
     duration = int(m.command[1])
     key = await chat_db.set_duration_limit(chat_id, duration)
-    return await m.reply(key, [str(duration)])
+    return await m.reply(await gm(chat_id, key, [str(duration)]))
 
 
 __cmds__ = [

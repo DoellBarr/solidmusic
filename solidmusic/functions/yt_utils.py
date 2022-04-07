@@ -66,7 +66,7 @@ async def get_yt_details(yt_url: str):
         "views": data["view_count"],
         "likes": data["like_count"],
         "rating": rating,
-        "link": yt_url
+        "link": yt_url,
     }
 
 
@@ -131,7 +131,9 @@ async def extract_info(chat_id: int, result: dict[int, list]):
     for count, res in enumerate(results[0], start=1):
         title = res["title"]
         duration = res["duration"]
-        more_info = f"https://t.me/{solidmusic.core.username}?start=ytinfo_{res['yt_id']}"
+        more_info = (
+            f"https://t.me/{solidmusic.core.username}?start=ytinfo_{res['yt_id']}"
+        )
         result_str += f"""
     {count}.
     {await gm(chat_id, 'yt_title')}: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}

@@ -6,7 +6,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from configs import config
 from solidmusic.core.client import Client
 from solidmusic.core.player import player
-from solidmusic.core.types import CallbackQuery
+from pyrogram.types import CallbackQuery
 from solidmusic.database.chat_db import chat_db
 from solidmusic.database.lang_utils import gm
 from solidmusic.functions.markup_button import process_button, start_markup
@@ -111,7 +111,7 @@ async def _change_lang(_, cb: CallbackQuery):
     chat_id = cb.message.chat.id
     set_lang = await chat_db.set_lang(chat_id, lang)
     await cb.message.edit(
-        set_lang,
+        await gm(chat_id, set_lang),
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -128,9 +128,8 @@ async def _change_lang(_, cb: CallbackQuery):
 async def goback(client: Client, hee: CallbackQuery):
     bot_username = (await client.get_me()).username
     chid = hee.message.chat.id
-    await hee.edit(
-        "pm_greet",
-        format_key=[hee.message.from_user.mention],
+    await hee.edit_message_text(
+        await gm(chid, "pm_greet", format_key=[hee.message.from_user.mention]),
         reply_markup=await start_markup(chid, bot_username),
     )
 
@@ -141,8 +140,8 @@ async def cbhelp(_, lol: CallbackQuery):
     chat_id = lol.message.chat.id
     if match == "cbhelp":
         user_id = lol.from_user.id
-        return await lol.edit(
-            "helpmusic",
+        return await lol.edit_message_text(
+            await gm(chat_id, "helpmusic"),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -164,8 +163,11 @@ async def cbhelp(_, lol: CallbackQuery):
             return await lol.answer("not_for_you", show_alert=True)
         if not modules:
             load_module(user_id)
-        keyboard = paginate_module(chat_id, user_id)
-        await lol.edit("here_all_commands", reply_markup=InlineKeyboardMarkup(keyboard))
+        keyboard = await paginate_module(chat_id, user_id)
+        await lol.edit_message_text(
+            await gm(chat_id, "here_all_commands"),
+            reply_markup=InlineKeyboardMarkup(keyboard),
+        )
 
 
 @Client.on_callback_query(filters.regex(r"(plugins\.\w+)\|(\d+)"))
@@ -182,9 +184,8 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
         f"/{key}:    {gm(chat_id, value)}\n" for key, value in items.items()
     )
 
-    return await cb.edit(
-        "help_for",
-        format_key=[module_name, result],
+    return await cb.edit_message_text(
+        await gm(chat_id, "help_for", [module_name, result]),
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("⬅️ Back", f"plug_back|{user_id}")]]
         ),

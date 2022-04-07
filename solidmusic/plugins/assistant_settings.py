@@ -1,8 +1,8 @@
 from pyrogram import filters
 from pyrogram.errors import UserAlreadyParticipant, UserNotParticipant
 
-from solidmusic.core.client import Client, user, bot
-from solidmusic.core.types import Message
+from solidmusic.core.client import Client, user
+from pyrogram.types import Message
 from solidmusic.database.lang_utils import gm
 from solidmusic.functions.decorators import authorized_only
 
@@ -34,10 +34,10 @@ async def userbot_leave_(_, message: Message):
     chat_id = message.chat.id
     try:
         await user.leave_chat(chat_id)
-        return await message.reply("user_leave_chat")
+        return await message.reply(await gm(chat_id, "user_leave_chat"))
     except UserNotParticipant:
         return await message.reply(
-            "user_already_leave_chat",
+            await gm(chat_id, "user_already_leave_chat"),
         )
 
 

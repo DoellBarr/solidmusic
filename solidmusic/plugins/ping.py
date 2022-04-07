@@ -3,7 +3,7 @@ from time import time
 from pyrogram import filters
 
 from solidmusic.core.client import Client, call_py
-from solidmusic.core.types import Message
+from pyrogram.types import Message
 from solidmusic.database.lang_utils import gm
 
 
@@ -11,7 +11,7 @@ from solidmusic.database.lang_utils import gm
 async def check_ping_(_, message: Message):
     chat_id = message.chat.id
     start = time()
-    msg = await message.reply("ping_text")
+    msg = await message.reply(await gm(chat_id, "ping_text"))
     pytgcalls_latency = await call_py.ping
     pyrogram_latency = time() - start
     await msg.edit(

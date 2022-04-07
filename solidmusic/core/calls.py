@@ -9,6 +9,7 @@ from pyrogram.errors import (
 )
 
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
+from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (
@@ -21,9 +22,9 @@ from pytgcalls.types.input_stream.quality import (
 )
 
 from solidmusic.core.client import user, bot, call_py
-from solidmusic.core.types.message import Message
 from solidmusic.core.song_queue import queue
 from solidmusic.database.chat_db import ChatDB
+from solidmusic.database.lang_utils import gm
 from solidmusic.database.sudo_db import SudoDB
 from solidmusic.functions.yt_utils import get_audio_direct_link, get_video_direct_link
 
@@ -68,7 +69,7 @@ class Call:
         duration: str,
         yt_url: str,
         yt_id: str,
-        stream_type: str
+        stream_type: str,
     ):
         datas = {
             "user_id": user_id,
@@ -76,7 +77,7 @@ class Call:
             "duration": duration,
             "yt_url": yt_url,
             "yt_id": yt_id,
-            "stream_type": stream_type
+            "stream_type": stream_type,
         }
         return await self.playlist.insert_one(chat_id, datas)
 
@@ -96,7 +97,7 @@ class Call:
             "duration": duration,
             "source_file": source_file,
             "link": link,
-            "stream_type": stream_type
+            "stream_type": stream_type,
         }
         return await self.playlist.insert_one(chat_id, datas)
 
@@ -118,10 +119,10 @@ class Call:
             await self.user.send(
                 CreateGroupCall(
                     peer=await self.user.resolve_peer(chat_id),
-                    random_id=randint(int(1e4), int("9"*9))
+                    random_id=randint(int(1e4), int("9" * 9)),
                 )
             )
-            return await m.reply("call_started")
+            return await m.reply(await gm(chat_id, "call_started"))
         except (ChannelPrivate, ChatForbidden):
             try:
                 await m.chat.unban_member(user_id)
@@ -131,7 +132,7 @@ class Call:
                 return await self.start_call(m)
             except (ChatForbidden, ChannelPrivate):
                 await self.playlist.delete_chat(chat_id)
-                return await m.reply("user_banned")
+                return await m.reply(await gm(chat_id, "user_banned"))
         except ChatAdminRequired:
             try:
                 await m.chat.promote_member(user_id)
@@ -145,7 +146,7 @@ class Call:
         chat_id = m.chat.id
         if call := await self.get_call(chat_id):
             await self.user.send(DiscardGroupCall(call=call))
-            return await m.reply("call_closed")
+            return await m.reply(await gm(chat_id, "call_closed"))
 
     async def change_vol(self, m: Message):
         volume = int(m.command[1])
@@ -153,21 +154,20 @@ class Call:
         chat_id = m.chat.id
         if await self.get_call(chat_id):
             await call.change_volume_call(chat_id, volume)
-            return await m.reply("volume_changed", [f"{volume}"])
-        return await m.reply("not_in_call")
+            return await m.reply(await gm(chat_id, "volume_changed", [f"{volume}"]), )
+        return await m.reply(await gm(chat_id, "not_in_call"))
 
     async def change_streaming_status(self, status: str, m: Message):
         call = self.call
         chat_id = m.chat.id
-        if await self.get_call(chat_id):
-            if status == "pause":
-                await call.pause_stream(chat_id)
-                return await m.reply("track_paused")
-            if status == "resume":
-                await call.resume_stream(chat_id)
-                return await m.reply("track_resumed")
-        else:
-            return await m.reply("not_in_call")
+        if not await self.get_call(chat_id):
+            return await m.reply(await gm(chat_id, "not_in_call"))
+        if status == "pause":
+            await call.pause_stream(chat_id)
+            return await m.reply(await gm(chat_id, "track_paused"))
+        if status == "resume":
+            await call.resume_stream(chat_id)
+            return await m.reply(await gm(chat_id, "track_resumed"))
 
     async def end_stream(self, m: Message):
         chat_id = m.chat.id
@@ -175,8 +175,8 @@ class Call:
         if await self.get_call(chat_id):
             await call.leave_group_call(chat_id)
             await self.playlist.delete_chat(chat_id)
-            return await m.reply("stream_ended")
-        return await m.reply("not_in_call")
+            return await m.reply(await gm(chat_id, "stream_ended"))
+        return await m.reply(await gm(chat_id, "not_in_call"))
 
     async def _change_stream(self, chat_id: int):
         playlist = self.playlist
@@ -190,7 +190,9 @@ class Call:
             return await self._stream_change(chat_id, stream_type=stream_type)
         return title
 
-    async def _stream_change(self, chat_id: int, yt_url: str = None, stream_type: str = None):
+    async def _stream_change(
+        self, chat_id: int, yt_url: str = None, stream_type: str = None
+    ):
         call = self.call
         if stream_type == "music":
             url = await get_audio_direct_link(yt_url)
@@ -215,8 +217,8 @@ class Call:
         playlist = self.playlist.playlist
         if chat_id in playlist and len(playlist[chat_id]) > 1:
             title = await self._change_stream(chat_id)
-            return await m.reply("track_skipped", [title], delete_time=10)
-        return await m.reply("no_playlists")
+            return await m.reply(await gm(chat_id, "track_skipped", [title]))
+        return await m.reply(await gm(chat_id, "no_playlists"))
 
     async def join_chat(self, m: Message):
         link = await m.chat.export_invite_link()
@@ -227,7 +229,7 @@ class Call:
             await m.chat.promote_member(user_id)
         except ChatAdminRequired:
             await self.playlist.delete_chat(chat_id)
-            return await m.reply("need_add_user_permission")
+            return await m.reply(await gm(chat_id, "need_add_user_permission"))
         except UserAlreadyParticipant:
             pass
 

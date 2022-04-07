@@ -1,8 +1,8 @@
 from pyrogram import filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 from solidmusic.core.client import Client, bot
-from solidmusic.core.types import Message
+
 from solidmusic.database.lang_utils import gm
 from solidmusic.functions.markup_button import start_markup
 from solidmusic.functions.yt_utils import download_yt_thumbnails, get_yt_details
@@ -20,10 +20,8 @@ async def pm_start(_, message: Message):
     if message.chat.type == "private":
         if len(message.command) == 1:
             return await message.reply(
-                "pm_greet",
-                format_key=[str(mention)],
+                await gm(chat_id, "pm_greet", [str(mention)]),
                 reply_markup=await start_markup(chat_id, bot_username),
-                delete_time=10
             )
         if len(message.command) >= 2:
             query = message.command[1]
@@ -61,7 +59,7 @@ async def pm_start(_, message: Message):
                 )
             if query.startswith("help"):
                 return await message.reply(
-                    "helpmusic",
+                    await gm(chat_id, "helpmusic"),
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -76,7 +74,7 @@ async def pm_start(_, message: Message):
                 )
     if message.chat.type in ["group", "supergroup"]:
         await message.reply(
-            "chat_greet", [mention, bot_name],
+            await gm(chat_id, "chat_greet", [mention, bot_name]),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -92,6 +90,4 @@ async def pm_start(_, message: Message):
 
 
 __cmds__ = ["start"]
-__help__ = {
-    "start": "help_start"
-}
+__help__ = {"start": "help_start"}

@@ -1,6 +1,6 @@
 from pyrogram import filters
 
-from solidmusic.core import types
+from pyrogram import types
 from solidmusic.core.client import Client
 from solidmusic.core.player import player
 from solidmusic.database.lang_utils import gm
@@ -45,10 +45,8 @@ async def playlist_(client: Client, message: types.Message):
             )
             text += f"**#{count}** - [{queue_title}]({queue_yt_info}) | `{queue_stream_type}`\n"
         return await message.reply_text(text, disable_web_page_preview=True)
-    return await message.reply("no_playlists")
+    return await message.reply(await gm(chat_id, "no_playlists"))
 
 
 __cmds__ = ["playlist"]
-__help__ = {
-    "playlist": "help_playlist"
-}
+__help__ = {"playlist": "help_playlist"}
