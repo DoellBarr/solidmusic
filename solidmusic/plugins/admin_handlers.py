@@ -47,19 +47,12 @@ async def restart_bot(_, m: types.Message):
     execle(sys.executable, *args, environ)
 
 
-__cmds__ = [
-    "pause",
-    "resume",
-    "skip",
-    "volume",
-    "end",
-    "restart"
-]
+__cmds__ = ["pause", "resume", "skip", "volume", "end", "restart"]
 __help__ = {
     "pause": "help_pause",
     "resume": "help_resume",
     "skip": "help_skip",
     "volume": "help_volume",
     "end": "help_end",
-    "restart": "help_restart"
+    "restart": "help_restart",
 }
