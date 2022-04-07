@@ -44,12 +44,12 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
 $ sudo su
 apt-get update && apt-get upgrade -y
 apt-get install curl
-message.reply(curl -sL https://deb.nodesource.com/setup_16.x | bash - 
-message.reply(apt-get install ffmpeg python3-pip python3-virtualenv nodejs -y 
-message.reply(git clone https://github.com/doellbarr/solidmusic && cd solidmusic 
-message.reply(virtualenv venv && . venv/bin/activate 
-message.reply(pip3 install --no-cache-dir -r requirements.txt 
-message.reply(cp sample.env .env 
-message.reply(nano .env message.reply(fill it with your env 
-message.reply(python3 main.py
+curl -sL https://deb.nodesource.com/setup_16.x | bash - 
+apt-get install ffmpeg python3-pip python3-virtualenv nodejs -y 
+git clone https://github.com/doellbarr/solidmusic && cd solidmusic 
+virtualenv venv && . venv/bin/activate 
+pip3 install --no-cache-dir -r requirements.txt 
+cp sample.env .env 
+nano .env  # fill it with your env 
+python3 main.py
 ```
