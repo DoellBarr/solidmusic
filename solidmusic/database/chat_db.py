@@ -15,7 +15,7 @@ class ChatDB(Db):
             await self.db.execute(
                 "insert into chat_db values (:owner_id, :chat_id, :chat_lang, :media_quality, :admin_only, :del_cmd_mode, :player_mode, :duration_limit)",
                 {
-                    "owner_id": config.OWNER_ID,
+                    "owner_id": config.owner_id,
                     "chat_id": chat_id,
                     "chat_lang": lang,
                     "media_quality": "medium",

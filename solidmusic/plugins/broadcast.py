@@ -34,7 +34,7 @@ async def gcast_(client: Client, message: Message):
     )
 
 
-@Client.on_message(filters.command("setgcast") & filters.user(config.OWNER_ID))
+@Client.on_message(filters.command("setgcast") & filters.user(config.owner_id))
 async def set_gcast_(_, message: Message):
     chat_id = message.chat.id
     try:

@@ -77,7 +77,7 @@ async def set_admin_(_, message: Message):
     if cmd not in ["yes", "true", "on", "no", "false", "off"]:
         return await message.reply("invalid_command_selection")
     only_admin = bool(cmd in ["yes", "true", "on"])
-    admin_set = await chat_db.set_admin(message.chat.id, only_admin)
+    admin_set = await chat_db.set_admin_mode(message.chat.id, only_admin)
     return await message.reply(admin_set)
 
 
@@ -100,12 +100,6 @@ async def set_del_cmd_(_, message: Message):
     del_cmd = bool(cmd in ["on", "yes", "true"])
     key = await chat_db.set_del_cmd_mode(message.chat.id, del_cmd)
     return await message.reply(key, [cmd])
-
-
-@Client.on_message(filters.command("reloaddb") & filters.user(config.OWNER_ID))
-async def reload_db_(_, message: Message):
-    await chat_db.reload_data()
-    return await message.reply("db_reloaded")
 
 
 @Client.on_message(filters.command("player") & filters.group)
