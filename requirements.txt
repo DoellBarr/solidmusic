@@ -8,3 +8,5 @@ youtube-search-python
 aiohttp[speedups]
 aiosqlite
 PyYaml
+aiofiles
+bs4
