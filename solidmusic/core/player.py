@@ -49,7 +49,6 @@ class Player(TelegramPlayer, YoutubePlayer):
             await self.user.join_chat("SolidProjectsReborn")
         except UserAlreadyParticipant:
             pass
-        await self.user.view_msg("SolidProjectsReborn")
         print("[+] CLIENT RUNNING")
         await idle()
         print("[+] STOPPING BOT")
