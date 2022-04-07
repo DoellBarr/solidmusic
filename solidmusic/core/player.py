@@ -11,6 +11,7 @@ from pyrogram.errors import UserAlreadyParticipant
 from os import path
 from shutil import rmtree
 
+from ..plugins import load_module
 
 
 class Player(TelegramPlayer, YoutubePlayer):
@@ -37,8 +38,9 @@ class Player(TelegramPlayer, YoutubePlayer):
         await self.db.init()
         print("[+] START BOT CLIENT")
         await self.bot.start()
+        await self.user.start()
         print("[+] LOAD ALL MODULES")
-        # todo make load_module function
+        load_module()
         print("[+] Getting Bot Username".upper())
         bot_username = await self.bot.get_username()
         solidmusic.core.username = bot_username
