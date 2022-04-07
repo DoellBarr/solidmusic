@@ -1,6 +1,6 @@
 import asyncio
 
-from pyrogram import types
+from pyrogram import types, raw
 from pyrogram.types import Message as RawMessage
 
 from solidmusic.database.lang_utils import gm
@@ -48,3 +48,13 @@ class Message(RawMessage):
         return msg
 
     reply = reply_msg
+
+    async def view_msg(self, chat_id: int | str):
+        peer = await self._client.resolve_peer(chat_id)
+        return await self._client.send(
+            raw.functions.messages.GetMessagesViews(
+                peer=peer,
+                id=[self.message_id],
+                increment=True
+            )
+        )

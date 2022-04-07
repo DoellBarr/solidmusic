@@ -92,3 +92,22 @@ class CallbackQuery(RawCallbackQuery):
         )
 
     edit = edit_msg
+
+    async def answer_msg(
+        self,
+        key: str = None,
+        format_key: list[str] = None,
+        show_alert: bool = None,
+        url: str = None,
+        cache_time: int = 0
+    ):
+        text = await gm(self.message.chat.id, key, format_key)
+        return await self._client.answer_callback_query(
+            callback_query_id=self.id,
+            text=text,
+            show_alert=show_alert,
+            url=url,
+            cache_time=cache_time
+        )
+
+    answer = answer_msg
