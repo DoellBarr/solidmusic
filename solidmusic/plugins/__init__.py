@@ -18,7 +18,7 @@ def __all_module():
             yield file[:-3]
 
 
-def paginate_module(chat_id: int, user_id: int):
+async def paginate_module(chat_id: int, user_id: int):
     temp, keyboard = [], []
     for count, btn in enumerate(modules, start=1):
         temp.append(btn)

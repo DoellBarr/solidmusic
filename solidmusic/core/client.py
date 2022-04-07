@@ -41,4 +41,5 @@ bot = Client(
     bot_token=config.bot_token,
     plugins={"root": "solidmusic.plugins"},
 )
+user.__class__.__module__ = "pyrogram.client"
 call_py = PyTgCalls(user)

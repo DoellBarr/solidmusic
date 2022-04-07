@@ -11,7 +11,7 @@ from pyrogram.errors import UserAlreadyParticipant
 from os import path
 from shutil import rmtree
 
-from ..plugins import load_module
+from solidmusic.plugins import load_module
 
 
 class Player(TelegramPlayer, YoutubePlayer):
