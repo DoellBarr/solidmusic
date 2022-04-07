@@ -39,7 +39,7 @@ and <a href="https://github.com/pyrogram/pyrogram">Pyrogram</a>
 ### YOU NEED TO UPGRADE YOUR PYTHON VERSION TO 3.10* ON YOUR VPS
 ### IF YOU WANT TO USE THIS REPOSITORY
 
-##Deploy to VPS
+## Deploy to VPS
 ```bash
 $ sudo su
 apt-get update && apt-get upgrade -y
