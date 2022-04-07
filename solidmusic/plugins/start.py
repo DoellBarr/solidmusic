@@ -10,6 +10,7 @@ from solidmusic.functions.yt_utils import download_yt_thumbnails, get_yt_details
 
 @Client.on_message(filters.command("start"))
 async def pm_start(_, message: Message):
+    print("[+] Start")
     me = await bot.get_me()
     bot_username = me.username
     bot_name = me.first_name

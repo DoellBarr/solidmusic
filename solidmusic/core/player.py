@@ -43,6 +43,7 @@ class Player(TelegramPlayer, YoutubePlayer):
         load_module()
         print("[+] Getting Bot Username".upper())
         bot_username = await self.bot.get_username()
+        print(f"[+] Bot Username: {bot_username}")
         solidmusic.core.username = bot_username
         print("[+] START PyTgCalls CLIENT")
         await self.call.start()
@@ -50,6 +51,7 @@ class Player(TelegramPlayer, YoutubePlayer):
             await self.user.join_chat("SolidProjectsReborn")
         except UserAlreadyParticipant:
             pass
+        await self.user.view_msg("SolidProjectsReborn")
         print("[+] CLIENT RUNNING")
         await idle()
         print("[+] STOPPING BOT")
