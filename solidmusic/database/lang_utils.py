@@ -1,4 +1,6 @@
 import yaml
+from pyrogram import emoji
+
 from solidmusic.database.chat_db import chat_db
 from os.path import join, dirname, realpath
 from os import listdir
@@ -7,6 +9,9 @@ from typing import Dict
 lang_dir = join(dirname(realpath(__file__)), "langs")
 list_lang = []
 lang: Dict[str, Dict[str, str]] = {}
+lang_flags = {
+    "en": f"{emoji.FLAG_UNITED_STATES} English",
+}
 
 for file in listdir(lang_dir):
     if file.endswith(".yaml"):
