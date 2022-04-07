@@ -86,7 +86,7 @@ class ChatDB(Db):
         )
         return "lang_changed"
 
-    async def set_quality(self, chat_id, quality: str):
+    async def set_quality(self, chat_id: int, quality: str):
         chat = await self.check_chat(chat_id)
         if chat["media_quality"] == quality:
             return "quality_already_used"
@@ -137,6 +137,16 @@ class ChatDB(Db):
             {"duration_limit": duration_limit, "chat_id": chat_id},
         )
         return "duration_limit_changed"
+
+    async def set_gcast(self, chat_id: int, gcast_type: str):
+        chat = await self.get_chat(chat_id)
+        if gcast_type == chat.get("gcast_type"):
+            return "gcast_already_set"
+        await self.db.execute(
+            "update chat_db set gcast_type = :gcast_type where chat_id = :chat_id",
+            {"gcast_type": gcast_type, "chat_id": chat_id},
+        )
+        return "gcast_changed"
 
 
 chat_db = ChatDB()
