@@ -18,12 +18,11 @@ async def pm_start(_, message: Message):
     user_id = message.from_user.id
     if message.chat.type == "private":
         if len(message.command) == 1:
-            return await bot.send_message(
-                chat_id,
+            return await message.reply(
                 "pm_greet",
-                format_key=str(mention),
-                markup=start_markup(chat_id, bot_username),
-                delete=0
+                format_key=[str(mention)],
+                reply_markup=await start_markup(chat_id, bot_username),
+                delete_time=10
             )
         if len(message.command) >= 2:
             query = message.command[1]
@@ -61,7 +60,7 @@ async def pm_start(_, message: Message):
                 )
             if query.startswith("help"):
                 return await message.reply(
-                    await gm(chat_id, "helpmusic"),
+                    "helpmusic",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [

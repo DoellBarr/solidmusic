@@ -6,7 +6,7 @@ button = InlineKeyboardButton
 markup = InlineKeyboardMarkup
 
 
-def start_markup(chat_id: int, bot_username: str):
+async def start_markup(chat_id: int, bot_username: str):
     return markup(
         [
             [

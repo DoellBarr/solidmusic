@@ -131,7 +131,7 @@ async def goback(client: Client, hee: CallbackQuery):
     await hee.edit(
         "pm_greet",
         format_key=[hee.message.from_user.mention],
-        reply_markup=start_markup(chid, bot_username),
+        reply_markup=await start_markup(chid, bot_username),
     )
 
 
