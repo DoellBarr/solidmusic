@@ -11,6 +11,8 @@ class Config:
     bot_token = getenv("BOT_TOKEN")
     session = getenv("SESSION")
     owner_id = int(getenv("OWNER_ID", "0"))
+    channel_link = getenv("CHANNEL_LINK", default="https://t.me/SolidProjectsReborn")
+    group_link = getenv("GROUP_LINK", default="https://t.me/SolidProjectsRebornChat")
 
 
 config = Config()
