@@ -17,7 +17,7 @@ class Message(RawMessage):
         delete_time: int = 0,
         quote: bool = None,
         parse_mode: str | object = object,
-        entities: list["types.MessageEntity"] = None,
+        entities: list[types.MessageEntity] = None,
         disable_web_page_preview: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,

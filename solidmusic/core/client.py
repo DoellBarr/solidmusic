@@ -33,7 +33,7 @@ class Client(RawClient):
         return (await self.get_users(user_ids)).mention
 
 
-user = Client(config.sessioin, config.api_id, config.api_hash)
+user = Client(config.session, config.api_id, config.api_hash)
 bot = Client(
     ":memory:",
     config.api_id,

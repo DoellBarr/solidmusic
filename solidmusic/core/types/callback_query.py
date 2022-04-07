@@ -11,11 +11,11 @@ class CallbackQuery(RawCallbackQuery):
     def __init__(
         self,
         *,
-        client: "pyrogram.Client" = None,
+        client: pyrogram.Client = None,
         id: str,
-        from_user: "types.User",
+        from_user: types.User,
         chat_instance: str,
-        message: "Message" = None,
+        message: Message = None,
         inline_message_id: str = None,
         data: str | bytes = None,
         game_short_name: str = None,
@@ -39,8 +39,8 @@ class CallbackQuery(RawCallbackQuery):
         format_key: list[str] = None,
         parse_mode: None | str = object,
         disable_web_page_preview: bool = True,
-        reply_markup: "types.InlineKeyboardMarkup" = None
-    ) -> "Message" | bool:
+        reply_markup: types.InlineKeyboardMarkup = None
+    ) -> Message | bool:
         """Edit the text of messages attached to callback queries.
 
                 Bound method *edit_message_text* of :obj:`~pyrogram.types.CallbackQuery`.
