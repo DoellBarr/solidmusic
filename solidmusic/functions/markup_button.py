@@ -35,7 +35,7 @@ def start_markup(chat_id: int, bot_username: str):
     )
 
 
-def stream_markup(user_id: int, stream_type: str):
+def process_button(user_id: int, stream_type: str):
     numbers = ["1️⃣, 2️⃣, 3️⃣, 4️⃣, 5️⃣"]
     x = [
         button(
@@ -52,6 +52,3 @@ def stream_markup(user_id: int, stream_type: str):
         if num == len(x):
             keyboard.append(temp)
     return keyboard
-
-
-stream_markup(123, "video")
