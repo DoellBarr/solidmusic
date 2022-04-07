@@ -54,8 +54,8 @@ class Player(TelegramPlayer, YoutubePlayer):
         await self.db.disconnect()
         if path.exists("downloads"):
             rmtree("downloads")
-        if path.exists("search"):
-            rmtree("search")
+        if path.exists("image"):
+            rmtree("image")
         await self.bot.stop()
         return sys.exit()
 
