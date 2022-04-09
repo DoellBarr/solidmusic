@@ -183,7 +183,7 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
     if from_user_id != user_id:
         return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
     items = helps[module]
-    module_name = f"{module.split('plugins.')[1].title()}"
+    module_name = f"{module.split('solidmusic.plugins.')[1].title()}"
     result = "".join(
         f"/{key}:    {gm(chat_id, value)}\n" for key, value in items.items()
     )

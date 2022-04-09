@@ -187,3 +187,6 @@ give_me_input: |
   Berikan saya sebuah input
 invalid_gcast_type: |
   Tipe gcast tidak valid.
+help_for: |
+  Bantuan untuk {}
+  Perintah: {}
