@@ -74,7 +74,7 @@ class ChatDB(Db):
         await self.db.execute(
             "delete from chat_db where chat_id = :chat_id", {"chat_id": chat_id}
         )
-        return "chat_success_deleted"
+        return "chat_success_removed"
 
     async def set_lang(self, chat_id: int, lang: str):
         chat = await self.check_chat(chat_id)

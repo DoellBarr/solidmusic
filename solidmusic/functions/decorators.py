@@ -4,6 +4,7 @@ from configs import config
 from solidmusic.core.client import user, Client
 from pyrogram.types import Message
 from solidmusic.database.chat_db import chat_db
+from solidmusic.database.lang_utils import gm
 from solidmusic.database.sudo_db import sudo_db
 
 from pyrogram.errors import MessageDeleteForbidden

@@ -27,7 +27,7 @@ async def _button_cb(_, cb: CallbackQuery):
     user_id = int(match(3))
     chat_id = cb.message.chat.id
     if cb.from_user.id != user_id:
-        return await cb.answer("not_for_you", show_alert=True)
+        return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
     yt_btn = await process_button(user_id, music_or_video)
     if next_or_back == "next":
         await next_search(chat_id)
@@ -52,8 +52,8 @@ async def check_duration(chat_id, date_time, cb):
     duration = (date_time - datetime(1900, 1, 1)).total_seconds()
     duration_limit = int((await chat_db.get_chat(chat_id)).get("duration")) * 60
     if duration >= duration_limit:
-        return await cb.answer(
-            "duration_reach_limit",
+        return await cb.answer(await gm(chat_id, 
+            "duration_reach_limit"),
             list(str(timedelta(seconds=duration_limit))),
             show_alert=True,
         )
@@ -100,7 +100,7 @@ async def _close_button(_, cb: CallbackQuery):
     if member.status in ["creator", "administrator"]:
         return await cb.message.delete()
     if cb.from_user.id != user_id or not user_id:
-        return await cb.answer("not_for_you", show_alert=True)
+        return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
     if modules:
         modules.clear()
 
@@ -160,7 +160,7 @@ async def cbhelp(_, lol: CallbackQuery):
     if match == f"plug_back|{user_id}":
         from_user_id = lol.from_user.id
         if from_user_id != user_id:
-            return await lol.answer("not_for_you", show_alert=True)
+            return await lol.answer(await gm(chat_id, "not_for_you"), show_alert=True)
         if not modules:
             load_module(user_id)
         keyboard = await paginate_module(chat_id, user_id)
@@ -177,7 +177,7 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
     from_user_id = cb.from_user.id
     chat_id = cb.message.chat.id
     if from_user_id != user_id:
-        return await cb.answer("not_for_you", show_alert=True)
+        return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
     items = helps[module]
     module_name = f"{module.split('plugins.')[1].title()}"
     result = "".join(

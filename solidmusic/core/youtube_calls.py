@@ -69,7 +69,7 @@ class YoutubePlayer(Call):
 {await gm(chat_id, 'yt_title')}: [{title}](https://t.me/{bot_username}?start=ytinfo_{yt_id})
 {await gm(chat_id, 'duration')}: {duration}
 {await gm(chat_id, 'req_by')}: {mention}
-{await gm(chat_id, 'stream_type_tite')}: {await gm(chat_id, stream_type_text)}
+{await gm(chat_id, 'stream_type_title')}: {await gm(chat_id, stream_type_text)}
 """,
                 disable_web_page_preview=True,
             )
