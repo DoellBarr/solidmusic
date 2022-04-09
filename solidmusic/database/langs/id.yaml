@@ -1,165 +1,189 @@
-call_started: >
+call_started: |
   Memulai obrolan suara di grup ini.
-call_closed: >
+call_closed: |
   Obrolan suara ini telah ditutup.
-volume_changed: >
+volume_changed: |
   Volumen suara di ubah menjadi {}%.
-not_in_call: >
+not_in_call: |
   Userbot tidak sedang berada dalam panggilan suara.
-track_paused: >
+track_paused: |
   Pemutaran di jeda.
-track_resumed: >
+track_resumed: |
   Pemutaran di lanjutkan.
-stream_ended: >
+stream_ended: |
   Pemutaran di akhiri.
-trak_skipped: >
+trak_skipped: |
   Track sebelumnya di lewati, sekarang memutar {}.
-no_playlists: >
+no_playlists: |
   Tidak ada playlist yang ditemukan.
-need_add_user_permission: >
+need_add_user_permission: |
   Anda harus memberikan izin menambahkan anggota kepada saya.
-now_streaming: >
+now_streaming: |
   Sekarang memutar
-yt_title: >
+yt_title: |
   Judul
-duration: >
+duration: |
   Durasi
-req_by: >
+req_by: |
   Atas keinginan
-stream_type_title: >
+stream_type_title: |
   Tipe pemutaran
-stream_type_local_video: >
+stream_type_local_video: |
   Video lokal
-stream_type_local_audio: >
+stream_type_local_audio: |
   Audio lokal
-stream_type_youtube_audio: >
+stream_type_youtube_audio: |
   Audio YouTube
-stream_type_youtube_video: >
+stream_type_youtube_video: |
   Video YouTube
-error_flood: >
+error_flood: |
   Bot terkena flood, tidur selama {}
-reply_to_audio_message: >
+reply_to_audio_message: |
   Balas ke pesan audio
-duration_limit_exceeded: >
+duration_limit_exceeded: |
   Durasi maksimum yang diizinkan adalah {}
-added_to_playlist: >
+added_to_playlist: |
   {} telah ditambahkan ke playlist.
-track_queued: >
+track_queued: |
   Track dimasukkan ke antrian.
-user_banned: >
+user_banned: |
   Userbot terban di grup ini.
 # End of core folder
 
 # Database Folder
-chat_success_added: >
+chat_success_added: |
   Chat berhasil dimasukkan kedalam database.
-chat_success_removed: >
+chat_success_removed: |
   Chat berhasil dihapus dari database.
-chat_already_added: >
+chat_already_added: |
   Chat sudah ada dalam database.
-lang_changed: >
+lang_changed: |
   Bahasa di ubah menjadi {}
-quality_changed: >
+quality_changed: |
   Kualitas pemutaran di ubah menjadi {}
-only_admin_changed: >
+only_admin_changed: |
   Hanya admin yang bisa menggunakan perintah tertentu.
-all_member_changed: >
+all_member_changed: |
   Semua anggota bisa menggunakan perintah.
-only_admin_already_set: >
+only_admin_already_set: |
   Hanya admin sudah menggunakan perintah ini.
-all_member_already_set: >
+all_member_already_set: |
   Semua anggota sudah menggunakan perintah ini.
-del_cmd_changed: >
+del_cmd_changed: |
   Menghapus perintah diganti menjadi {}
-del_cmd_already_set: >
+del_cmd_mode_already_set: |
   Menghapus perintah sudah menggunakan perintah ini.
-player_mode_changed: >
+player_mode_changed: |
   Mode pemutaran diubah menjadi {}
-player_mode_already_set: >
+player_mode_already_set: |
   Mode pemutaran sudah menggunakan perintah ini.
-duration_limit_changed: >
+duration_limit_changed: |
   Durasi maksimum diubah menjadi {}
-duration_limit_already_set: >
+duration_limit_already_set: |
   Durasi maksimum sudah di set menjadi {}.
-gcast_changed: >
+gcast_changed: |
   Mode gcast diubah menjadi {}
-gcast_already_set: >
+gcast_already_set: |
   Mode gcast sudah diubah menjadi {}.
-added_sudo: >
+added_sudo: |
   {} telah menjadi anggota super user.
-already_become_sudo: >
+already_become_sudo: |
   {} sudah menjadi anggota super user.
-deleted_sudo: >
+deleted_sudo: |
   {} telah dihapus dari super user.
-already_deleted_sudo: >
+already_deleted_sudo: |
   {} sudah dihapus dari super user.
 # End Of database folder
 
 # Functions Folder
-not_allowed: >
+not_allowed: |
   Anda tidak diizinkan untuk menggunakan perintah ini.
-need_privilege: >
+need_privilege: |
   Anda tidak memiliki izin untuk menggunakan perintah ini.
-player_is_non_actived: >
+player_is_non_actived: |
   Mode pemutaran tidak aktif
-add_to_chat: >
+add_to_chat: |
   Tambah ke chat
-maintainer: >
+maintainer: |
   Pengembang bot
-source_code: >
+source_code: |
   Sumber kode
-more_info: >
+more_info: |
   Info lebih lanjut
 
 # Plugins Folder
-channel: >
+channel: |
   Saluran
-pm_greet: >
+pm_greet: |
   Halo {}!
-helpmusic: >
+helpmusic: |
   Bantuan
-commands: >
+commands: |
   Perintah
-backtomenu: >
+backtomenu: |
   Kembali ke menu
-not_for_you: >
+not_for_you: |
   Tidak untuk anda
-here_all_commands: >
+here_all_commands: |
   Perintah yang tersedia
-success_add_chats: >
+success_add_chats: |
   Berhasil menambahkan semua chat.
-success_delete_chats: >
+success_delete_chats: |
   Berhasil menghapus semua chat.
-invalid_command_selection: >
+invalid_command_selection: |
   Perintah tidak valid.
-invalid_quality_selection: >
+invalid_quality_selection: |
   Kualitas tidak valid.
-close_btn_name: >
+close_btn_name: |
   Tutup
-invalid_lang: >
+invalid_lang: |
   Bahasa tidak valid.
-invalid_lyrics: >
+invalid_lyrics: |
   Lirik tidak valid.
-lyrik: >
+lyrik: |
   Judul: {}
   Artis: {}
   Lirik: {}
-ping_text: >
+ping_text: |
   Ping...
-pong_text: >
+pong_text: |
   Pong!
   Pyrogram Latency:  {}
   PyTgCalls Latency: {}
-track_info: >
+track_info: |
   Informasi track
-yt_likes: >
+yt_likes: |
   Likes: {}
-yt_rating: >
+yt_rating: |
   Rating: {}
-watch_on_yt: >
+watch_on_yt: |
   Lihat di YouTube
-chat_greet: >
+chat_greet: |
   Halo {}!
   Saya {}
-wrong_play_vplay_input: >
+group_buttn: |
+  Group
+wrong_play_vplay_input: |
   Input tidak valid.
+restart_bot: |
+  Bot di restart.
+restarted: |
+  Berhasil di restart.
+user_alert: |
+  Hi, apa yang bisa saya bantu?
+user_here: |
+  Hello, apa kabar?
+user_leave_chat: |
+  Bye, terima kasih telah menggunakan saya.
+user_already_leave_chat: |
+  Userbot sudah keluar dari chat ini.
+process_gcast: |
+  Memproses gcast...
+success_gcast: |
+  Berhasil melakukan gcast
+  Sukses: {}
+  Gagal: {}
+give_me_input: |
+  Berikan saya sebuah input
+invalid_gcast_type: |
+  Tipe gcast tidak valid.

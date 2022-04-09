@@ -52,9 +52,12 @@ async def check_duration(chat_id, date_time, cb):
     duration = (date_time - datetime(1900, 1, 1)).total_seconds()
     duration_limit = int((await chat_db.get_chat(chat_id)).get("duration")) * 60
     if duration >= duration_limit:
-        return await cb.answer(await gm(chat_id, 
-            "duration_reach_limit"),
-            list(str(timedelta(seconds=duration_limit))),
+        return await cb.answer(
+            await gm(
+                chat_id,
+                "duration_limit_exceeded",
+                [str(timedelta(seconds=duration_limit))]
+            ),
             show_alert=True,
         )
 
@@ -89,6 +92,7 @@ async def _music_or_video(_, cb: CallbackQuery):
 
 @Client.on_callback_query(filters.regex(pattern=r"(close)(\|(\d+))?"))
 async def _close_button(_, cb: CallbackQuery):
+    chat_id = cb.message.chat.id
     match = cb.matches[0].group
     try:
         user_id = int(match(3))
@@ -170,7 +174,7 @@ async def cbhelp(_, lol: CallbackQuery):
         )
 
 
-@Client.on_callback_query(filters.regex(r"(plugins\.\w+)\|(\d+)"))
+@Client.on_callback_query(filters.regex(r"(solidmusic\.plugins\.\w+)\|(\d+)"))
 async def cb_help_plugins_(_, cb: CallbackQuery):
     module = cb.matches[0].group(1)
     user_id = int(cb.matches[0].group(2))

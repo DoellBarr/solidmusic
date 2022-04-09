@@ -11,12 +11,13 @@ from solidmusic.database.lang_utils import gm
 
 @Client.on_message(filters.command("gcast") & filters.user(config.owner_id))
 async def gcast_(client: Client, message: Message):
+    chat_id = message.chat.id
     if message.reply_to_message:
         text = message.reply_to_message.text
     else:
         text = message.text[7:]
     msg = await message.reply(
-        await gm(chat_id, await gm)(message.chat.id, "process_gcast")
+        await gm(chat_id, "process_gcast")
     )
     error = success = 0
     gcast_type = chat_db.get_chat(message.chat.id)[0]["gcast_type"]
@@ -42,7 +43,7 @@ async def set_gcast_(_, message: Message):
     try:
         gcast_type = message.command[1]
     except IndexError:
-        return await message.reply_text("Give me an input")
+        return await message.reply_text(await gm(chat_id, "give_me_input"))
     if gcast_type not in ["bot", "user"]:
         return await message.reply(await gm(chat_id, "invalid_gcast_type"))
     key = await chat_db.set_gcast(chat_id, gcast_type)
