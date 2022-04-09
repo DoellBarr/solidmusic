@@ -185,7 +185,7 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
     items = helps[module]
     module_name = f"{module.split('solidmusic.plugins.')[1].title()}"
     result = "".join(
-        f"/{key}:    {gm(chat_id, value)}\n" for key, value in items.items()
+        f"/{key}:    {await gm(chat_id, value)}\n" for key, value in items.items()
     )
 
     return await cb.edit_message_text(
