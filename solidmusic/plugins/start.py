@@ -88,5 +88,10 @@ async def pm_start(_, message: Message):
         )
 
 
+@Client.on_message(filters.command("repo"))
+async def get_repo(_, m: Message):
+    return await m.reply("Repo?", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Repo", url="https://github.com/DoellBarr/solidmmusic")]]))
+
+
 __cmds__ = ["start"]
 __help__ = {"start": "help_start"}

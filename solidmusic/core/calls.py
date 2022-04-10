@@ -210,13 +210,14 @@ class Call:
     async def _change_stream(self, chat_id: int):
         playlist = self.playlist
         await playlist.delete_one(chat_id)
-        title = (await playlist.get_queue(chat_id)).get("title")
+        queues = await playlist.get_queue(chat_id)
+        title = queues.get("title")
         stream_type = (await playlist.get_queue(chat_id)).get("stream_type")
         if stream_type in {"video", "music"}:
             yt_url = (await playlist.get_queue(chat_id)).get("yt_url")
-            return await self._stream_change(chat_id, yt_url, stream_type)
-        if stream_type in {"local_video", "local_music"}:
-            return await self._stream_change(chat_id, stream_type=stream_type)
+            await self._stream_change(chat_id, yt_url, stream_type)
+        elif stream_type in {"local_video", "local_music"}:
+            await self._stream_change(chat_id, stream_type=stream_type)
         return title
 
     async def _stream_change(

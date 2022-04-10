@@ -56,6 +56,7 @@ player_is_non_actived: "Mode pemutaran tidak aktif"
 add_to_chat: "Tambah ke chat"
 maintainer: "Pengembang bot"
 source_code: "Sumber kode"
+helpbutton: "Bantuan"
 more_info: "Info lebih lanjut"
 # Plugins Folder
 channel: "Saluran"
