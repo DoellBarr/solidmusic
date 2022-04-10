@@ -135,28 +135,28 @@ class Call:
                         random_id=randint(int(1e4), int("9" * 9)),
                     )
                 )
-                return await m.reply(await gm(chat_id, "call_started"))
+                await m.reply(await gm(chat_id, "call_started"))
         except (ChannelPrivate, ChatForbidden):
             try:
                 await m.chat.unban_member(user_id)
-                return await self.start_call(m)
+                await self.start_call(m)
             except PeerIdInvalid:
                 await self.user.send_message(bot_id, "/start")
-                return await self.start_call(m)
+                await self.start_call(m)
             except (ChatForbidden, ChannelPrivate):
                 await self.playlist.delete_chat(chat_id)
-                return await m.reply(await gm(chat_id, "user_banned"))
+                await m.reply(await gm(chat_id, "user_banned"))
         except ChatAdminRequired:
             try:
                 await m.chat.promote_member(user_id)
-                return await self.start_call(m)
+                await self.start_call(m)
             except PeerIdInvalid:
                 try:
                     await self.user.send_message(bot_id, "/start")
                     await m.chat.promote_member(user_id)
-                    return await self.start_call(m)
+                    await self.start_call(m)
                 except ChatAdminRequired:
-                    return await self.start_call(m)
+                    await self.start_call(m)
 
     async def end_call(self, m: Message):
         chat_id = m.chat.id
