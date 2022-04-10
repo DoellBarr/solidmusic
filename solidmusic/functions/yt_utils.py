@@ -17,7 +17,7 @@ total_search: dict[int, list] = {}
 
 async def get_audio_direct_link(yt_url: str):
     proc = await asyncio.create_subprocess_exec(
-        "youtube-dl",
+        "yt-dlp",
         "-g",
         "-f",
         "bestaudio",
@@ -31,7 +31,7 @@ async def get_audio_direct_link(yt_url: str):
 
 async def get_video_direct_link(yt_url: str):
     proc = await asyncio.create_subprocess_exec(
-        "youtube-dl",
+        "yt-dlp",
         "-g",
         "-f",
         "best",
@@ -45,7 +45,7 @@ async def get_video_direct_link(yt_url: str):
 
 async def get_yt_details(yt_url: str):
     proc = await asyncio.create_subprocess_exec(
-        "youtube-dl",
+        "yt-dlp",
         "-j",
         "--skip-download",
         yt_url,
