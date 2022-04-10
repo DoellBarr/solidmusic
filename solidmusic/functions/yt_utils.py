@@ -98,7 +98,8 @@ def append_to_music(chat_id: int, yt_res: list):
 async def yt_search(chat_id: int, title: str):
     total_search[chat_id] = []
     yt_res = []
-    result = (VideosSearch(title, limit=5)).result().get("result")
+    result = VideosSearch(title, limit=5)
+    result = (await result.next()).get("result")
     append_new_results(chat_id, result, yt_res)
     global_search[chat_id] = [result]
     append_to_music(chat_id, yt_res)
@@ -135,11 +136,11 @@ async def extract_info(chat_id: int, result: dict[int, list]):
             f"https://t.me/{solidmusic.core.username}?start=ytinfo_{res['yt_id']}"
         )
         result_str += f"""
-    {count}.
-    {await gm(chat_id, 'yt_title')}: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}
-    {await gm(chat_id, 'duration')}: {duration}
-    [{await gm(chat_id, 'more_info')}]({more_info})
-    """
+{count}.
+{await gm(chat_id, 'yt_title')}: {title[:35] + '...' if len(title) >= 35 and not title.endswith(' ') else res['title']}
+{await gm(chat_id, 'duration')}: {duration}
+[{await gm(chat_id, 'more_info')}]({more_info})
+"""
     return result_str
 
 

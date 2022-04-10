@@ -1,192 +1,109 @@
-call_started: |
-  Memulai obrolan suara di grup ini.
-call_closed: |
-  Obrolan suara ini telah ditutup.
-volume_changed: |
-  Volumen suara di ubah menjadi {}%.
-not_in_call: |
-  Userbot tidak sedang berada dalam panggilan suara.
-track_paused: |
-  Pemutaran di jeda.
-track_resumed: |
-  Pemutaran di lanjutkan.
-stream_ended: |
-  Pemutaran di akhiri.
-trak_skipped: |
-  Track sebelumnya di lewati, sekarang memutar {}.
-no_playlists: |
-  Tidak ada playlist yang ditemukan.
-need_add_user_permission: |
-  Anda harus memberikan izin menambahkan anggota kepada saya.
-now_streaming: |
-  Sekarang memutar
-yt_title: |
-  Judul
-duration: |
-  Durasi
-req_by: |
-  Atas keinginan
-stream_type_title: |
-  Tipe pemutaran
-stream_type_local_video: |
-  Video lokal
-stream_type_local_audio: |
-  Audio lokal
-stream_type_youtube_audio: |
-  Audio YouTube
-stream_type_youtube_video: |
-  Video YouTube
-error_flood: |
-  Bot terkena flood, tidur selama {}
-reply_to_audio_message: |
-  Balas ke pesan audio
-duration_limit_exceeded: |
-  Durasi maksimum yang diizinkan adalah {}
-added_to_playlist: |
-  {} telah ditambahkan ke playlist.
-track_queued: |
-  Track dimasukkan ke antrian.
-user_banned: |
-  Userbot terban di grup ini.
+call_started: "Memulai obrolan suara di grup ini."
+call_closed: "Obrolan suara ini telah ditutup."
+volume_changed: "Volumen suara di ubah menjadi {}%."
+not_in_call: "Userbot tidak sedang berada dalam panggilan suara."
+track_paused: "Pemutaran di jeda."
+track_resumed: "Pemutaran di lanjutkan."
+stream_ended: "Pemutaran di akhiri."
+trak_skipped: "Track sebelumnya di lewati, sekarang memutar {}."
+no_playlists: "Tidak ada playlist yang ditemukan."
+need_add_user_permission: "Anda harus memberikan izin menambahkan anggota kepada saya."
+now_streaming: "Sekarang memutar"
+yt_title: "Judul"
+duration: "Durasi"
+req_by: "Atas keinginan"
+stream_type_title: "Tipe pemutaran"
+stream_type_local_video: "Video lokal"
+stream_type_local_audio: "Audio lokal"
+stream_type_youtube_audio: "Audio YouTube"
+stream_type_youtube_video: "Video YouTube"
+error_flood: "Bot terkena flood, tidur selama {}"
+reply_to_audio_message: "Balas ke pesan audio"
+duration_limit_exceeded: "Durasi maksimum yang diizinkan adalah {}"
+added_to_playlist: "{} telah ditambahkan ke playlist."
+track_queued: "Track dimasukkan ke antrian."
+user_banned: "Userbot terban di grup ini."
 # End of core folder
 
 # Database Folder
-chat_success_added: |
-  Chat berhasil dimasukkan kedalam database.
-chat_success_removed: |
-  Chat berhasil dihapus dari database.
-chat_already_added: |
-  Chat sudah ada dalam database.
-lang_changed: |
-  Bahasa di ubah menjadi {}
-quality_changed: |
-  Kualitas pemutaran di ubah menjadi {}
-only_admin_changed: |
-  Hanya admin yang bisa menggunakan perintah tertentu.
-all_member_changed: |
-  Semua anggota bisa menggunakan perintah.
-only_admin_already_set: |
-  Hanya admin sudah menggunakan perintah ini.
-all_member_already_set: |
-  Semua anggota sudah menggunakan perintah ini.
-del_cmd_changed: |
-  Menghapus perintah diganti menjadi {}
-del_cmd_mode_already_set: |
-  Menghapus perintah sudah menggunakan perintah ini.
-player_mode_changed: |
-  Mode pemutaran diubah menjadi {}
-player_mode_already_set: |
-  Mode pemutaran sudah menggunakan perintah ini.
-duration_limit_changed: |
-  Durasi maksimum diubah menjadi {}
-duration_limit_already_set: |
-  Durasi maksimum sudah di set menjadi {}.
-gcast_changed: |
-  Mode gcast diubah menjadi {}
-gcast_already_set: |
-  Mode gcast sudah diubah menjadi {}.
-added_sudo: |
-  {} telah menjadi anggota super user.
-already_become_sudo: |
-  {} sudah menjadi anggota super user.
-deleted_sudo: |
-  {} telah dihapus dari super user.
-already_deleted_sudo: |
-  {} sudah dihapus dari super user.
+chat_success_added: "Chat berhasil dimasukkan kedalam database."
+chat_success_removed: "Chat berhasil dihapus dari database."
+chat_already_added: "Chat sudah ada dalam database."
+lang_changed: "Bahasa di ubah menjadi {}"
+quality_changed: "Kualitas pemutaran di ubah menjadi {}"
+only_admin_changed: "Hanya admin yang bisa menggunakan perintah tertentu."
+all_member_changed: "Semua anggota bisa menggunakan perintah."
+only_admin_already_set: "Hanya admin sudah menggunakan perintah ini."
+all_member_already_set: "Semua anggota sudah menggunakan perintah ini."
+del_cmd_changed: "Menghapus perintah diganti menjadi {}"
+del_cmd_mode_already_set: "Menghapus perintah sudah menggunakan perintah ini."
+player_mode_changed: "Mode pemutaran diubah menjadi {}"
+player_mode_already_set: "Mode pemutaran sudah menggunakan perintah ini."
+duration_limit_changed: "Durasi maksimum diubah menjadi {}"
+duration_limit_already_set: "Durasi maksimum sudah di set menjadi {}."
+gcast_changed: "Mode gcast diubah menjadi {}"
+gcast_already_set: "Mode gcast sudah diubah menjadi {}."
+added_sudo: "{} telah menjadi anggota super user."
+already_become_sudo: "{} sudah menjadi anggota super user."
+deleted_sudo: "{} telah dihapus dari super user."
+already_deleted_sudo: "{} sudah dihapus dari super user."
 # End Of database folder
 
 # Functions Folder
-not_allowed: |
-  Anda tidak diizinkan untuk menggunakan perintah ini.
-need_privilege: |
-  Anda tidak memiliki izin untuk menggunakan perintah ini.
-player_is_non_actived: |
-  Mode pemutaran tidak aktif
-add_to_chat: |
-  Tambah ke chat
-maintainer: |
-  Pengembang bot
-source_code: |
-  Sumber kode
-more_info: |
-  Info lebih lanjut
-
+not_allowed: "Anda tidak diizinkan untuk menggunakan perintah ini."
+need_privilege: "Anda tidak memiliki izin untuk menggunakan perintah ini."
+player_is_non_actived: "Mode pemutaran tidak aktif"
+add_to_chat: "Tambah ke chat"
+maintainer: "Pengembang bot"
+source_code: "Sumber kode"
+more_info: "Info lebih lanjut"
 # Plugins Folder
-channel: |
-  Saluran
-pm_greet: |
-  Halo {}!
-helpmusic: |
-  Bantuan
-commands: |
-  Perintah
-backtomenu: |
-  Kembali ke menu
-not_for_you: |
-  Tidak untuk anda
-here_all_commands: |
-  Perintah yang tersedia
-success_add_chats: |
-  Berhasil menambahkan semua chat.
-success_delete_chats: |
-  Berhasil menghapus semua chat.
-invalid_command_selection: |
-  Perintah tidak valid.
-invalid_quality_selection: |
-  Kualitas tidak valid.
-close_btn_name: |
-  Tutup
-invalid_lang: |
-  Bahasa tidak valid.
-invalid_lyrics: |
-  Lirik tidak valid.
+channel: "Saluran"
+pm_greet: "Halo {}!"
+helpmusic: "Bantuan"
+commands: "Perintah"
+backtomenu: "Kembali ke menu"
+not_for_you: "Tidak untuk anda"
+here_all_commands: "Perintah yang tersedia"
+success_add_chats: "Berhasil menambahkan semua chat."
+success_delete_chats: "Berhasil menghapus semua chat."
+invalid_command_selection: "Perintah tidak valid."
+invalid_quality_selection: "Kualitas tidak valid."
+close_btn_name: "Tutup"
+invalid_lang: "Bahasa tidak valid."
+invalid_lyrics: "Lirik tidak valid."
 lyrik: |
   Judul: {}
   Artis: {}
-  Lirik: {}
-ping_text: |
-  Ping...
+  Lirik: {}"
+ping_text: "Ping..."
 pong_text: |
   Pong!
   Pyrogram Latency:  {}
   PyTgCalls Latency: {}
-track_info: |
-  Informasi track
-yt_likes: |
-  Likes: {}
-yt_rating: |
-  Rating: {}
-watch_on_yt: |
-  Lihat di YouTube
+track_info: "Informasi track"
+yt_likes: "Likes: {}"
+yt_rating: "Rating: {}"
+watch_on_yt: "Lihat di YouTube"
 chat_greet: |
   Halo {}!
   Saya {}
-group_buttn: |
-  Group
-wrong_play_vplay_input: |
-  Input tidak valid.
-restart_bot: |
-  Bot di restart.
-restarted: |
-  Berhasil di restart.
-user_alert: |
-  Hi, apa yang bisa saya bantu?
-user_here: |
-  Hello, apa kabar?
-user_leave_chat: |
-  Bye, terima kasih telah menggunakan saya.
-user_already_leave_chat: |
-  Userbot sudah keluar dari chat ini.
-process_gcast: |
-  Memproses gcast...
+group_buttn: "Group"
+wrong_play_vplay_input: "Input tidak valid."
+restart_bot: "Bot di restart."
+restarted: "Berhasil di restart."
+user_alert: "Hi, apa yang bisa saya bantu?"
+user_here: "Hello, apa kabar?"
+user_leave_chat: "Bye, terima kasih telah menggunakan saya."
+user_already_leave_chat: "Userbot sudah keluar dari chat ini."
+process_gcast: "Memproses gcast..."
 success_gcast: |
-  Berhasil melakukan gcast
+  Berhasil Melakukan Gcast
   Sukses: {}
-  Gagal: {}
-give_me_input: |
-  Berikan saya sebuah input
-invalid_gcast_type: |
-  Tipe gcast tidak valid.
+  Gagal: {}"
+give_me_input: "Berikan saya sebuah input"
+invalid_gcast_type: "Tipe gcast tidak valid."
 help_for: |
   Bantuan untuk {}
-  Perintah: {}
+  Perintah: {}"
+process: "Memproses..."

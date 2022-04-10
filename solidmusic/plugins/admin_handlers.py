@@ -16,7 +16,7 @@ from pyrogram import filters
 @Client.on_message(filters.command(["pause", "resume"]))
 @authorized_only
 async def pause_or_resume(_, m: types.Message):
-    return await player.change_streaming_status(m.command[1], m)
+    return await player.change_streaming_status(m.command[0], m)
 
 
 @Client.on_message(filters.command("skip"))
@@ -43,7 +43,7 @@ async def restart_bot(_, m: types.Message):
     msg = await m.reply(await gm(chat_id, "restart_bot"))
     await asyncio.sleep(3)
     await msg.edit(await gm(chat_id, "restarted"))
-    args = [sys.executable, "main.py"]
+    args = [sys.executable, "-m", "solidmusic"]
     execle(sys.executable, *args, environ)
 
 

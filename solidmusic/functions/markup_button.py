@@ -34,7 +34,7 @@ async def start_markup(chat_id: int, bot_username: str):
 
 
 def process_button(user_id: int, stream_type: str):
-    numbers = ["1️⃣, 2️⃣, 3️⃣, 4️⃣, 5️⃣"]
+    numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
     x = [
         button(f"{j}", callback_data=f"{stream_type} {count}|{user_id}")
         for count, j in enumerate(numbers)

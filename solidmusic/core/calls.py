@@ -42,7 +42,7 @@ class Call:
         self.playlist = queue
 
     async def get_quality(self, chat_id: int):
-        quality: str = (await self.db.get_chat(chat_id)).get("quality")
+        quality: str = (await self.db.get_chat(chat_id)).get("media_quality")
         if quality not in {"low", "medium", "high"}:
             raise KeyError("Invalid Quality, Valid Quality is low, medium, high")
         audio_quality = (
@@ -114,15 +114,14 @@ class Call:
         bot_id = (await self.bot.get_me()).id
         user_id = (await self.user.get_me()).id
         try:
-            if self.get_call(chat_id):
-                pass
-            await self.user.send(
-                CreateGroupCall(
-                    peer=await self.user.resolve_peer(chat_id),
-                    random_id=randint(int(1e4), int("9" * 9)),
+            if not await self.get_call(chat_id):
+                await self.user.send(
+                    CreateGroupCall(
+                        peer=await self.user.resolve_peer(chat_id),
+                        random_id=randint(int(1e4), int("9" * 9)),
+                    )
                 )
-            )
-            return await m.reply(await gm(chat_id, "call_started"))
+                return await m.reply(await gm(chat_id, "call_started"))
         except (ChannelPrivate, ChatForbidden):
             try:
                 await m.chat.unban_member(user_id)
@@ -138,9 +137,12 @@ class Call:
                 await m.chat.promote_member(user_id)
                 return await self.start_call(m)
             except PeerIdInvalid:
-                await self.user.send_message(bot_id, "/start")
-                await m.chat.promote_member(user_id)
-                return await self.start_call(m)
+                try:
+                    await self.user.send_message(bot_id, "/start")
+                    await m.chat.promote_member(user_id)
+                    return await self.start_call(m)
+                except ChatAdminRequired:
+                    return await self.start_call(m)
 
     async def end_call(self, m: Message):
         chat_id = m.chat.id

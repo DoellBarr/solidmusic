@@ -24,7 +24,7 @@ class YoutubePlayer(Call):
     ):
         m = cb.message
         bot_username = await self.bot.get_username()
-        mention = await m.from_user.mention
+        mention = cb.from_user.mention
         user_id = m.from_user.id
         chat_id = m.chat.id
         call = self.call
@@ -43,17 +43,17 @@ class YoutubePlayer(Call):
         audio_parameters, video_parameters = await self.get_quality(chat_id)
         path = (
             await get_audio_direct_link(yt_url)
-            if stream_type == "audio"
+            if stream_type == "music"
             else await get_video_direct_link(yt_url)
         )
         stream_type_text = (
             "stream_type_youtube_audio"
-            if stream_type == "audio"
+            if stream_type == "music"
             else "stream_type_youtube_video"
         )
         stream = (
             AudioPiped(path, audio_parameters)
-            if stream_type == "audio"
+            if stream_type == "music"
             else AudioVideoPiped(path, audio_parameters, video_parameters)
         )
         msg = await cb.edit_message_text(await gm(chat_id, "process"))

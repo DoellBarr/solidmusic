@@ -97,7 +97,7 @@ class TelegramPlayer(Call):
         playlist = self.playlist.playlist
         msg = await m.reply("process")
         link = m.link
-        duration_limit = int((await self.db.get_chat(chat_id)).get("duration"))
+        duration_limit = int((await self.db.get_chat(chat_id)).get("duration_limit"))
         duration = m.audio.duration if m.audio else m.voice.duration
         title = (
             (
@@ -139,7 +139,7 @@ class TelegramPlayer(Call):
         playlist = self.playlist.playlist
         msg = await m.reply("process")
         link = m.link
-        duration_limit = int((await self.db.get_chat(chat_id)).get("duration"))
+        duration_limit = int((await self.db.get_chat(chat_id)).get("duration_limit"))
         duration = m.video.duration if m.video else "Not Available"
         source_file = await m.download()
         title = (

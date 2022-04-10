@@ -50,8 +50,8 @@ async def _button_cb(_, cb: CallbackQuery):
 
 async def check_duration(chat_id, date_time, cb):
     duration = (date_time - datetime(1900, 1, 1)).total_seconds()
-    duration_limit = int((await chat_db.get_chat(chat_id)).get("duration")) * 60
-    if duration >= duration_limit:
+    duration_limit = int((await chat_db.get_chat(chat_id)).get("duration_limit")) * 60
+    if duration_limit and duration >= duration_limit:
         return await cb.answer(
             await gm(
                 chat_id,
@@ -87,7 +87,14 @@ async def _music_or_video(_, cb: CallbackQuery):
             await check_duration(chat_id, date_time, cb)
         except ValueError:
             pass
-    await player.music_or_video(cb, res)
+    return await player.stream(
+        cb,
+        res["title"],
+        res["duration"],
+        res["yt_url"],
+        res["yt_id"],
+        res["stream_type"],
+    )
 
 
 @Client.on_callback_query(filters.regex(pattern=r"(close)(\|(\d+))?"))
@@ -184,6 +191,7 @@ async def cb_help_plugins_(_, cb: CallbackQuery):
         return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
     items = helps[module]
     module_name = f"{module.split('solidmusic.plugins.')[1].title()}"
+    print(items.items())
     result = "".join(
         f"/{key}:    {await gm(chat_id, value)}\n" for key, value in items.items()
     )

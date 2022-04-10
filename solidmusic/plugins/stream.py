@@ -31,7 +31,7 @@ async def play_(_, message: types.Message):
     status = "music"
     result, yt_btn = await extract_all(query, chat_id, user_id, status)
     await message.reply(
-        await gm(chat_id, result),
+        result,
         reply_markup=InlineKeyboardMarkup(
             [
                 yt_btn[0],
@@ -42,6 +42,8 @@ async def play_(_, message: types.Message):
                 ],
             ],
         ),
+        disable_web_page_preview=True,
+        parse_mode="Markdown"
     )
 
 

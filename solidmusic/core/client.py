@@ -1,4 +1,4 @@
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable
 
 from configs import config
 from pyrogram import Client as RawClient
@@ -8,7 +8,7 @@ from pytgcalls import PyTgCalls
 
 class Client(RawClient):
     def __init__(self, **kwargs: Any):
-        self._me: Optional[User] = None
+        self._me: User | None = None
         super().__init__(**kwargs)
 
     async def get_me(self, cached: bool = True) -> User:
@@ -21,7 +21,7 @@ class Client(RawClient):
         await super().start()
         self._me = await self.get_me()
 
-    async def get_username(self) -> Optional[str]:
+    async def get_username(self) -> str | None:
         return (await self.get_me()).username
 
     async def get_full_name(self) -> str:
