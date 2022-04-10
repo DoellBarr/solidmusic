@@ -11,6 +11,7 @@ from pyrogram.errors import (
 from pyrogram.raw.functions.phone import CreateGroupCall, DiscardGroupCall
 from pyrogram.types import Message
 from pytgcalls.exceptions import GroupCallNotFound
+from pytgcalls.types import Update, StreamAudioEnded
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
 from pytgcalls.types.input_stream.quality import (
     LowQualityAudio,
@@ -30,7 +31,8 @@ from solidmusic.functions.yt_utils import get_audio_direct_link, get_video_direc
 
 
 class Methods(ChatDB, SudoDB):
-    pass
+    def __init__(self):
+        super().__init__()
 
 
 class Call:
@@ -40,6 +42,18 @@ class Call:
         self.user = user
         self.bot = bot
         self.playlist = queue
+
+        @self.call.on_stream_end()
+        async def _(_, update: Update):
+            if isinstance(update, StreamAudioEnded):
+                chat_id = update.chat_id
+                await self.check_playlist(chat_id)
+
+        @self.call.on_kicked()
+        @self.call.on_left()
+        @self.call.on_closed_voice_chat()
+        async def __(_, chat_id: int):
+            return await self.playlist.delete_chat(chat_id)
 
     async def get_quality(self, chat_id: int):
         quality: str = (await self.db.get_chat(chat_id)).get("media_quality")
@@ -170,6 +184,19 @@ class Call:
         if status == "resume":
             await call.resume_stream(chat_id)
             return await m.reply(await gm(chat_id, "track_resumed"))
+
+    async def check_playlist(self, chat_id: int):
+        playlist = self.playlist.playlist
+        call = self.call
+        if playlist and chat_id in playlist and len(playlist[chat_id]) > 1:
+            title = await self._change_stream(chat_id)
+            text = await gm(chat_id, "track_changed", [title])
+            await self.bot.send_message(chat_id, text)
+        elif len(playlist[chat_id]) == 1:
+            await call.leave_group_call(chat_id)
+            await self.playlist.delete_chat(chat_id)
+        else:
+            await call.leave_group_call(chat_id)
 
     async def end_stream(self, m: Message):
         chat_id = m.chat.id
