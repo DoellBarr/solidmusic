@@ -105,7 +105,7 @@ class Call:
         call = self.call
         try:
             if call.get_call(chat_id):
-                return await call.get_call(chat_id)
+                return call.get_call(chat_id)
         except GroupCallNotFound:
             return False
 
