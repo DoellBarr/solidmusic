@@ -20,7 +20,6 @@ async def get_audio_direct_link(yt_url: str):
         "youtube-dl",
         "-g",
         "-f",
-        # CHANGE THIS BASED ON WHAT YOU WANT
         "bestaudio",
         yt_url,
         stdout=asyncio.subprocess.PIPE,
@@ -35,7 +34,6 @@ async def get_video_direct_link(yt_url: str):
         "youtube-dl",
         "-g",
         "-f",
-        # CHANGE THIS BASED ON WHAT YOU WANT
         "best",
         yt_url,
         stdout=asyncio.subprocess.PIPE,

@@ -1,6 +1,7 @@
+import glob
 import time
 from importlib import import_module
-from os.path import join, dirname, realpath
+from os.path import join, dirname, realpath, basename, isfile
 from os import listdir
 from pyrogram.types import InlineKeyboardButton
 
@@ -10,12 +11,6 @@ plugins_dir = join(dirname(realpath(__file__)), ".")
 cmds = {}
 helps: dict[str, dict[str, str]] = {}
 modules: list[InlineKeyboardButton] = []
-
-
-def __all_module():
-    for file in listdir(plugins_dir):
-        if file.endswith(".py") and not file.startswith("__"):
-            yield file[:-3]
 
 
 async def paginate_module(chat_id: int, user_id: int):
@@ -40,16 +35,19 @@ async def paginate_module(chat_id: int, user_id: int):
 
 
 def load_module(user_id: int | None = 0):
-    for mods in __all_module():
+    mod_paths = glob.glob(f"{dirname(__file__)}/*.py")
+    all_modules = sorted(
+        [
+            basename(f)[:-3]
+            for f in mod_paths
+            if isfile(f) and f.endswith(".py") and not f.endswith("__init__.py")
+        ]
+    )
+    for mods in all_modules:
         try:
             imported_module = import_module(f"solidmusic.plugins.{mods}")
-            if not user_id:
-                time.sleep(0.2)
-                print(f"Loaded Plugins {imported_module.__name__}")
             if hasattr(imported_module, "__cmds__"):
                 x = imported_module.__name__.split("_")[0]
-                if not user_id:
-                    print(f"Loaded Command {imported_module.__cmds__}")
                 cmds[x] = imported_module.__cmds__
                 if user_id:
                     modules.append(
