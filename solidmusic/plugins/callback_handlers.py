@@ -28,7 +28,7 @@ async def _button_cb(_, cb: CallbackQuery):
     chat_id = cb.message.chat.id
     if cb.from_user.id != user_id:
         return await cb.answer(await gm(chat_id, "not_for_you"), show_alert=True)
-    yt_btn = await process_button(user_id, music_or_video)
+    yt_btn = process_button(user_id, music_or_video)
     if next_or_back == "next":
         await next_search(chat_id)
         btn = [
